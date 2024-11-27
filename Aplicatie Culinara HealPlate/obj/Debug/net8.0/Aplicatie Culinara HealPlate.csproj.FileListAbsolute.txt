@@ -154,3 +154,4 @@ C:\Users\ioana\source\repos\Aplicatie Culinara HealPlate\Aplicatie Culinara Heal
 C:\Users\ioana\source\repos\Aplicatie Culinara HealPlate\Aplicatie Culinara HealPlate\obj\Debug\net8.0\Aplicatie Culinara HealPlate.pdb
 C:\Users\ioana\source\repos\Aplicatie Culinara HealPlate\Aplicatie Culinara HealPlate\obj\Debug\net8.0\Aplicatie Culinara HealPlate.genruntimeconfig.cache
 C:\Users\ioana\source\repos\Aplicatie Culinara HealPlate\Aplicatie Culinara HealPlate\obj\Debug\net8.0\ref\Aplicatie Culinara HealPlate.dll
+C:\Users\ioana\source\repos\Aplicatie Culinara HealPlate\Aplicatie Culinara HealPlate\obj\Debug\net8.0\Aplicatie Culinara HealPlate.sourcelink.json

@@ -9,6 +9,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\fonts\fontawesome-webfont.ttf" />
+    <Content Remove="wwwroot\fonts\fontawesome-webfont.woff" />
+    <Content Remove="wwwroot\fonts\fontawesome-webfont.woff2" />
+    <Content Remove="wwwroot\images\about-img.png" />
+    <Content Remove="wwwroot\images\client1.jpg" />
+    <Content Remove="wwwroot\images\client2.jpg" />
+    <Content Remove="wwwroot\images\f1.png" />
+    <Content Remove="wwwroot\images\f2.png" />
+    <Content Remove="wwwroot\images\f3.png" />
+    <Content Remove="wwwroot\images\f4.png" />
+    <Content Remove="wwwroot\images\f5.png" />
+    <Content Remove="wwwroot\images\f6.png" />
+    <Content Remove="wwwroot\images\f7.png" />
+    <Content Remove="wwwroot\images\f8.png" />
+    <Content Remove="wwwroot\images\f9.png" />
+    <Content Remove="wwwroot\images\favicon.png" />
+    <Content Remove="wwwroot\images\hero-bg.jpg" />
+    <Content Remove="wwwroot\images\o1.jpg" />
+    <Content Remove="wwwroot\images\o2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
@@ -18,6 +40,28 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\fonts\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.woff" />
+    <None Include="wwwroot\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\images\about-img.png" />
+    <None Include="wwwroot\images\client1.jpg" />
+    <None Include="wwwroot\images\client2.jpg" />
+    <None Include="wwwroot\images\f1.png" />
+    <None Include="wwwroot\images\f2.png" />
+    <None Include="wwwroot\images\f3.png" />
+    <None Include="wwwroot\images\f4.png" />
+    <None Include="wwwroot\images\f5.png" />
+    <None Include="wwwroot\images\f6.png" />
+    <None Include="wwwroot\images\f7.png" />
+    <None Include="wwwroot\images\f8.png" />
+    <None Include="wwwroot\images\f9.png" />
+    <None Include="wwwroot\images\favicon.png" />
+    <None Include="wwwroot\images\hero-bg.jpg" />
+    <None Include="wwwroot\images\o1.jpg" />
+    <None Include="wwwroot\images\o2.jpg" />
   </ItemGroup>
 
 </Project>

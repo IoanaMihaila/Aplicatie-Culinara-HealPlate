@@ -1,6 +1,15 @@
-wwwroot\css\site.css
+wwwroot\css\bootstrap.css
+wwwroot\css\font-awesome.min.css
+wwwroot\css\responsive.css
+wwwroot\css\style.css
+wwwroot\css\style.css.map
+wwwroot\css\style.scss
 wwwroot\favicon.ico
-wwwroot\js\site.js
+wwwroot\images\aboutIMG.jpg
+wwwroot\images\logo.jpg
+wwwroot\js\bootstrap.js
+wwwroot\js\custom.js
+wwwroot\js\jquery-3.4.1.min.js
 wwwroot\lib\bootstrap\dist\css\bootstrap.css
 wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap.min.css

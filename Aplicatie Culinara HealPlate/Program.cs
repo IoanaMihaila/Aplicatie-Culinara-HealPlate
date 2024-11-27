@@ -18,24 +18,24 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Add a new user to the database to test the connection
-using (var scope = app.Services.CreateScope())
+/*using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<HealPlateDbContext>();
 
     // Create a new user
     var user = new Utilizatori
     {
-        Nume = "Popescu",
-        Prenume = "Ion",
-        Email = "popescu.ion@example.com",
-        Username = "ionpopescu",
-        Parola = "parola123"  // Ideally, this should be hashed, but for testing, we'll use plain text
+        Nume = "Mihaila",
+        Prenume = "Ioana",
+        Email = "ioanamihaila30@yahoo.com",
+        Username = "ioanamihaila",
+        Parola = "ioana"  // Ideally, this should be hashed, but for testing, we'll use plain text
     };
 
     // Add the user to the database
     dbContext.Utilizatoris.Add(user);
     dbContext.SaveChanges();
-}
+}*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
