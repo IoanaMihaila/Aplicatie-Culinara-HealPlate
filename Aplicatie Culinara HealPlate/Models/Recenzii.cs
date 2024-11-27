@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Aplicatie_Culinara_HealPlate.Models;
+
+public partial class Recenzii
+{
+    public int IdRecenzie { get; set; }
+
+    public int IdUtilizator { get; set; }
+
+    public int IdReteta { get; set; }
+
+    public string? TextRecenzie { get; set; }
+
+    public DateOnly? DataRecenzie { get; set; }
+
+    public virtual Retete IdRetetaNavigation { get; set; } = null!;
+
+    public virtual Utilizatori IdUtilizatorNavigation { get; set; } = null!;
+}
