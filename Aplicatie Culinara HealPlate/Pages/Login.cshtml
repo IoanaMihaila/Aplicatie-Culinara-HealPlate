@@ -1,0 +1,92 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Basic Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="images/favicon.png" type="">
+
+    <title>Heal Plate - Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <!-- Font Awesome -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom styles -->
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="hero_area">
+        <div class="bg-box">
+            <img src="images/logo.jpg" alt="">
+        </div>
+        <!-- Header Section -->
+        <header class="header_section">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container">
+                    <a class="navbar-brand" href="index.html">
+                        <span>Heal Plate</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Login Section -->
+        <section class="login_section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h3>Login</h3>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    <div class="form-group">
+                                        <label for="credential">Email or Username</label>
+                                        <input type="text" id="credential" name="Credential" value="@Model.Credential" class="form-control" placeholder="Enter your email or username" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" id="password" name="Password" class="form-control" placeholder="Enter your password" required />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block" id="loginButton">Login</button>
+                                    <!-- Popup pentru mesaj de eroare -->
+                                    @if (ViewData["ErrorMessage"] != null)
+                                    {
+                                        <script>
+                                            alert('@ViewData["ErrorMessage"]');
+                                        </script>
+                                    }
+                                </form>
+
+                                <div asp-validation-summary="All" class="text-danger"></div>
+
+                                <div class="text-center mt-3">
+                                    <a href="/Register">Don't have an account? Register</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
