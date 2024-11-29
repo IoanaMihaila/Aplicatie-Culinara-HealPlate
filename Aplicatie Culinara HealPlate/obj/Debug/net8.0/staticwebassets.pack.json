@@ -37,8 +37,60 @@
       "PackagePath": "staticwebassets\\images\\aboutIMG.jpg"
     },
     {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\chili.jpg",
+      "PackagePath": "staticwebassets\\images\\chili.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\cofeina.jpg",
+      "PackagePath": "staticwebassets\\images\\cofeina.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\crustacee.jpg",
+      "PackagePath": "staticwebassets\\images\\crustacee.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\fish.jpg",
+      "PackagePath": "staticwebassets\\images\\fish.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\gluten.jpg",
+      "PackagePath": "staticwebassets\\images\\gluten.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\lactoza.jpg",
+      "PackagePath": "staticwebassets\\images\\lactoza.jpg"
+    },
+    {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\logo.jpg",
       "PackagePath": "staticwebassets\\images\\logo.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\nuts.jpg",
+      "PackagePath": "staticwebassets\\images\\nuts.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\oua.jpg",
+      "PackagePath": "staticwebassets\\images\\oua.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\porumb.jpg",
+      "PackagePath": "staticwebassets\\images\\porumb.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\soya.jpg",
+      "PackagePath": "staticwebassets\\images\\soya.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\sugar.jpg",
+      "PackagePath": "staticwebassets\\images\\sugar.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\usturoi.jpg",
+      "PackagePath": "staticwebassets\\images\\usturoi.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\vegetarian.jpg",
+      "PackagePath": "staticwebassets\\images\\vegetarian.jpg"
     },
     {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\js\\bootstrap.js",

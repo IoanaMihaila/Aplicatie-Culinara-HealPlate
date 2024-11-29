@@ -1,0 +1,225 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.InregistrareModel
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Basic Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="images/favicon.png" type="">
+
+    <title>Heal Plate - Sign Up</title>
+
+    <style>
+        .dietary-preferences {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .preference-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .preference-option input {
+                display: none; /* Ascundem checkbox-ul */
+            }
+
+            .preference-option img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                transition: border-color 0.3s;
+            }
+
+            .preference-option input:checked + img {
+                border-color: #007bff;
+            }
+
+            .preference-option span {
+                margin-top: 10px;
+                font-size: 14px;
+                color: #333;
+            }
+        .dietary-preferences img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+    </style>
+
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <!-- Font Awesome -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom styles -->
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="hero_area">
+        <div class="bg-box">
+            <img src="images/logo.jpg" alt="">
+        </div>
+        <!-- Header Section -->
+        <header class="header_section">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container">
+                    <a class="navbar-brand" href="/Index">
+                        <span>Heal Plate</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Sign Up Section -->
+        <section class="signup_section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h3>Sign Up</h3>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    <div class="form-group">
+                                        <label for="nume">Nume</label>
+                                        <input type="text" id="nume" name="Nume" value="@Model.Nume" class="form-control" placeholder="Introdu numele" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prenume">Prenume</label>
+                                        <input type="text" id="prenume" name="Prenume" value="@Model.Prenume" class="form-control" placeholder="Introdu prenumele" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" name="Email" value="@Model.Email" class="form-control" placeholder="Introdu email-ul" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" id="username" name="Username" value="@Model.Username" class="form-control" placeholder="Introdu username-ul" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" id="password" name="Parola" class="form-control" placeholder="Introdu parola" />
+                                    </div>
+
+                                    <!-- Dietary Restrictions Section -->
+                                    <div class="form-group">
+                                        <label>Restricții Alimentare</label>
+                                        <div class="dietary-preferences">
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Gluten">
+                                                <img src="images/gluten.jpg" alt="Gluten">
+                                                <span>Gluten</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Lactoza">
+                                                <img src="images/lactoza.jpg" alt="Lactoza">
+                                                <span>Lactoza</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Zahar">
+                                                <img src="images/sugar.jpg" alt="Zahar">
+                                                <span>Zahar</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Soia">
+                                                <img src="images/soya.jpg" alt="Soia">
+                                                <span>Soia</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Carne">
+                                                <img src="images/vegetarian.jpg" alt="Carne">
+                                                <span>Carne</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Cofeina">
+                                                <img src="images/cofeina.jpg" alt="Cofeina">
+                                                <span>Cofeina</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Peste">
+                                                <img src="images/fish.jpg" alt="Peste">
+                                                <span>Peste</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Oua">
+                                                <img src="images/oua.jpg" alt="Oua">
+                                                <span>Oua</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Crustacee">
+                                                <img src="images/crustacee.jpg" alt="Crustacee">
+                                                <span>Crustacee</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Susan">
+                                                <img src="images/susan.png" alt="Susan">
+                                                <span>Susan</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="FructeCuCoaja">
+                                                <img src="images/nuts.jpg" alt="Fructe cu coajă">
+                                                <span>Fructe cu coajă</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Porumb">
+                                                <img src="images/porumb.jpg" alt="Porumb">
+                                                <span>Porumb</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="ArdeiIute">
+                                                <img src="images/chili.jpg" alt="Ardei iute">
+                                                <span>Ardei iute</span>
+                                            </label>
+                                            <label class="preference-option">
+                                                <input type="checkbox" name="Restrictii" value="Usturoi">
+                                                <img src="images/usturoi.jpg" alt="Usturoi">
+                                                <span>Usturoi</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-primary btn-block" id="signUpButton">Sign Up</button>
+                                </form>
+
+                                <div asp-validation-summary="All" class="text-danger"></div>
+
+                                <div class="text-center mt-3">
+                                    <a href="/Login">Ai deja un cont? Login aici!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

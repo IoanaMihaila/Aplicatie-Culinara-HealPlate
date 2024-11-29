@@ -19,24 +19,25 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         public string Credential { get; set; }
 
         [BindProperty]
-        public string Password { get; set; }
+        public string Parola { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Clear();
             // Validare: câmpurile sunt completate
-            if (string.IsNullOrWhiteSpace(Credential) || string.IsNullOrWhiteSpace(Password))
+            if (string.IsNullOrWhiteSpace(Credential) || string.IsNullOrWhiteSpace(Parola))
             {
-                ModelState.AddModelError(string.Empty, "Please enter both email/username and password.");
+                ModelState.AddModelError(string.Empty, "Te rog introdu atat email-ul/username-ul, cat si parola.");
                 return Page();
             }
 
             // Verificare utilizator în baza de date
             var user = await _context.Utilizatoris
-                .FirstOrDefaultAsync(u => (u.Email == Credential || u.Username == Credential) && u.Parola == Password);
+                .FirstOrDefaultAsync(u => (u.Email == Credential || u.Username == Credential) && u.Parola == Parola);
 
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Invalid email/username or password.");
+                ModelState.AddModelError("Credential", "Email/username sau parola incorecta.");
                 return Page();
             }
 

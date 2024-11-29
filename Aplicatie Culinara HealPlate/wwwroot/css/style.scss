@@ -1,4 +1,4 @@
-$white: #ffffff;
+﻿$white: #ffffff;
 $black: #000000;
 $primary1: #ffbe33;
 $primary2: #222831;
@@ -905,6 +905,44 @@ a:focus {
       }
     }
   }
+}
+.dietary-preferences {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.preference-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.preference-option input {
+    display: none; /* Ascundem checkbox-ul */
+}
+
+.preference-option img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+.preference-option input:checked + img {
+    border-color: #007bff;
+}
+
+.preference-option span {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
 }
 
 // end footer section

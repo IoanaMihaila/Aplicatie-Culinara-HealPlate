@@ -52,6 +52,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/ioana/source/repos/Aplicatie Culinara HealPlate/Aplicatie Culinara HealPlate/Pages/Autentificare.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0ZW50aWZpY2FyZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ioana/source/repos/Aplicatie Culinara HealPlate/Aplicatie Culinara HealPlate/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -60,8 +64,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ioana/source/repos/Aplicatie Culinara HealPlate/Aplicatie Culinara HealPlate/Pages/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
+[C:/Users/ioana/source/repos/Aplicatie Culinara HealPlate/Aplicatie Culinara HealPlate/Pages/Inregistrare.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5yZWdpc3RyYXJlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ioana/source/repos/Aplicatie Culinara HealPlate/Aplicatie Culinara HealPlate/Pages/Privacy.cshtml]

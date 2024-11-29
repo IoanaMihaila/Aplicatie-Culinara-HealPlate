@@ -34,7 +34,7 @@
         <header class="header_section">
             <div class="container">
                 <nav class="navbar navbar-expand-lg custom_nav-container">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="/Index">
                         <span>Heal Plate</span>
                     </a>
                 </nav>
@@ -53,27 +53,20 @@
                             <div class="card-body">
                                 <form method="post">
                                     <div class="form-group">
-                                        <label for="credential">Email or Username</label>
-                                        <input type="text" id="credential" name="Credential" value="@Model.Credential" class="form-control" placeholder="Enter your email or username" required />
+                                        <label for="credential">Email sau Username</label>
+                                        <input type="text" id="credential" name="Credential" value="@Model.Credential" class="form-control" placeholder="Introdu email-ul/username-ul" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" id="password" name="Password" class="form-control" placeholder="Enter your password" required />
+                                        <label for="password">Parola</label>
+                                        <input type="password" id="password" name="Parola" class="form-control" placeholder="Introdu parola" />
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-block" id="loginButton">Login</button>
-                                    <!-- Popup pentru mesaj de eroare -->
-                                    @if (ViewData["ErrorMessage"] != null)
-                                    {
-                                        <script>
-                                            alert('@ViewData["ErrorMessage"]');
-                                        </script>
-                                    }
                                 </form>
 
                                 <div asp-validation-summary="All" class="text-danger"></div>
 
                                 <div class="text-center mt-3">
-                                    <a href="/Register">Don't have an account? Register</a>
+                                    <a href="/Inregistrare">Nu ai un cont de utilizator? Inregistreaza-te!</a>
                                 </div>
                             </div>
                         </div>
