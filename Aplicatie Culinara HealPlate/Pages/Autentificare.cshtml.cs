@@ -42,7 +42,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             }
 
             // Redirecționare în caz de succes
-            return RedirectToPage("/Index");
+            return RedirectToPage("/VizualizareRetete");
         }
         public void OnGet()
         {

@@ -1,0 +1,76 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.VizualizareDetaliiModel
+
+@{
+    ViewData["Title"] = "Detalii Rețetă";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="images/favicon.png" type="">
+
+    <title>Rețete Culinare</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
+    <!-- Font Awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- Responsive CSS -->
+    <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <h2>@Model.Reteta.Titlu</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@Url.Content(Model.Reteta.Imagine)" alt="@Model.Reteta.Titlu" class="img-fluid" />
+            </div>
+            <div class="col-md-6">
+                <h4>Descriere</h4>
+                <p>@Model.Reteta.Descriere</p>
+                <h4>Mod de preparare</h4>
+                <p>@Model.Reteta.ModDePreparare</p>
+                <h4>Timp de preparare: @Model.Reteta.TimpPreparare minute</h4>
+                <!-- Aici poți adăuga și alte informații relevante -->
+            </div>
+        </div>
+        <div>
+            <h4>Ingrediente</h4>
+            <ul>
+                @foreach (var ingredient in Model.Reteta.RetetaIngredientes)
+                {
+                    <li>@ingredient.IdIngredientNavigation.Nume - @ingredient.Cantitate @ingredient.Unitate</li>
+                }
+            </ul>
+        </div>
+        <div>
+            <h4>Recenzii</h4>
+            @foreach (var recenzie in Model.Reteta.Recenziis)
+            {
+                <div>
+                    <strong>@recenzie.IdUtilizatorNavigation?.Nume ?? "Utilizator Necunoscut"</strong>
+                    <p>@recenzie.TextRecenzie</p>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.VizualizareReteteModel
+@{
+    ViewData["Title"] = "Vizualizare Rețete";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="images/favicon.png" type="">
+
+    <title>Rețete Culinare</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
+    <!-- Font Awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- Responsive CSS -->
+    <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+<section class="food_section layout_padding">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>
+                Rețete Disponibile
+            </h2>
+        </div>
+
+        <!-- Categorii -->
+        <ul class="filters_menu">
+            @foreach (var categorie in Model.Categorii)
+            {
+                <li class="@(Model.CategorieSelectata == categorie ? "active" : "")"
+                    onclick="location.href='@Url.Page("VizualizareRetete", new { categorie = categorie })'">
+                    @categorie
+                </li>
+            }
+        </ul>
+
+        <!-- Rețete -->
+        <div class="filters-content">
+            <div class="row grid">
+                @foreach (var reteta in Model.Retete)
+                {
+                    <div class="col-sm-6 col-lg-4 all @reteta.Categorie.ToLower()">
+                        <div class="box">
+                            <div class="img-box">
+                                <img src="@Url.Content(reteta.Imagine)" alt="@reteta.Titlu" />
+                            </div>
+                            <div class="detail-box">
+                                <h5>@reteta.Titlu</h5>
+                                <p>@reteta.Descriere</p>
+                                <div class="options">
+                                    <button class="btn" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (!Model.Retete.Any())
+                {
+                    <p style="text-align: center;">Nu sunt rețete disponibile pentru această categorie.</p>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .btn {
+        background-color: #8B4513; /* Maro */
+        color: white; /* Text alb */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background-color: #6A3C27; /* Maro mai închis la hover */
+        }
+</style>
+
+
+</html>

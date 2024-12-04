@@ -2879,6 +2879,88 @@
       ]
     },
     {
+      "Route": "images/SalataGreceasca.jpg",
+      "AssetFile": "images/SalataGreceasca.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "132474"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xQGlUHsLxGkLY30uii+L12Fu/X3lOvnYNt5DmqEJtLg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 02 Dec 2024 08:28:33 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xQGlUHsLxGkLY30uii+L12Fu/X3lOvnYNt5DmqEJtLg="
+        }
+      ]
+    },
+    {
+      "Route": "images/SalataGreceasca.pzgjpnbkzr.jpg",
+      "AssetFile": "images/SalataGreceasca.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "132474"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xQGlUHsLxGkLY30uii+L12Fu/X3lOvnYNt5DmqEJtLg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 02 Dec 2024 08:28:33 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pzgjpnbkzr"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xQGlUHsLxGkLY30uii+L12Fu/X3lOvnYNt5DmqEJtLg="
+        },
+        {
+          "Name": "label",
+          "Value": "images/SalataGreceasca.jpg"
+        }
+      ]
+    },
+    {
       "Route": "images/aboutIMG.jpg",
       "AssetFile": "images/aboutIMG.jpg",
       "Selectors": [],
@@ -2957,6 +3039,88 @@
         {
           "Name": "label",
           "Value": "images/aboutIMG.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/bananaBread.b5j0511z1b.jpg",
+      "AssetFile": "images/bananaBread.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "131550"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"EQb2x/BjHkeuCXCSYtvWFTIQ2Skd4LWZ6f8gRFGKlSw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 02 Dec 2024 11:40:52 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "b5j0511z1b"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-EQb2x/BjHkeuCXCSYtvWFTIQ2Skd4LWZ6f8gRFGKlSw="
+        },
+        {
+          "Name": "label",
+          "Value": "images/bananaBread.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/bananaBread.jpg",
+      "AssetFile": "images/bananaBread.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "131550"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"EQb2x/BjHkeuCXCSYtvWFTIQ2Skd4LWZ6f8gRFGKlSw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 02 Dec 2024 11:40:52 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-EQb2x/BjHkeuCXCSYtvWFTIQ2Skd4LWZ6f8gRFGKlSw="
         }
       ]
     },

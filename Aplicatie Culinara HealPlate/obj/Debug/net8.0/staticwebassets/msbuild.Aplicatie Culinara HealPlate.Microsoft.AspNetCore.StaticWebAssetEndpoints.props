@@ -108,6 +108,18 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"v1ivpn8lib"},{"Name":"integrity","Value":"sha256-I6KtH\u002B5zacIZsgkVFh6vxwHM2Cc1Yp8Lr\u002BHB7mcmCQ4="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/images/aboutIMG.jpg"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"101108"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022I6KtH\u002B5zacIZsgkVFh6vxwHM2Cc1Yp8Lr\u002BHB7mcmCQ4=\u0022"},{"Name":"Last-Modified","Value":"Wed, 27 Nov 2024 18:48:22 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/bananaBread.b5j0511z1b.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\bananaBread.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"b5j0511z1b"},{"Name":"integrity","Value":"sha256-EQb2x/BjHkeuCXCSYtvWFTIQ2Skd4LWZ6f8gRFGKlSw="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/images/bananaBread.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"131550"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022EQb2x/BjHkeuCXCSYtvWFTIQ2Skd4LWZ6f8gRFGKlSw=\u0022"},{"Name":"Last-Modified","Value":"Mon, 02 Dec 2024 11:40:52 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/bananaBread.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\bananaBread.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-EQb2x/BjHkeuCXCSYtvWFTIQ2Skd4LWZ6f8gRFGKlSw="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"131550"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022EQb2x/BjHkeuCXCSYtvWFTIQ2Skd4LWZ6f8gRFGKlSw=\u0022"},{"Name":"Last-Modified","Value":"Mon, 02 Dec 2024 11:40:52 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/chili.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\chili.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
@@ -227,6 +239,18 @@
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-Umw9DU9w5wUtAWwFYBUVz1kWEBxsSKWwKKGhj8D3wcg="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"22512"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022Umw9DU9w5wUtAWwFYBUVz1kWEBxsSKWwKKGhj8D3wcg=\u0022"},{"Name":"Last-Modified","Value":"Fri, 29 Nov 2024 22:23:47 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/SalataGreceasca.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\SalataGreceasca.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-xQGlUHsLxGkLY30uii\u002BL12Fu/X3lOvnYNt5DmqEJtLg="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"132474"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022xQGlUHsLxGkLY30uii\u002BL12Fu/X3lOvnYNt5DmqEJtLg=\u0022"},{"Name":"Last-Modified","Value":"Mon, 02 Dec 2024 08:28:33 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/SalataGreceasca.pzgjpnbkzr.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\SalataGreceasca.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"pzgjpnbkzr"},{"Name":"integrity","Value":"sha256-xQGlUHsLxGkLY30uii\u002BL12Fu/X3lOvnYNt5DmqEJtLg="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/images/SalataGreceasca.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"132474"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022xQGlUHsLxGkLY30uii\u002BL12Fu/X3lOvnYNt5DmqEJtLg=\u0022"},{"Name":"Last-Modified","Value":"Mon, 02 Dec 2024 08:28:33 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/soya.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\soya.jpg'))</AssetFile>

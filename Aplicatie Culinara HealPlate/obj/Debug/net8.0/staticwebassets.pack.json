@@ -33,8 +33,16 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\SalataGreceasca.jpg",
+      "PackagePath": "staticwebassets\\images\\SalataGreceasca.jpg"
+    },
+    {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\aboutIMG.jpg",
       "PackagePath": "staticwebassets\\images\\aboutIMG.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\bananaBread.jpg",
+      "PackagePath": "staticwebassets\\images\\bananaBread.jpg"
     },
     {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\chili.jpg",

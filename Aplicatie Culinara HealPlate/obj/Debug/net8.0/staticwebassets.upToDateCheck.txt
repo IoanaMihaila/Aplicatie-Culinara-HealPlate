@@ -6,6 +6,7 @@ wwwroot\css\style.css.map
 wwwroot\css\style.scss
 wwwroot\favicon.ico
 wwwroot\images\aboutIMG.jpg
+wwwroot\images\bananaBread.jpg
 wwwroot\images\chili.jpg
 wwwroot\images\cofeina.jpg
 wwwroot\images\crustacee.jpg
@@ -16,6 +17,7 @@ wwwroot\images\logo.jpg
 wwwroot\images\nuts.jpg
 wwwroot\images\oua.jpg
 wwwroot\images\porumb.jpg
+wwwroot\images\SalataGreceasca.jpg
 wwwroot\images\soya.jpg
 wwwroot\images\sugar.jpg
 wwwroot\images\usturoi.jpg
