@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NXry1OU/qM4XaMOtCKgAj8SRlzNWt1WDfBR6KbPuE24=",
+  "Hash": "A959zMb44jQgCEqzZJBnRSIqQgX4IhaJhGqgv322reE=",
   "Source": "Aplicatie Culinara HealPlate",
   "BasePath": "_content/Aplicatie Culinara HealPlate",
   "Mode": "Default",
@@ -1396,8 +1396,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "0ezrc3ek9g",
-      "Integrity": "GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ+I3GIXxw=",
+      "Fingerprint": "tvicti6b2r",
+      "Integrity": "ZzA7sEcb/Jq6PiX+H8JZXDxO2uM7XY0+SzxkV+YckK4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\style.css"
@@ -3495,51 +3495,6 @@
       ]
     },
     {
-      "Route": "css/style.0ezrc3ek9g.css",
-      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\css\\style.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "19132"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ+I3GIXxw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 27 Nov 2024 17:00:57 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "0ezrc3ek9g"
-        },
-        {
-          "Name": "label",
-          "Value": "css/style.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ+I3GIXxw="
-        }
-      ]
-    },
-    {
       "Route": "css/style.css",
       "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\css\\style.css",
       "Selectors": [],
@@ -3550,7 +3505,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "19132"
+          "Value": "19189"
         },
         {
           "Name": "Content-Type",
@@ -3558,11 +3513,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ+I3GIXxw=\""
+          "Value": "\"ZzA7sEcb/Jq6PiX+H8JZXDxO2uM7XY0+SzxkV+YckK4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Nov 2024 17:00:57 GMT"
+          "Value": "Fri, 06 Dec 2024 22:57:21 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3572,7 +3527,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ+I3GIXxw="
+          "Value": "sha256-ZzA7sEcb/Jq6PiX+H8JZXDxO2uM7XY0+SzxkV+YckK4="
         }
       ]
     },
@@ -3737,6 +3692,51 @@
         {
           "Name": "integrity",
           "Value": "sha256-6pwEwaP8WU/LM+Z6rGlQXpOLMJyazZJVlAusHdVkQQ8="
+        }
+      ]
+    },
+    {
+      "Route": "css/style.tvicti6b2r.css",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\css\\style.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "19189"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ZzA7sEcb/Jq6PiX+H8JZXDxO2uM7XY0+SzxkV+YckK4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 06 Dec 2024 22:57:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tvicti6b2r"
+        },
+        {
+          "Name": "label",
+          "Value": "css/style.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ZzA7sEcb/Jq6PiX+H8JZXDxO2uM7XY0+SzxkV+YckK4="
         }
       ]
     },

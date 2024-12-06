@@ -48,17 +48,11 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"pbup2pr0gb"},{"Name":"integrity","Value":"sha256-xVsC7pqx2JYYQ2599Gu1Amv713RWxE8vQXtkcex22tM="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/css/responsive.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1582"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022xVsC7pqx2JYYQ2599Gu1Amv713RWxE8vQXtkcex22tM=\u0022"},{"Name":"Last-Modified","Value":"Wed, 27 Nov 2024 17:00:57 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/css/style.0ezrc3ek9g.css">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\style.css'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"0ezrc3ek9g"},{"Name":"integrity","Value":"sha256-GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ\u002BI3GIXxw="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/css/style.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"19132"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ\u002BI3GIXxw=\u0022"},{"Name":"Last-Modified","Value":"Wed, 27 Nov 2024 17:00:57 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/css/style.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\style.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ\u002BI3GIXxw="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"19132"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022GLxvzLVepZewOvSm5YPidw4HMkawGqeSONQ\u002BI3GIXxw=\u0022"},{"Name":"Last-Modified","Value":"Wed, 27 Nov 2024 17:00:57 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-ZzA7sEcb/Jq6PiX\u002BH8JZXDxO2uM7XY0\u002BSzxkV\u002BYckK4="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"19189"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022ZzA7sEcb/Jq6PiX\u002BH8JZXDxO2uM7XY0\u002BSzxkV\u002BYckK4=\u0022"},{"Name":"Last-Modified","Value":"Fri, 06 Dec 2024 22:57:21 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/css/style.css.map">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\style.css.map'))</AssetFile>
@@ -83,6 +77,12 @@
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-6pwEwaP8WU/LM\u002BZ6rGlQXpOLMJyazZJVlAusHdVkQQ8="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"14406"},{"Name":"Content-Type","Value":"application/octet-stream"},{"Name":"ETag","Value":"\u00226pwEwaP8WU/LM\u002BZ6rGlQXpOLMJyazZJVlAusHdVkQQ8=\u0022"},{"Name":"Last-Modified","Value":"Fri, 29 Nov 2024 22:30:28 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/css/style.tvicti6b2r.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\style.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"tvicti6b2r"},{"Name":"integrity","Value":"sha256-ZzA7sEcb/Jq6PiX\u002BH8JZXDxO2uM7XY0\u002BSzxkV\u002BYckK4="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/css/style.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"19189"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022ZzA7sEcb/Jq6PiX\u002BH8JZXDxO2uM7XY0\u002BSzxkV\u002BYckK4=\u0022"},{"Name":"Last-Modified","Value":"Fri, 06 Dec 2024 22:57:21 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/favicon.61n19gt1b8.ico">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</AssetFile>

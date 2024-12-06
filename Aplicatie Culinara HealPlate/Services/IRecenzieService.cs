@@ -6,5 +6,8 @@ namespace Aplicatie_Culinara_HealPlate.Services
     {
         Task AddRecenzieAsync(Recenzii recenzie);
         public Recenzii GetRecenzieByUtilizatorSiReteta(int idUtilizator, int idReteta);
+        Task DeleteRecenzieAsync(int idRecenzie);
+        Task UpdateRecenzieAsync(int idRecenzie, string textNou, int scorNou);
+
     }
 }

@@ -225,16 +225,16 @@ a:focus {
           align-items: center;
 }
 
-.user_option .cart_link svg {
-  width: 17px;
-  height: auto;
-  fill: #ffffff;
-  margin-bottom: 2px;
-}
+    .user_option .cart_link svg {
+        width: 17px;
+        height: auto;
+        fill: #000000 !important;
+        margin-bottom: 2px;
+    }
 
-.user_option .cart_link:hover svg {
-  fill: #ffbe33;
-}
+    .user_option .cart_link:hover svg {
+        fill: #000000;
+    }
 
 .user_option .order_online {
   display: inline-block;
