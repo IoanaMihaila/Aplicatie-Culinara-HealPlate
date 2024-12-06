@@ -1,6 +1,5 @@
 ﻿using Aplicatie_Culinara_HealPlate.Data;
 using Aplicatie_Culinara_HealPlate.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Aplicatie_Culinara_HealPlate.Pages

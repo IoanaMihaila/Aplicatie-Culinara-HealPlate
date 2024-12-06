@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Detalii Rețetă";
+    var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
 }
 
 <!DOCTYPE html>
@@ -35,6 +36,27 @@
     <link href="css/responsive.css" rel="stylesheet" />
 </head>
 
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <ul class="navbar-nav ml-auto">
+            <!-- Adaugă ml-auto pentru aliniere la dreapta -->
+            @if (!string.IsNullOrEmpty(numeUtilizator))
+            {
+                <!-- Afisare nume utilizator autentificat -->
+                <li class="nav-item">
+                    <span class="navbar-text">
+                        Bun venit, @numeUtilizator!
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Logout">Logout</a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
+
 <body>
     <div class="container">
         <h2>@Model.Reteta.Titlu</h2>
@@ -60,16 +82,35 @@
                 }
             </ul>
         </div>
+        <!-- Mesaj de eroare dacă utilizatorul a lăsat deja o recenzie -->
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @Model.ErrorMessage
+            </div>
+        }
         <div>
+            @if (string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <!-- Formularul POST pentru adăugarea unei recenzii -->
+                <form method="post">
+                    <div class="form-group">
+                    <label for="recenzieText">Scrie o recenzie</label>
+                    <textarea id="recenzieText" name="RecenzieText" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Adaugă recenzie</button>
+            </form>
+            }
+        </div>
             <h4>Recenzii</h4>
             @foreach (var recenzie in Model.Reteta.Recenziis)
             {
                 <div>
-                    <strong>@recenzie.IdUtilizatorNavigation?.Nume ?? "Utilizator Necunoscut"</strong>
+                    <strong>@recenzie.IdUtilizatorNavigation?.Nume @recenzie.IdUtilizatorNavigation?.Prenume</strong>
                     <p>@recenzie.TextRecenzie</p>
                 </div>
             }
-        </div>
+       
     </div>
 </body>
 

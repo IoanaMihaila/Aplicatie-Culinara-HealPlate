@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
 
 namespace Aplicatie_Culinara_HealPlate.Pages
 {
@@ -40,7 +41,8 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 ModelState.AddModelError("Credential", "Email/username sau parola incorecta.");
                 return Page();
             }
-
+            HttpContext.Session.SetString("NumeUtilizator",user.Nume+" "+user.Prenume);
+            HttpContext.Session.SetInt32("IdUtilizator", user.IdUtilizator);
             // Redirecționare în caz de succes
             return RedirectToPage("/VizualizareRetete");
         }

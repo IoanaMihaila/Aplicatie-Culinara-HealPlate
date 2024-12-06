@@ -1,11 +1,21 @@
-using Aplicatie_Culinara_HealPlate.Data;
+﻿using Aplicatie_Culinara_HealPlate.Data;
 using Aplicatie_Culinara_HealPlate.Models;
 using Aplicatie_Culinara_HealPlate.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Adaugă serviciul de sesiune
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Durata sesiunii
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Necesar pentru GDPR
+});
+
 builder.Services.AddScoped<IRetetaService, RetetaService>();
+builder.Services.AddScoped<IRecenzieService, RecenzieService>();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -18,27 +28,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+// Activează utilizarea sesiunii
+app.UseSession();
 app.UseStaticFiles();
-
-// Add a new user to the database to test the connection
-/*using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<HealPlateDbContext>();
-
-    // Create a new user
-    var user = new Utilizatori
-    {
-        Nume = "Mihaila",
-        Prenume = "Ioana",
-        Email = "ioanamihaila30@yahoo.com",
-        Username = "ioanamihaila",
-        Parola = "ioana"  // Ideally, this should be hashed, but for testing, we'll use plain text
-    };
-
-    // Add the user to the database
-    dbContext.Utilizatoris.Add(user);
-    dbContext.SaveChanges();
-}*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -2,6 +2,7 @@
 @model Aplicatie_Culinara_HealPlate.Pages.VizualizareReteteModel
 @{
     ViewData["Title"] = "Vizualizare Rețete";
+    var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
 }
 
 <!DOCTYPE html>
@@ -33,6 +34,27 @@
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet" />
 </head>
+
+    <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <ul class="navbar-nav ml-auto">
+            <!-- Adaugă ml-auto pentru aliniere la dreapta -->
+            @if (!string.IsNullOrEmpty(numeUtilizator))
+            {
+                <!-- Afisare nume utilizator autentificat -->
+                <li class="nav-item">
+                    <span class="navbar-text">
+                        Bun venit, @numeUtilizator!
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Logout">Logout</a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
 
 <section class="food_section layout_padding">
     <div class="container">
