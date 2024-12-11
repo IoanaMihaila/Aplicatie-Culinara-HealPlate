@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Vizualizare Rețete";
     var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    @Html.AntiForgeryToken()
 }
 
 <!DOCTYPE html>
@@ -196,7 +197,7 @@
                                 <div class="options">
                                     <button class="btn btn-detalii" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
                                     <!-- Buton Inimioară pentru adăugare în colecție -->
-                                    <button type="button" class="btn btn-favorite" onclick="addToFavorites(event, @reteta.IdReteta)">
+                                    <button class="btn btn-favorite" onclick="addToFavorites(event, @reteta.IdReteta)">
                                         <i class="fa @(Model.EsteInColectie.ContainsKey(reteta.IdReteta) && Model.EsteInColectie[reteta.IdReteta] ? "fa-heart" : "fa-heart-o")" aria-hidden="true"></i>
                                     </button>
 
@@ -206,6 +207,9 @@
                                         function addToFavorites(event, idReteta) {
                                             event.preventDefault(); // Previne orice comportament implicit
 
+                                            console.log("ID-ul rețetei: ", idReteta); // Verifică dacă ID-ul rețetei este corect
+
+
                                             var button = event.target.closest("button");
                                             var icon = button.querySelector("i");
 
@@ -214,14 +218,16 @@
 
                                             if (!isFavorite) {
                                                 // Adaugă rețeta în colecția utilizatorului
-                                                fetch(`/VizualizareRetete?handler=AddToCollection`, {
+                                                fetch('/VizualizareRetete?handler=AddToCollection', {
                                                     method: "POST",
                                                     headers: {
                                                         "Content-Type": "application/json",
+                                                         "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
                                                     },
                                                     body: JSON.stringify({ idReteta: idReteta }),
                                                 })
                                                 .then((response) => {
+                                                    console.log("Cerere trimisă către server: /VizualizareRetete?handler=AddToCollection"); // Log pentru confirmare
                                                     if (!response.ok) {
                                                         throw new Error(`Eroare de server: ${response.statusText}`);
                                                     }
@@ -258,6 +264,7 @@
         </div>
     </div>
 </section>
+</html>
 <style>
     .btn-detalii {
         background-color: #8B4513; /* Maro */
@@ -290,6 +297,3 @@
             color: #e74c3c; /* Culoare roșie pentru inimioară când este selectată */
         }
 </style>
-
-
-</html>

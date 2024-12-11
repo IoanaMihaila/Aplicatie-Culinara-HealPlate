@@ -11,12 +11,16 @@
       "RelativeMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|solutionrelative:aplicatie culinara healplate\\pages\\vizualizareretete.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|c:\\users\\ioana\\source\\repos\\aplicatie culinara healplate\\aplicatie culinara healplate\\models\\addtocollectionrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|solutionrelative:aplicatie culinara healplate\\models\\addtocollectionrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|c:\\users\\ioana\\source\\repos\\aplicatie culinara healplate\\aplicatie culinara healplate\\models\\colectiepersonalaretete.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|solutionrelative:aplicatie culinara healplate\\models\\colectiepersonalaretete.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|c:\\users\\ioana\\source\\repos\\aplicatie culinara healplate\\aplicatie culinara healplate\\models\\addtocollectionrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|solutionrelative:aplicatie culinara healplate\\models\\addtocollectionrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|c:\\users\\ioana\\source\\repos\\aplicatie culinara healplate\\aplicatie culinara healplate\\models\\colectiepersonala.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}|Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate.csproj|solutionrelative:aplicatie culinara healplate\\models\\colectiepersonala.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,26 +54,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "AddToCollectionRequest.cs",
               "DocumentMoniker": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\Models\\AddToCollectionRequest.cs",
               "RelativeDocumentMoniker": "Aplicatie Culinara HealPlate\\Models\\AddToCollectionRequest.cs",
               "ToolTip": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\Models\\AddToCollectionRequest.cs",
               "RelativeToolTip": "Aplicatie Culinara HealPlate\\Models\\AddToCollectionRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-11T15:27:01.117Z",
+              "WhenOpened": "2024-12-11T19:00:19.379Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
+              "Title": "ColectiePersonala.cs",
+              "DocumentMoniker": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\Models\\ColectiePersonala.cs",
+              "RelativeDocumentMoniker": "Aplicatie Culinara HealPlate\\Models\\ColectiePersonala.cs",
+              "ToolTip": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\Models\\ColectiePersonala.cs",
+              "RelativeToolTip": "Aplicatie Culinara HealPlate\\Models\\ColectiePersonala.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T18:44:00.093Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ColectiePersonalaRetete.cs",
               "DocumentMoniker": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\Models\\ColectiePersonalaRetete.cs",
               "RelativeDocumentMoniker": "Aplicatie Culinara HealPlate\\Models\\ColectiePersonalaRetete.cs",
               "ToolTip": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\Models\\ColectiePersonalaRetete.cs",
               "RelativeToolTip": "Aplicatie Culinara HealPlate\\Models\\ColectiePersonalaRetete.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-11T15:09:19.342Z",
               "EditorCaption": ""
@@ -82,7 +99,7 @@
               "RelativeDocumentMoniker": "Aplicatie Culinara HealPlate\\Pages\\VizualizareRetete.cshtml.cs",
               "ToolTip": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\Pages\\VizualizareRetete.cshtml.cs",
               "RelativeToolTip": "Aplicatie Culinara HealPlate\\Pages\\VizualizareRetete.cshtml.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAmwB8AAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAA+wBcAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-11T09:49:06.073Z",
               "EditorCaption": ""
@@ -95,7 +112,7 @@
               "RelativeDocumentMoniker": "Aplicatie Culinara HealPlate\\Pages\\VizualizareRetete.cshtml",
               "ToolTip": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\Pages\\VizualizareRetete.cshtml*",
               "RelativeToolTip": "Aplicatie Culinara HealPlate\\Pages\\VizualizareRetete.cshtml*",
-              "ViewState": "AgIAAMQAAAAAAAAAAAAQwMgAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAANIAAAAAAAAAAAAAAOAAAACdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-12-11T09:42:53.602Z",
               "EditorCaption": ""

@@ -23,18 +23,19 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         // Adăugarea unei rețete în colecția personală
         public async Task<IActionResult> OnPostAddToCollectionAsync([FromBody] AddToCollectionRequest request)
         {
+            Console.WriteLine($"Request received with IdReteta: {request?.IdReteta}");
             var idReteta = request?.IdReteta;  // Preia id-ul rețetei din cererea JSON
             if (idReteta == null || idReteta <= 0)
             {
                 return new JsonResult(new { success = false, message = "ID-ul rețetei nu este valid." });
             }
             // Obținem ID-ul utilizatorului curent
-            var userId = HttpContext.Session.GetInt32("IdUtilizator");  // Dacă folosești autentificare pe baza de cookie-uri (înlocuiește cu logica ta specifică pentru a obține ID-ul utilizatorului)
+            var userId = HttpContext.Session.GetInt32("IdUtilizator");  
             var utilizator = await _context.Utilizatoris.FirstOrDefaultAsync(u => u.IdUtilizator == userId);
 
             if (utilizator == null)
             {
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/Autentificare");
             }
 
             // Verificăm dacă utilizatorul are deja o colecție personală
