@@ -26,4 +26,5 @@ public partial class Retete
     public virtual ICollection<Recenzii> Recenziis { get; set; } = new List<Recenzii>();
 
     public virtual ICollection<RetetaIngrediente> RetetaIngredientes { get; set; } = new List<RetetaIngrediente>();
+
 }

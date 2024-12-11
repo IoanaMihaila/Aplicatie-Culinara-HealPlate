@@ -18,6 +18,8 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <link rel="shortcut icon" href="images/favicon.png" type="">
+    <script src="~/js/site.js"></script>
+    <link href="~/css/Aplicatie_Culinara_HealPlate.styles.css" rel="stylesheet" />
 
     <title>Rețete Culinare</title>
 
@@ -193,6 +195,55 @@
                                 <p>@reteta.Descriere</p>
                                 <div class="options">
                                     <button class="btn btn-detalii" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
+                                    <!-- Buton Inimioară pentru adăugare în colecție -->
+                                    <button type="button" class="btn btn-favorite" onclick="addToFavorites(event, @reteta.IdReteta)">
+                                        <i class="fa @(Model.EsteInColectie.ContainsKey(reteta.IdReteta) && Model.EsteInColectie[reteta.IdReteta] ? "fa-heart" : "fa-heart-o")" aria-hidden="true"></i>
+                                    </button>
+
+                                    <!-- Include scripturile JS -->
+                                    <script src="~/js/site.js"></script>
+                                    <script>
+                                        function addToFavorites(event, idReteta) {
+                                            event.preventDefault(); // Previne orice comportament implicit
+
+                                            var button = event.target.closest("button");
+                                            var icon = button.querySelector("i");
+
+                                            // Verifică starea inimii (dacă este adăugată sau nu în colecție)
+                                            var isFavorite = icon.classList.contains("fa-heart");
+
+                                            if (!isFavorite) {
+                                                // Adaugă rețeta în colecția utilizatorului
+                                                fetch(`/VizualizareRetete?handler=AddToCollection`, {
+                                                    method: "POST",
+                                                    headers: {
+                                                        "Content-Type": "application/json",
+                                                    },
+                                                    body: JSON.stringify({ idReteta: idReteta }),
+                                                })
+                                                .then((response) => {
+                                                    if (!response.ok) {
+                                                        throw new Error(`Eroare de server: ${response.statusText}`);
+                                                    }
+                                                    return response.json();
+                                                })
+                                                .then((data) => {
+                                                    if (data.success) {
+                                                        icon.classList.remove("fa-heart-o");
+                                                        icon.classList.add("fa-heart");
+                                                    } else {
+                                                        alert(data.message || "A apărut o eroare la adăugarea rețetei.");
+                                                    }
+                                                })
+                                                .catch((error) => {
+                                                    console.error("Eroare la adăugarea rețetei:", error);
+                                                    alert("A apărut o eroare la adăugarea rețetei. Detalii în consola browserului.");
+                                                });
+                                            } else {
+                                                alert("Rețeta este deja în colecție.");
+                                            }
+                                        }
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -220,6 +271,23 @@
 
         .btn-detalii:hover {
             background-color: #6A3C27; /* Maro mai închis la hover */
+        }
+
+    .btn-favorite {
+        background-color: transparent;
+        border: none;
+        color: #e74c3c; /* Culoare roșie pentru inimioară */
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+        .btn-favorite:hover {
+            color: #c0392b; /* Culoare mai închisă la hover */
+        }
+
+        .btn-favorite .fa-heart {
+            color: #e74c3c; /* Culoare roșie pentru inimioară când este selectată */
         }
 </style>
 

@@ -18,6 +18,8 @@ namespace Aplicatie_Culinara_HealPlate.Services
                 .Include(r => r.Recenziis)  // Include recenziile asociate rețetei
                 .Include(r => r.RetetaIngredientes)  // Include ingredientele asociate rețetei
                     .ThenInclude(ri => ri.IdIngredientNavigation)  // Include ingredientul pentru fiecare ingredient din rețetă
+                    .ThenInclude(i => i.IngredientAlergenis)// Include alergeni pentru ingredient
+                    .ThenInclude(ia => ia.IdAlergenNavigation)
                     .AsSplitQuery()
                 .FirstOrDefault(r => r.IdReteta == id);
 

@@ -172,8 +172,9 @@
                 <p>@Model.Reteta.Descriere</p>
                 <h4>Mod de preparare</h4>
                 <p>@Model.Reteta.ModDePreparare</p>
-                <h4>Timp de preparare: @Model.Reteta.TimpPreparare minute</h4>
-                <!-- Aici poți adăuga și alte informații relevante -->
+                <h4>Timp de preparare: @Model.Reteta.TimpPreparare minute </h4>
+                <h4>Alergeni:</h4>
+                <p>@ViewData["AlergeniReteta"]</p>
             </div>
         </div>
         <div>
@@ -181,7 +182,31 @@
             <ul>
                 @foreach (var ingredient in Model.Reteta.RetetaIngredientes)
                 {
-                    <li>@ingredient.IdIngredientNavigation.Nume - @ingredient.Cantitate @ingredient.Unitate</li>
+                    <li>
+                        @ingredient.IdIngredientNavigation.Nume - @ingredient.Cantitate @ingredient.Unitate
+                        @if (ingredient.IdIngredientNavigation.IngredientAlergenis != null && ingredient.IdIngredientNavigation.IngredientAlergenis.Any())
+                        {
+                            <span>
+                                (Alergeni:
+                                @foreach (var alergen in ingredient.IdIngredientNavigation.IngredientAlergenis)
+                                {
+                                    @if (alergen.IdAlergenNavigation != null)
+                                    {
+                                        @alergen.IdAlergenNavigation.NumeAlergen
+                                        @if (!alergen.Equals(ingredient.IdIngredientNavigation.IngredientAlergenis.Last()))
+                                        {
+                                            <span>, </span> <!-- adaugă virgula între alergeni -->
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>(Alergen nevalid)</span>
+                                    }
+                                }
+                                )
+                            </span>
+                        }
+                    </li>
                 }
             </ul>
         </div>

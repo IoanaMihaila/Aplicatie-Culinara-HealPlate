@@ -67,7 +67,21 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 .Include(r => r.IdUtilizatorNavigation)  // Include utilizatorul asociat
                 .Where(r => r.IdReteta == id)  // Filtrare după rețeta respectivă
                 .ToList();
+            // Creăm un set pentru alergeni pentru a evita duplicatele
+            var alergeniReteta = new HashSet<string>();
 
+            foreach (var ingredient in Reteta.RetetaIngredientes)
+            {
+                foreach (var alergen in ingredient.IdIngredientNavigation.IngredientAlergenis)
+                {
+                    if (alergen.IdAlergenNavigation != null)
+                    {
+                        alergeniReteta.Add(alergen.IdAlergenNavigation.NumeAlergen);
+                    }
+                }
+            }
+            // Setăm alergeni pentru rețetă, care vor fi folosiți în cshtml
+            ViewData["AlergeniReteta"] = alergeniReteta.Any() ? string.Join(", ", alergeniReteta) : "Nu există alergeni";
             // Returnăm pagina cu detaliile rețetei
             return Page();
         }
