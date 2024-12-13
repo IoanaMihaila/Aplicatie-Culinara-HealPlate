@@ -118,5 +118,47 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 }
             }
         }
+        public async Task<IActionResult> OnPostRemoveFromCollectionAsync([FromBody] int idReteta)
+        {
+            if (idReteta <= 0)
+            {
+                return new JsonResult(new { success = false, message = "ID-ul rețetei nu este valid." });
+            }
+
+            try
+            {
+                // Obține utilizatorul curent
+                var userId = HttpContext.Session.GetInt32("IdUtilizator");  // Presupunem că utilizatorul este autentificat și se poate obține numele său
+                ColectiePersonala colectie = await _context.ColectiePersonalas
+                    .FirstOrDefaultAsync(c => c.IdUtilizator == userId);
+                // Verifică dacă utilizatorul are rețeta în colecție
+                var favoriteRecipe = await _context.ColectiePersonalaRetetes
+                .FirstOrDefaultAsync(cr => cr.IdColectie == colectie.IdColectie && cr.IdReteta == idReteta);
+
+                if (favoriteRecipe != null)
+                {
+                    // Șterge rețeta din colecția utilizatorului
+                    _context.ColectiePersonalaRetetes.Remove(favoriteRecipe);
+                    await _context.SaveChangesAsync();
+
+                    // Returnează un succes
+                    return new JsonResult(new { success = true, message = "Rețeta a fost ștearsă din colecția ta." });
+                }
+                else
+                {
+                    // Dacă rețeta nu există în colecție
+                    return new JsonResult(new { success = false, message = "Rețeta nu există în colecția ta." });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Loghează eroarea (de exemplu, folosind un logger)
+                Console.WriteLine(ex.Message);
+
+                // Returnează un mesaj de eroare
+                return new JsonResult(new { success = false, message = "A apărut o eroare la ștergerea rețetei." });
+            }
+        }
+
     }
 }
