@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Adaugă configurarea pentru EmailSettings
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailService, EmailService>();
+
 // Adaugă serviciul de sesiune
 builder.Services.AddSession(options =>
 {

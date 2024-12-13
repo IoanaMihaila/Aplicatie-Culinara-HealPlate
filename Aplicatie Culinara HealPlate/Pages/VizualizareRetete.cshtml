@@ -202,6 +202,7 @@
                                     </button>
 
                                     <!-- Include scripturile JS -->
+                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                                     <script src="~/js/site.js"></script>
                                     <script>
                                         function addToFavorites(event, idReteta) {
@@ -224,7 +225,7 @@
                                                         "Content-Type": "application/json",
                                                          "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
                                                     },
-                                                    body: JSON.stringify({ idReteta: idReteta }),
+                                                    body: JSON.stringify(idReteta),
                                                 })
                                                 .then((response) => {
                                                     console.log("Cerere trimisă către server: /VizualizareRetete?handler=AddToCollection"); // Log pentru confirmare
@@ -235,18 +236,39 @@
                                                 })
                                                 .then((data) => {
                                                     if (data.success) {
+                                                                                 Swal.fire({
+                                            icon: 'success',
+                                            title: 'Succes!',
+                                            text: 'Rețeta a fost cu succes adăugată în colecția ta personală!',
+                                            confirmButtonText: 'OK'
+                                        });
                                                         icon.classList.remove("fa-heart-o");
                                                         icon.classList.add("fa-heart");
                                                     } else {
-                                                        alert(data.message || "A apărut o eroare la adăugarea rețetei.");
+                                                                                Swal.fire({
+                                            icon: 'error',
+                                            title: 'Eroare',
+                                            text: data.message || 'A apărut o eroare la adăugarea rețetei.',
+                                            confirmButtonText: 'OK'
+                                        });
                                                     }
                                                 })
                                                 .catch((error) => {
                                                     console.error("Eroare la adăugarea rețetei:", error);
-                                                    alert("A apărut o eroare la adăugarea rețetei. Detalii în consola browserului.");
+                                                                                Swal.fire({
+                                            icon: 'error',
+                                            title: 'Eroare',
+                                            text: 'A apărut o eroare la adăugarea rețetei. Detalii în consola browserului.',
+                                            confirmButtonText: 'OK'
+                                        });
                                                 });
                                             } else {
-                                                alert("Rețeta este deja în colecție.");
+                                                                                Swal.fire({
+                                            icon: 'info',
+                                            title: 'Notificare',
+                                            text: 'Rețeta este deja în colecție.',
+                                            confirmButtonText: 'OK'
+                                        });
                                             }
                                         }
                                     </script>

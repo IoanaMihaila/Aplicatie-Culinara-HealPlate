@@ -71,6 +71,8 @@
     <!-- Custom styles -->
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/responsive.css" rel="stylesheet" />
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -207,6 +209,7 @@
                                 <div class="text-center mt-3">
                                     <a href="/Login">Ai deja un cont? Login aici!</a>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -220,6 +223,51 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Pop-up script for email verification -->
+    <script src="~/js/site.js"></script>
+    @if (TempData["Message"] != null)
+    {
+        <script>
+            Swal.fire({
+                title: 'Verifică-ți emailul!',
+                text: '@TempData["Message"]',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                Swal.fire({
+                    title: 'Introdu codul de verificare',
+                    input: 'text',
+                    inputLabel: 'Codul tău de verificare',
+                    inputPlaceholder: 'Introdu codul primit pe email',
+                    showCancelButton: true,
+                    confirmButtonText: 'Verifica',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (verificationCode) => {
+                        return fetch('/Inregistrare?handler=VerificaCod', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                            },
+                            body: JSON.stringify({ verificationCode: verificationCode }),
+                        })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error('Codul de verificare este incorect.');
+                            }
+                            return response.json();
+                        })
+                        .then(responseJson => {
+                            window.location.href = "/Autentificare";
+                        })
+                        .catch(error => {
+                            Swal.showValidationMessage(`Eroare: ${error}`);
+                        });
+                    }
+                });
+            });
+        </script>
+    }
 </body>
 
 </html>

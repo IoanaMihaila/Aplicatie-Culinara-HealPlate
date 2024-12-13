@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
+using Aplicatie_Culinara_HealPlate.Models;
 
 namespace Aplicatie_Culinara_HealPlate.Pages
 {
@@ -34,9 +35,19 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
             // Verificare utilizator în baza de date
             var user = await _context.Utilizatoris
-                .FirstOrDefaultAsync(u => (u.Email == Credential || u.Username == Credential) && u.Parola == Parola);
+                .FirstOrDefaultAsync(u => u.Email == Credential || u.Username == Credential);
 
             if (user == null)
+            {
+                ModelState.AddModelError("Credential", "Email/username sau parola incorecta.");
+                return Page();
+            }
+
+            // Compară parola hash-uită cu parola introdusă
+            var passwordHasher = new PasswordHasher<Utilizatori>();
+            var result = passwordHasher.VerifyHashedPassword(user, user.Parola, Parola);
+
+            if (result == PasswordVerificationResult.Failed)
             {
                 ModelState.AddModelError("Credential", "Email/username sau parola incorecta.");
                 return Page();

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "A959zMb44jQgCEqzZJBnRSIqQgX4IhaJhGqgv322reE=",
+  "Hash": "NLJ8p5wz5dh7ySoo9yNSgrfxmKQK6FjNjFHJeDSLasc=",
   "Source": "Aplicatie Culinara HealPlate",
   "BasePath": "_content/Aplicatie Culinara HealPlate",
   "Mode": "Default",
@@ -1648,11 +1648,32 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "ie7qkef5et",
+      "Integrity": "BpxsTGrW0IXmO0YPat4GnXzK6SRsYK4H+w6KXNReBKk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\logo.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\logo1.jpg",
+      "SourceId": "Aplicatie Culinara HealPlate",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\",
+      "BasePath": "_content/Aplicatie Culinara HealPlate",
+      "RelativePath": "images/logo1#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
       "Fingerprint": "7kwd39qpz3",
       "Integrity": "6ZLOQ2LfEo3g7VWWRhRepIXWdPs3xVs30f6XT47CiUE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\logo.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\logo1.jpg"
     },
     {
       "Identity": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\nuts.jpg",
@@ -6699,8 +6720,90 @@
       ]
     },
     {
-      "Route": "images/logo.7kwd39qpz3.jpg",
+      "Route": "images/logo.ie7qkef5et.jpg",
       "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\logo.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "101490"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BpxsTGrW0IXmO0YPat4GnXzK6SRsYK4H+w6KXNReBKk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 13 Dec 2024 11:43:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ie7qkef5et"
+        },
+        {
+          "Name": "label",
+          "Value": "images/logo.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-BpxsTGrW0IXmO0YPat4GnXzK6SRsYK4H+w6KXNReBKk="
+        }
+      ]
+    },
+    {
+      "Route": "images/logo.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\logo.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "101490"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BpxsTGrW0IXmO0YPat4GnXzK6SRsYK4H+w6KXNReBKk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 13 Dec 2024 11:43:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-BpxsTGrW0IXmO0YPat4GnXzK6SRsYK4H+w6KXNReBKk="
+        }
+      ]
+    },
+    {
+      "Route": "images/logo1.7kwd39qpz3.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\logo1.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -6735,7 +6838,7 @@
         },
         {
           "Name": "label",
-          "Value": "images/logo.jpg"
+          "Value": "images/logo1.jpg"
         },
         {
           "Name": "integrity",
@@ -6744,8 +6847,8 @@
       ]
     },
     {
-      "Route": "images/logo.jpg",
-      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\logo.jpg",
+      "Route": "images/logo1.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\logo1.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
