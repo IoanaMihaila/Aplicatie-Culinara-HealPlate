@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Detalii Rețetă";
     var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    @Html.AntiForgeryToken()
 }
 
 <!DOCTYPE html>
@@ -83,6 +84,10 @@
                 @foreach (var ingredient in Model.Reteta.RetetaIngredientes)
                 {
                     <li>
+                        <button type="button" class="btn btn-sm btn-outline-secondary btn-plus"
+                                onclick="adaugaInCos(@ingredient.IdIngredient, @ingredient.Cantitate, '@ingredient.Unitate')">
+                            <i class="fa fa-plus"></i>
+                        </button>
                         @ingredient.IdIngredientNavigation.Nume - @ingredient.Cantitate @ingredient.Unitate
                         @if (ingredient.IdIngredientNavigation.IngredientAlergenis != null && ingredient.IdIngredientNavigation.IngredientAlergenis.Any())
                         {
@@ -110,6 +115,59 @@
                 }
             </ul>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function adaugaInCos(idIngredient, cantitate, unitate) {
+                 console.log("Parametri primiți:", { idIngredient, cantitate, unitate });
+                const data = {
+                    idIngredient: idIngredient,
+                    cantitate: cantitate,
+                    unitate: unitate
+                };
+
+                fetch('/Vizualizaredetalii?handler=AdaugaInCos', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Eroare de server: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Succes!',
+                            text: 'Ingredient adăugat în coșul de cumpărături!',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Eroare',
+                            text: data.message || 'A apărut o eroare la adăugarea ingredientului în coș.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Eroare la adăugarea ingredientului în coș:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eroare',
+                        text: 'A apărut o eroare la adăugarea ingredientului. Detalii în consola browserului.',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            }
+
+        </script>
         <!-- Mesaj de eroare dacă utilizatorul a lăsat deja o recenzie -->
         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
         {
@@ -227,5 +285,29 @@
             .review-buttons .btn:hover {
                 background-color: #fff;
             }
+
+    .btn-plus {
+        padding: 2px 6px; /* Dimensiuni mici pentru buton */
+        font-size: 0.8rem; /* Text mai mic */
+        border-radius: 50%; /* Formă rotundă */
+        display: inline-flex; /* Flexibil pentru centrul iconiței */
+        align-items: center;
+        justify-content: center;
+        height: 24px; /* Dimensiune fixă */
+        width: 24px; /* Dimensiune fixă */
+        background-color: transparent; /* Fundal transparent */
+        border: 1px solid #ccc; /* Border discret */
+        color: #6c757d; /* Culoare neutru închis */
+    }
+
+        .btn-plus:hover {
+            background-color: #f8f9fa; /* Fundal mai deschis la hover */
+            border-color: #aaa; /* Border mai închis la hover */
+            color: #000; /* Text mai vizibil */
+        }
+
+        .btn-plus i {
+            margin: 0; /* Asigură centrare perfectă pentru icon */
+        }
 </style>
 </html>

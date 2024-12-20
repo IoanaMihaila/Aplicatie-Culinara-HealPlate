@@ -16,6 +16,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             _context = context;
         }
         public List<Retete> Retete { get; set; } = new List<Retete>();
+        public string SearchQuery { get; set; }
         public Dictionary<int, bool> EsteInColectie { get; set; } = new();
         public List<string> Categorii { get; set; } = new List<string> { "Toate", "Mic dejun", "Prânz", "Cină", "Desert", "Gustare" };
         public string CategorieSelectata { get; set; } = "Toate";
@@ -77,16 +78,29 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             return new JsonResult(new { success = true });
         }
 
-        public void OnGet(string? categorie = null)
+        public void OnGet(string? categorie = null, string? searchQuery = null)
         {
             CategorieSelectata = categorie ?? "Toate";
 
             // Obține rețetele din baza de date
-            IQueryable<Retete> query = _context.Retetes;
+            IQueryable<Retete> query = _context.Retetes.Where(r => r.Aprobata == true);
 
             if (!string.IsNullOrEmpty(categorie) && categorie != "Toate")
             {
                 query = query.Where(r => r.Categorie == categorie);
+            }
+            // Filtrare după searchQuery (rețete sau ingrediente)
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                string searchLower = searchQuery.ToLower();
+                query = query.Where(r => r.Titlu.ToLower().Contains(searchLower) ||
+                 _context.RetetaIngredientes
+                     .Where(ri => ri.IdReteta == r.IdReteta)
+                     .Join(_context.Ingredientes,
+                           ri => ri.IdIngredient,
+                           i => i.IdIngredient,
+                           (ri, i) => i.Nume.ToLower()) // Transformă în litere mici
+                     .Any(numeIngredient => numeIngredient.Contains(searchLower))); // Comparare insensibilă la majuscule/minuscule
             }
 
             Retete = query.ToList();

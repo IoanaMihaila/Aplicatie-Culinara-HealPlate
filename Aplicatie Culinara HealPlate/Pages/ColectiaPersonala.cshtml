@@ -1,0 +1,267 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.ColectiaPersonalaModel
+@{
+    ViewData["Title"] = "Colectia Personală";
+    var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    var notificare = TempData["Notificare"];
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="images/favicon.png" type="">
+    <script src="~/js/site.js"></script>
+    <link href="~/css/Aplicatie_Culinara_HealPlate.styles.css" rel="stylesheet" />
+
+    <title>Colecția ta personală</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
+    <!-- Font Awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- Responsive CSS -->
+    <link href="css/responsive.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <ul class="navbar-nav ml-auto">
+                <!-- Adaugă ml-auto pentru aliniere la dreapta -->
+                @if (!string.IsNullOrEmpty(numeUtilizator))
+                {
+                    <!-- Afisare nume utilizator autentificat -->
+                    <li class="nav-item">
+                        <span class="navbar-text">
+                            <a href="" class="user_link">
+                                <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
+                            </a>
+                            Bun venit, @numeUtilizator!
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Autentificare">Logout</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5 d-flex justify-content-center">
+        <!-- Formular adăugare rețetă -->
+        <section id="adaugare-reteta" class="shadow-lg p-4 rounded" style="max-width: 600px; background-color: #f5f5dc; border: 1px solid #e0e0d1;">
+            <h2 class="text-center mb-4">Adaugă o nouă rețetă</h2>
+            <form method="post" enctype="multipart/form-data" action="">
+                <!-- Titlu -->
+                <div class="form-group mb-3">
+                    <label for="titlu" class="form-label">Titlu</label>
+                    <input type="text" id="titlu" name="Titlu" class="form-control" placeholder="Introduceți titlul rețetei" required />
+                </div>
+
+                <!-- Imagine Drag and Drop -->
+                <div class="form-group mb-3">
+                    <label for="imagine" class="form-label">Imagine</label>
+                    <div id="dropzone" class="border rounded d-flex align-items-center justify-content-center p-3" style="width: 200px; height: 200px; cursor: pointer; background-color: #fafaf0; margin: 0 auto;">
+                        <p id="dropzone-text" class="text-muted">Trageți și plasați imaginea aici sau faceți clic pentru a selecta</p>
+                        <input type="file" id="imagine" name="Imagine" class="d-none" accept="image/*" required />
+                        <!-- Zona unde va apărea imaginea -->
+                        <img id="image-preview" src="" alt="Imagine Previzualizare" style="max-width: 100%; max-height: 100%; display: none; object-fit: contain;" />
+                    </div>
+                </div>
+
+                <!-- Categorie -->
+                <div class="form-group mb-3">
+                    <label for="categorie" class="form-label">Categorie</label>
+                    <select id="categorie" name="Categorie" class="form-control" required>
+                        <option value="Mic Dejun">Mic Dejun</option>
+                        <option value="Prânz">Prânz</option>
+                        <option value="Cină">Cină</option>
+                        <option value="Gustare">Gustare</option>
+                        <option value="Desert">Desert</option>
+                    </select>
+                </div>
+
+                <!-- Ingrediente -->
+                <div class="form-group mb-3">
+                    <label class="form-label">Ingrediente</label>
+                    <div id="ingredient-container">
+                        <div class="input-group mb-2">
+                            <input type="text" name="Ingredient[]" class="form-control" placeholder="Nume ingredient" required />
+                            <input type="number" name="Cantitate[]" class="form-control" placeholder="Cantitate" required />
+                            <select name="Unitate[]" class="form-control" required>
+                                <option value="g">g</option>
+                                <option value="ml">ml</option>
+                                <option value="buc">buc</option>
+                            </select>
+                            <button type="button" class="btn btn-danger remove-ingredient">-</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success btn-sm mt-2" id="add-ingredient">Adaugă Ingredient</button>
+                </div>
+
+                <!-- Descriere -->
+                <div class="form-group mb-3">
+                    <label for="descriere" class="form-label">Scurtă Descriere</label>
+                    <textarea id="descriere" name="Descriere" class="form-control" rows="3" placeholder="Descrieți rețeta în câteva cuvinte..." required></textarea>
+                </div>
+
+                <!-- Mod de Preparare -->
+                <div class="form-group mb-3">
+                    <label for="modPreparare" class="form-label">Mod de Preparare</label>
+                    <textarea id="modPreparare" name="ModDePreparare" class="form-control" rows="4" placeholder="Explicați pașii de preparare" required></textarea>
+                </div>
+
+                <!-- Timp Preparare -->
+                <div class="form-group mb-4">
+                    <label for="timpPreparare" class="form-label">Timp de Preparare (minute)</label>
+                    <input type="number" id="timpPreparare" name="TimpPreparare" class="form-control" placeholder="Ex: 30" required />
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary w-100">Adaugă Rețeta</button>
+            </form>
+        </section>
+    </div>
+    <script>
+          // Drag and Drop pentru imagine
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('imagine');
+        const imagePreview = document.getElementById('image-preview');
+
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '#eae6d6';
+        });
+
+        dropzone.addEventListener('dragleave', () => dropzone.style.backgroundColor = '#fafaf0');
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '#fafaf0';
+            fileInput.files = e.dataTransfer.files;
+            displayImage(fileInput.files[0]);
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                displayImage(fileInput.files[0]);
+            }
+        });
+
+            // Funcție pentru a afișa imaginea și a ascunde textul
+        function displayImage(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block'; // Afișează imaginea
+                dropzoneText.style.display = 'none'; // Ascunde textul
+            };
+            reader.readAsDataURL(file);
+        }
+        // Adăugare ingredient
+        document.getElementById('add-ingredient').addEventListener('click', () => {
+            const container = document.getElementById('ingredient-container');
+            const newIngredient = document.createElement('div');
+            newIngredient.classList.add('input-group', 'mb-2');
+            newIngredient.innerHTML = `
+                <input type="text" name="Ingredient[]" class="form-control" placeholder="Nume ingredient" required />
+                <input type="number" name="Cantitate[]" class="form-control" placeholder="Cantitate" required />
+                <select name="Unitate[]" class="form-control" required>
+                    <option value="g">g</option>
+                    <option value="ml">ml</option>
+                    <option value="buc">buc</option>
+                </select>
+                <button type="button" class="btn btn-danger remove-ingredient">-</button>
+            `;
+            container.appendChild(newIngredient);
+        });
+
+        // Ștergere ingredient
+        document.getElementById('ingredient-container').addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-ingredient')) {
+                e.target.closest('.input-group').remove();
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (notificare != null)
+    {
+        <script>
+            Swal.fire({
+            icon: 'success',
+            title: 'Succes',
+            text: '@notificare',
+            confirmButtonText: 'Înțeleg'
+            });
+        </script>
+    }
+        <!-- Afișare rețete -->
+        <section class="food_section layout_padding">
+            <div class="container">
+                <div class="heading_container heading_center">
+                    <h2>
+                        Colecția ta personală
+                    </h2>
+                </div>
+                <div class="row grid">
+                @if (Model.Retete.Any())
+                {
+                    @foreach (var reteta in Model.Retete)
+                    {
+                            <div class="col-sm-6 col-lg-4 all @reteta.Categorie.ToLower()">
+                                <div class="box">
+                                    <div class="img-box">
+                                        <img src="@Url.Content(reteta.Imagine)" alt="@reteta.Titlu" />
+                                    </div>
+                                    <div class="detail-box">
+                                        <h5>@reteta.Titlu</h5>
+                                        <p>@reteta.Descriere</p>
+                                        <p>@reteta.Categorie</p>
+                                        <p>@(reteta.Aprobata ? "Aprobata" : "Asteapta aprobare")</p>
+                                     <div class="options">
+                                        <button class="btn btn-detalii" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                        <p style="text-align: center;">Nu ai încă rețete salvate sau adăugate în colecția ta.</p>
+                }
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+<style>
+    .btn-detalii {
+        background-color: #8B4513; /* Maro */
+        color: white; /* Text alb */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+        .btn-detalii:hover {
+            background-color: #6A3C27; /* Maro mai închis la hover */
+        }
+</style>

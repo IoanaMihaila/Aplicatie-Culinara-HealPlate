@@ -1,0 +1,98 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.CosCumparaturiModel
+
+@{
+    ViewData["Title"] = "Coșul de Cumpărături";
+    var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+}
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Rețete Culinare</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <!-- Custom CSS for additional styling -->
+    <link href="~/css/style.css" rel="stylesheet" />
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <ul class="navbar-nav ms-auto">
+            <!-- Adaugă ml-auto pentru aliniere la dreapta -->
+            @if (!string.IsNullOrEmpty(numeUtilizator))
+            {
+                <!-- Afisare nume utilizator autentificat -->
+                <li class="nav-item">
+                    <span class="navbar-text">
+                        <a href="" class="user_link">
+                            <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
+                        </a>
+                        Bun venit, @numeUtilizator!
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Autentificare"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Coșul de Cumpărături</h1>
+
+        <!-- Verifică dacă coșul este gol -->
+        @if (Model.CosCumparaturi?.CosIngredientes?.Any() == true)
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover shadow-sm">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>Cantitate</th>
+                            <th>Unitate</th>
+                            <th>Acțiune</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cosIngrediente in Model.CosCumparaturi.CosIngredientes)
+                        {
+                            <tr>
+                                <td>@cosIngrediente.IdIngredientNavigation.Nume</td>
+                                <td>@cosIngrediente.Cantitate</td>
+                                <td>@cosIngrediente.Unitate</td>
+                                <td>
+                                    <!-- Buton pentru eliminarea unui produs din coș -->
+                                    <form method="post" asp-page-handler="EliminaDinCos" asp-route-id="@cosIngrediente.IdIngredient">
+                                        <button type="submit" class="btn btn-danger btn-sm">Elimină</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Totalul coșului -->
+            <div class="d-flex justify-content-between mt-4">
+                <a href="/Checkout" class="btn btn-success btn-lg">Finalizează Comanda <i class="fas fa-check-circle"></i></a>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning text-center mt-4" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i> Coșul tău este gol.
+            </div>
+        }
+    </div>
+
+    <!-- Optional: Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -3535,6 +3535,88 @@
       ]
     },
     {
+      "Route": "images/granola_iaurt.e13lpearil.jpg",
+      "AssetFile": "images/granola_iaurt.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "169103"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 19 Dec 2024 12:59:18 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "e13lpearil"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc="
+        },
+        {
+          "Name": "label",
+          "Value": "images/granola_iaurt.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/granola_iaurt.jpg",
+      "AssetFile": "images/granola_iaurt.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "169103"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 19 Dec 2024 12:59:18 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc="
+        }
+      ]
+    },
+    {
       "Route": "images/lactoza.3a06t1ajay.jpg",
       "AssetFile": "images/lactoza.jpg",
       "Selectors": [],
@@ -3781,6 +3863,88 @@
       ]
     },
     {
+      "Route": "images/logo2.jpg",
+      "AssetFile": "images/logo2.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "78099"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bSWGuprPo8UjHc9lIuNH/WF4UdCfPRZC5ir5PcJEa/A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 19 Dec 2024 13:45:14 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-bSWGuprPo8UjHc9lIuNH/WF4UdCfPRZC5ir5PcJEa/A="
+        }
+      ]
+    },
+    {
+      "Route": "images/logo2.p9l3ng6e2u.jpg",
+      "AssetFile": "images/logo2.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "78099"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"bSWGuprPo8UjHc9lIuNH/WF4UdCfPRZC5ir5PcJEa/A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 19 Dec 2024 13:45:14 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "p9l3ng6e2u"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-bSWGuprPo8UjHc9lIuNH/WF4UdCfPRZC5ir5PcJEa/A="
+        },
+        {
+          "Name": "label",
+          "Value": "images/logo2.jpg"
+        }
+      ]
+    },
+    {
       "Route": "images/nuts.jpg",
       "AssetFile": "images/nuts.jpg",
       "Selectors": [],
@@ -4023,6 +4187,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-Umw9DU9w5wUtAWwFYBUVz1kWEBxsSKWwKKGhj8D3wcg="
+        }
+      ]
+    },
+    {
+      "Route": "images/somon_bowl.jpg",
+      "AssetFile": "images/somon_bowl.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "235114"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 19 Dec 2024 13:11:24 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-5ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY="
+        }
+      ]
+    },
+    {
+      "Route": "images/somon_bowl.pbk4ci8b1t.jpg",
+      "AssetFile": "images/somon_bowl.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "235114"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"5ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 19 Dec 2024 13:11:24 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pbk4ci8b1t"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-5ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY="
+        },
+        {
+          "Name": "label",
+          "Value": "images/somon_bowl.jpg"
         }
       ]
     },

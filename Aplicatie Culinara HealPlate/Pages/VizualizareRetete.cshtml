@@ -61,7 +61,7 @@
         </ul>
     </div>
 </nav>
-
+<body>
 <section class="food_section layout_padding">
     <div class="container">
         <div class="heading_container heading_center">
@@ -80,6 +80,14 @@
                 </li>
             }
         </ul>
+            <div style="display: flex; justify-content: center; align-items: center; height:5vh;">
+                <form method="get" class="form-inline" style="margin-bottom: 20px;">
+                    <input type="text" name="searchQuery" class="form-control" placeholder="Caută rețete sau ingrediente..." style="width: 300px; margin-right: 10px;">
+                    <button class="btn my-2 my-sm-0 nav_search-btn" type="submit">
+                        <i class="fa fa-search" aria-hidden="true" style="color: #000000;"></i>
+                    </button>
+                </form>
+            </div>
 
         <!-- Rețete -->
         <div class="filters-content">
@@ -223,6 +231,7 @@
         </div>
     </div>
 </section>
+</body>
 </html>
 <style>
     .btn-detalii {

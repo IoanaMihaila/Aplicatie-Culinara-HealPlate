@@ -12,13 +12,16 @@ wwwroot\images\cofeina.jpg
 wwwroot\images\crustacee.jpg
 wwwroot\images\fish.jpg
 wwwroot\images\gluten.jpg
+wwwroot\images\granola_iaurt.jpg
 wwwroot\images\lactoza.jpg
 wwwroot\images\logo.jpg
 wwwroot\images\logo1.jpg
+wwwroot\images\logo2.jpg
 wwwroot\images\nuts.jpg
 wwwroot\images\oua.jpg
 wwwroot\images\porumb.jpg
 wwwroot\images\SalataGreceasca.jpg
+wwwroot\images\somon_bowl.jpg
 wwwroot\images\soya.jpg
 wwwroot\images\sugar.jpg
 wwwroot\images\usturoi.jpg

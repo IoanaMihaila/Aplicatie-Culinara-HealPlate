@@ -175,5 +175,71 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
             return RedirectToPage("./VizualizareDetalii", new { id = recenzie.IdReteta });
         }
+        public async Task<IActionResult> OnPostAdaugaInCosAsync([FromBody] AdaugaInCosRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new { success = false, message = "Cererea este invalidă." });
+            }
+
+            var userId = HttpContext.Session.GetInt32("IdUtilizator");
+            if (userId == null)
+            {
+                return BadRequest(new { success = false, message = "Utilizatorul nu este autentificat." });
+            }
+
+            var utilizator = await _context.Utilizatoris.FirstOrDefaultAsync(u => u.IdUtilizator == userId);
+            if (utilizator == null)
+            {
+                return BadRequest(new { success = false, message = "Utilizatorul nu a fost găsit." });
+            }
+
+            var cos = await _context.CosuriDeCumparaturis
+                .FirstOrDefaultAsync(c => c.IdUtilizator == userId);
+
+            // Dacă cosul nu există, îl creăm
+            if (cos == null)
+            {
+                cos = new CosuriDeCumparaturi
+                {
+                    IdUtilizator = utilizator.IdUtilizator,
+                    DataCreare = DateOnly.FromDateTime(DateTime.Now)
+                };
+                _context.CosuriDeCumparaturis.Add(cos);
+                await _context.SaveChangesAsync(); // Salvează pentru a genera ID-ul coșului
+            }
+
+            // Verificăm dacă ingredientul există deja în coș
+            var cosIngredientExistent = await _context.CosIngredientes
+                .FirstOrDefaultAsync(ci => ci.IdCos == cos.IdCos && ci.IdIngredient == request.IdIngredient);
+
+            if (cosIngredientExistent != null)
+            {
+                // Ingredientul există deja în coș, returnăm un mesaj
+                return new JsonResult(new { success = false, message = "Ingredientul există deja în coș!" });
+            }
+
+            // Adăugăm ingredientul în coș
+            var cosIngredient = new CosIngrediente
+            {
+                IdCos = cos.IdCos,
+                IdIngredient = request.IdIngredient,
+                Cantitate = ((decimal)request.Cantitate),
+                Unitate = request.Unitate
+            };
+
+            _context.CosIngredientes.Add(cosIngredient);
+            await _context.SaveChangesAsync();
+
+            return new JsonResult(new { success = true, message = "Ingredient adăugat în coș!" });
+        }
+
+        // Clasa pentru Request Body
+        public class AdaugaInCosRequest
+        {
+            public int IdIngredient { get; set; }
+            public double Cantitate { get; set; }
+            public string Unitate { get; set; }
+        }
     }
 }

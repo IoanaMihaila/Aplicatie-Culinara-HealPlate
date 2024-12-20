@@ -20,6 +20,8 @@ public partial class Retete
     public string ModDePreparare { get; set; } = null!;
     [BindProperty]
     public int TimpPreparare { get; set; }
+    [BindProperty]
+    public bool Aprobata { get; set; } = false;
 
     public virtual ICollection<ColectiePersonalaRetete> ColectiePersonalaRetetes { get; set; } = new List<ColectiePersonalaRetete>();
     [BindProperty]
