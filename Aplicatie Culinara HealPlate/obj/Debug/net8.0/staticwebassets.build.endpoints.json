@@ -9519,6 +9519,88 @@
           "Value": "sha256-OZVI+w57FGwS9boYCZpH1ZSpcP7pYhLu4KtIUvPlZ4I="
         }
       ]
+    },
+    {
+      "Route": "uploads/1-eticheta.jpg",
+      "AssetFile": "uploads/1-eticheta.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "40210"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD+8TF0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 23 Dec 2024 22:43:00 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD+8TF0="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/1-eticheta.qnkdy9ka1l.jpg",
+      "AssetFile": "uploads/1-eticheta.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "40210"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD+8TF0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 23 Dec 2024 22:43:00 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "qnkdy9ka1l"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD+8TF0="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/1-eticheta.jpg"
+        }
+      ]
     }
   ]
 }

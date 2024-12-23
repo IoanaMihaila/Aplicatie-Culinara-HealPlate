@@ -20,6 +20,95 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
     <!-- Custom CSS for additional styling -->
     <link href="~/css/style.css" rel="stylesheet" />
+    <style>
+        /* Stilizare personalizată pentru buton */
+        button.btn-custom {
+            background-color: #ffc107; /* Verde aprins */
+            color: #343a40; /* Text alb */
+            border: none; /* Fără bordură */
+            border-radius: 20px; /* Colțuri rotunjite */
+            padding: 10px 22px; /* Spațiu intern mai mare */
+            font-size: 14px; /* Mărimea textului */
+            font-weight: bold; /* Text îngroșat */
+            text-align: center; /* Centrat pe verticală și orizontală */
+            text-transform: uppercase; /* Text în majuscule */
+            cursor: pointer; /* Butonul devine pointer când este pus pe el */
+            transition: background-color 0.3s, transform 0.2s; /* Tranziție pentru efecte */
+        }
+
+            button.btn-custom:hover {
+                transform: scale(1.05); /* Mică mărire a dimensiunii */
+            }
+
+            button.btn-custom:focus {
+                outline: none; /* Elimină outline-ul implicit */
+            }
+
+            button.btn-custom:active {
+                transform: scale(1); /* Revenire la dimensiunea inițială */
+            }
+
+        button {
+            border-radius: 5px;
+        }
+
+            button:focus {
+                outline: 1px dotted;
+                outline: 5px auto -webkit-focus-ring-color;
+            }
+
+        .review {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .review-content {
+            flex: 1;
+        }
+
+        .review-buttons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px; /* Distanța între butoane */
+        }
+
+            .review-buttons .btn {
+                background-color: #fff;
+                color: #6c757d;
+                border: 1px solid #6c757d;
+            }
+
+                .review-buttons .btn:hover {
+                    background-color: #fff;
+                }
+
+        .btn-plus {
+            padding: 2px 6px; /* Dimensiuni mici pentru buton */
+            font-size: 0.8rem; /* Text mai mic */
+            border-radius: 50%; /* Formă rotundă */
+            display: inline-flex; /* Flexibil pentru centrul iconiței */
+            align-items: center;
+            justify-content: center;
+            height: 24px; /* Dimensiune fixă */
+            width: 24px; /* Dimensiune fixă */
+            background-color: transparent; /* Fundal transparent */
+            border: 1px solid #ccc; /* Border discret */
+            color: #6c757d; /* Culoare neutru închis */
+        }
+
+            .btn-plus:hover {
+                background-color: #f8f9fa; /* Fundal mai deschis la hover */
+                border-color: #aaa; /* Border mai închis la hover */
+                color: #000; /* Text mai vizibil */
+            }
+
+            .btn-plus i {
+                margin: 0; /* Asigură centrare perfectă pentru icon */
+            }
+    </style>
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -57,7 +146,7 @@
                             <th>Ingredient</th>
                             <th>Cantitate</th>
                             <th>Unitate</th>
-                            <th>Acțiune</th>
+                            <th>Actiune</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,10 +157,12 @@
                                 <td>@cosIngrediente.Cantitate</td>
                                 <td>@cosIngrediente.Unitate</td>
                                 <td>
+                                   <!-- <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5"> -->
                                     <!-- Buton pentru eliminarea unui produs din coș -->
                                     <form method="post" asp-page-handler="EliminaDinCos" asp-route-id="@cosIngrediente.IdIngredient">
-                                        <button type="submit" class="btn btn-danger btn-sm">Elimină</button>
+                                        <button type="submit" class="btn btn-custom mb-3">Elimină</button>
                                     </form>
+                                    <!-- </div>-->
                                 </td>
                             </tr>
                         }
@@ -79,10 +170,10 @@
                 </table>
             </div>
 
-            <!-- Totalul coșului -->
+            <!-- Totalul coșului
             <div class="d-flex justify-content-between mt-4">
                 <a href="/Checkout" class="btn btn-success btn-lg">Finalizează Comanda <i class="fas fa-check-circle"></i></a>
-            </div>
+            </div>-->
         }
         else
         {
@@ -91,7 +182,91 @@
             </div>
         }
     </div>
+    <div class="container mt-5 d-flex justify-content-center">
+        <section id="verifica-eticheta" class="shadow-lg p-4 rounded" style="max-width: 600px; background-color: #f5f5dc; border: 1px solid #e0e0d1;">
+            <h2 class="text-center mb-4">Verifică Eticheta</h2>
+            <form method="post" enctype="multipart/form-data" asp-page-handler="UploadImage">
+            <!-- Zona Drag and Drop -->
+            <div class="form-group mb-3">
+                    <!-- <label for="imagine" class="form-label h5 text-dark font-weight-bold">Verifică Eticheta!</label> -->
+                    <div id="dropzone" class="border rounded d-flex align-items-center justify-content-center p-3" style="width: 400px; height: 400px; cursor: pointer; background-color: #fafaf0; margin: 0 auto;">
+                    <p id="dropzone-text" class="text-muted">Inserați eticheta pentru verificare</p>
+                    <input type="file" id="imagine" name="image" class="d-none" accept="image/*" required />
+                    <img id="image-preview" src="" alt="Imagine Previzualizare" style="max-width: 200%; max-height: 200%; display: none; object-fit: contain;" />
+                </div>
+            </div>
+                <button type="submit" class="btn btn-custom mt-3">Scanează Eticheta</button>
+            </form>
+            <!-- Afișarea rezultatului scanării -->
+            @if (ViewData["ScanResult"] != null)
+            {
+                <div class="alert alert-info mt-3">
+                    @ViewData["ScanResult"]
+                </div>
+            }
+        </section>
+    </div>
 
+
+    <script>
+        // Drag and Drop pentru imagine
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('imagine');
+        const imagePreview = document.getElementById('image-preview');
+        const dropzoneText = document.getElementById('dropzone-text');
+
+        // Click pe zona pentru a deschide selectorul de fișiere
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        // Eveniment Drag Over
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '#eae6d6';
+        });
+
+        // Eveniment Drag Leave
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.style.backgroundColor = '#fafaf0';
+        });
+
+        // Eveniment Drop
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '#fafaf0';
+            fileInput.files = e.dataTransfer.files;
+            if (fileInput.files.length > 0) {
+                displayImage(fileInput.files[0]);
+            }
+        });
+
+        // Când se selectează o imagine din selectorul de fișiere
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                displayImage(fileInput.files[0]);
+            }
+        });
+
+        // Funcție pentru a afișa imaginea selectată
+        function displayImage(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block'; // Afișează imaginea
+                dropzoneText.style.display = 'none'; // Ascunde textul
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Trimiterea imaginii prin formular la apăsarea butonului
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            // Validare pentru a verifica dacă există un fișier selectat
+            if (fileInput.files.length === 0) {
+                e.preventDefault(); // Prevenim trimiterea formularului
+                //alert('Vă rugăm să încărcați o imagine înainte de a continua.');
+            }
+        });
+    </script>
     <!-- Optional: Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

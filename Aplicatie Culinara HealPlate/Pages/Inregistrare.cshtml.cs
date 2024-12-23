@@ -50,57 +50,6 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         {
         }
 
-        /* public async Task<IActionResult> OnPostAsync()
-         {
-             if (string.IsNullOrWhiteSpace(Email) || !Email.Contains("@"))
-             {
-                 ModelState.AddModelError("Email", "Email-ul introdus nu este valid.");
-             }
-             if (!ModelState.IsValid)
-             {
-                 return Page();
-             }
-
-             // 1. Crearea unui utilizator nou
-             var utilizator = new Utilizatori
-             {
-                 Nume = Nume,
-                 Prenume = Prenume,
-                 Email = Email,
-                 Username = Username,
-                 Parola = Parola
-             };
-
-             // Adăugare utilizator în tabel
-             _context.Utilizatoris.Add(utilizator);
-             await _context.SaveChangesAsync();
-
-             // 2. Adăugarea alergenilor selectați
-             if (Restrictii.Any())
-             {
-                 foreach (var restrictie in Restrictii)
-                 {
-                     // Obține ID-ul alergenului după denumire (presupunem că tabelul Alergeni conține date preexistente)
-                     var alergen = _context.Alergenis.FirstOrDefault(a => a.NumeAlergen == restrictie);
-                     if (alergen != null)
-                     {
-                         var utilizatorAlergen = new UtilizatorAlergeni
-                         {
-                             IdUtilizator = utilizator.IdUtilizator,
-                             IdAlergen = alergen.IdAlergen
-                         };
-
-                         _context.UtilizatorAlergenis.Add(utilizatorAlergen);
-                     }
-                 }
-
-                 await _context.SaveChangesAsync();
-             }
-
-             HttpContext.Session.SetString("NumeUtilizator", utilizator.Nume + " " + utilizator.Prenume);
-
-             return RedirectToPage("/VizualizareRetete");
-         }*/
         public async Task<IActionResult> OnPostAsync()
         {
             if (string.IsNullOrWhiteSpace(Email) || !Email.Contains("@"))
@@ -129,6 +78,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             HttpContext.Session.SetString("PendingNume", Nume);
             HttpContext.Session.SetString("PendingPrenume", Prenume);
             HttpContext.Session.SetString("PendingParola", Parola);
+            HttpContext.Session.SetString("PendingRestrictii", string.Join(",", Restrictii));
 
             // 3. Trimiterea emailului cu codul de verificare
             var subject = "Cod de verificare pentru HealPlate";
@@ -164,6 +114,26 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
                 _context.Utilizatoris.Add(utilizator);
                 await _context.SaveChangesAsync();
+
+                var restrictii = HttpContext.Session.GetString("PendingRestrictii")?.Split(',').ToList();
+                if (restrictii != null && restrictii.Any())
+                {
+                    foreach (var restrictie in restrictii)
+                    {
+                        Console.WriteLine($"Adăugarea alergenului: {restrictie}");
+                        var alergen = _context.Alergenis.FirstOrDefault(a => a.NumeAlergen == restrictie);
+                        if (alergen != null)
+                        {
+                            var utilizatorAlergen = new UtilizatorAlergeni
+                            {
+                                IdUtilizator = utilizator.IdUtilizator,
+                                IdAlergen = alergen.IdAlergen
+                            };
+                            _context.UtilizatorAlergenis.Add(utilizatorAlergen);
+                        }
+                    }
+                    await _context.SaveChangesAsync();
+                }
 
                 // Poți adăuga un mesaj de succes sau redirecționezi utilizatorul
                 return new JsonResult(new { success = true });
