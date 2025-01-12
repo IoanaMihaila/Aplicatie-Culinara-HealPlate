@@ -170,14 +170,40 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                     IdReteta = reteta.IdReteta
                 };
                 _context.ColectiePersonalaRetetes.Add(colectiePersonalaReteta);
-                await _context.SaveChangesAsync();
 
-                // Setează notificarea pentru utilizator (mesajul va fi afișat pe următoarea pagină)
+                // 6. Obținem ID-ul adminului din baza de date
+                var admin = await _context.Utilizatoris
+                    .FirstOrDefaultAsync(u => u.Rol == "Admin"); // Verificăm dacă există un utilizator cu rolul 'Admin'
+
+                // 7. Dacă există un admin, creăm notificarea
+                if (admin != null)
+                {
+                    var notificareAdmin = new Notificari
+                    {
+                        Mesaj = $"Utilizatorul {utilizator.Nume} a adaugat o reteta noua care asteapta aprobare.",
+                        DataCreare = DateTime.Now, // Setăm data curentă ca fiind data creării notificării
+                        IdAdmin = admin.IdUtilizator, // Setăm ID-ul adminului
+                        IdReteta = reteta.IdReteta, // Setăm ID-ul rețetei adăugate
+                        Vizualizat = false // Presupunem că notificarea nu a fost vizualizată inițial
+                    };
+
+                    _context.Notificaris.Add(notificareAdmin);
+                    await _context.SaveChangesAsync(); // Salvăm notificarea în baza de date
+                }
+                else
+                {
+                    // Dacă nu există admin, logăm un mesaj de eroare sau opțional notificăm utilizatorul
+                    // Logăm eroarea
+                    Console.WriteLine("Nu există un administrator în baza de date.");
+                }
+
+                // 8. Setează notificarea pentru utilizator (mesajul va fi afișat pe următoarea pagină)
                 TempData["Notificare"] = "Reteta a fost adaugata cu succes! Asteapta aprobare.";
 
                 return RedirectToPage(); // Răspunsul la submit este tot pe aceeași pagină
             }
             return Page(); // Dacă există erori, revenim pe pagina curentă
         }
+
     }
 }

@@ -1,0 +1,23 @@
+﻿@using Aplicatie_Culinara_HealPlate.Models
+@model List<Notificari>
+
+<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationButton" style="min-width: 300px;">
+    <li><h6 class="dropdown-header">Notificări</h6></li>
+    @if (Model.Any())
+    {
+        @foreach (var notificare in Model)
+        {
+            <li>
+                <a class="dropdown-item" href="/VizualizareDetalii?id=@notificare.IdReteta">
+                    @notificare.Mesaj
+                </a>
+            </li>
+        }
+    }
+    else
+    {
+        <li><span class="dropdown-item">Nu există notificări noi</span></li>
+    }
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item text-center" href="#">Vezi toate notificările</a></li>
+</ul>

@@ -25,5 +25,20 @@ namespace Aplicatie_Culinara_HealPlate.Services
 
             return reteta;
         }
+        public async Task<bool> ApprovePost1Async(int idReteta)
+        {
+            var reteta = await _context.Retetes.FindAsync(idReteta);
+
+            if (reteta == null)
+            {
+                return false; // Rețeta nu a fost găsită
+            }
+
+            reteta.Aprobata = true;
+            _context.Retetes.Update(reteta);
+            var result = await _context.SaveChangesAsync();
+
+            return result > 0; // Dacă modificarea a avut succes
+        }
     }
 }

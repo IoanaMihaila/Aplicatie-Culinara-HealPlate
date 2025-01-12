@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Vizualizare Rețete";
     var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    var rolUtilizator = HttpContext.Session.GetString("Rol");
     @Html.AntiForgeryToken()
 }
 

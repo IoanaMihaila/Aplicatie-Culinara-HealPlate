@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Detalii Rețetă";
     var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    var rolUtilizator = HttpContext.Session.GetString("Rol");
     @Html.AntiForgeryToken()
 }
 
@@ -63,6 +64,15 @@
 
 <body>
     <div class="container">
+        @if (rolUtilizator == "Admin")
+        {
+            <form id="approveForm" method="post" onsubmit="approveRecipe(@Model.Reteta.IdReteta); return false;">
+                <input type="hidden" name="IdReteta" value="@Model.Reteta.IdReteta" />
+                <button type="submit" class="btn btn-approve">
+                    Aproba postarea
+                </button>
+            </form>
+        }
         <h2>@Model.Reteta.Titlu</h2>
         <div class="row">
             <div class="col-md-6">
@@ -166,7 +176,53 @@
                     });
                 });
             }
-
+        </script>
+        <script>
+            // Funcția pentru aprobare postare
+            function approveRecipe(idReteta) {
+                fetch('/VizualizareDetalii?handler=ApprovePost', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ IdReteta: idReteta }),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Eroare de server: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Succes!',
+                            text: 'Rețeta a fost aprobată cu succes!',
+                            confirmButtonText: 'OK'
+                        });
+                        // Poți actualiza interfața pentru a reflecta aprobarea (de exemplu, ascunderea butonului)
+                        document.getElementById("approveForm").style.display = "none"; // Ascunde formularul după aprobare
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Eroare',
+                            text: data.message || 'A apărut o eroare la aprobarea rețetei.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Eroare la aprobare:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eroare',
+                        text: 'A apărut o eroare de server.',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            }
         </script>
         <!-- Mesaj de eroare dacă utilizatorul a lăsat deja o recenzie -->
         @if (!string.IsNullOrEmpty(Model.ErrorMessage))

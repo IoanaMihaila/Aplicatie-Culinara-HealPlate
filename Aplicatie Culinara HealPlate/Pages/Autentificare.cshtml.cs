@@ -54,6 +54,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             }
             HttpContext.Session.SetString("NumeUtilizator",user.Nume+" "+user.Prenume);
             HttpContext.Session.SetInt32("IdUtilizator", user.IdUtilizator);
+            HttpContext.Session.SetString("Rol", user.Rol);
             // Redirecționare în caz de succes
             return RedirectToPage("/VizualizareRetete");
         }

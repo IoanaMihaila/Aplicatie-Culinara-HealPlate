@@ -233,8 +233,41 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
             return new JsonResult(new { success = true, message = "Ingredient adăugat în coș!" });
         }
+        public async Task<IActionResult> OnPostApprovePostAsync([FromBody] PostApproveRequest request)
+        {
+            Console.WriteLine("Am intrat în metoda OnPostApprovePostAsync"); // Log inițial
+            if (request == null)
+            {
+                Console.WriteLine("Request-ul primit este null.");
+                return new JsonResult(new { success = false, message = "Datele trimise sunt invalide." });
+            }
 
+            Console.WriteLine($"ID rețetă primit: {request.IdReteta}");
+
+            try
+            {
+                var success = await _retetaService.ApprovePost1Async(request.IdReteta);
+
+                if (success)
+                {
+                    return new JsonResult(new { success = true });
+                }
+                else
+                {
+                    return new JsonResult(new { success = false, message = "Rețeta nu a putut fi aprobată." });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Eroare în procesarea cererii: {ex.Message}");
+                return new JsonResult(new { success = false, message = "A apărut o eroare internă." });
+            }
+        }
         // Clasa pentru Request Body
+        public class PostApproveRequest
+        {
+            public int IdReteta { get; set; }
+        }
         public class AdaugaInCosRequest
         {
             public int IdIngredient { get; set; }
