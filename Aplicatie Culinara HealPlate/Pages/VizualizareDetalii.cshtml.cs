@@ -250,6 +250,40 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
                 if (success)
                 {
+                    // Obținem rețeta aprobată
+                    var reteta = await _context.Retetes
+                        .FirstOrDefaultAsync(r => r.IdReteta == request.IdReteta);
+
+                    if (reteta != null)
+                    {
+                        // Extragem utilizatorul care a adăugat rețeta
+                        var colectiePersonalaReteta = await _context.ColectiePersonalaRetetes
+                            .Include(cpr => cpr.IdColectieNavigation) // Include navigarea către ColectiePersonala
+                            .FirstOrDefaultAsync(cpr => cpr.IdReteta == reteta.IdReteta);
+                        if (colectiePersonalaReteta?.IdColectieNavigation == null)
+                        {
+                            Console.WriteLine("Navigarea către ColectiePersonala nu a fost găsită.");
+                            return new JsonResult(new { success = false, message = "Datele asociate rețetei nu au fost găsite." });
+                        }
+                        if (colectiePersonalaReteta != null)
+                        {
+                            var utilizatorId = colectiePersonalaReteta.IdColectieNavigation.IdUtilizator;
+
+                            // Creăm notificarea pentru utilizator
+                            var notificareUtilizator = new Notificari
+                            {
+                                Mesaj = $"Adminul a aprobat rețeta ta: {reteta.Titlu}.",
+                                DataCreare = DateTime.Now,
+                                IdUtilizator = utilizatorId,
+                                IdReteta = reteta.IdReteta,
+                                Vizualizat = false
+                            };
+
+                            _context.Notificaris.Add(notificareUtilizator);
+                            await _context.SaveChangesAsync(); // Salvăm notificarea în baza de date
+                        }
+                    }
+
                     return new JsonResult(new { success = true });
                 }
                 else
@@ -263,6 +297,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 return new JsonResult(new { success = false, message = "A apărut o eroare internă." });
             }
         }
+
         // Clasa pentru Request Body
         public class PostApproveRequest
         {

@@ -182,7 +182,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                     {
                         Mesaj = $"Utilizatorul {utilizator.Nume} a adaugat o reteta noua care asteapta aprobare.",
                         DataCreare = DateTime.Now, // Setăm data curentă ca fiind data creării notificării
-                        IdAdmin = admin.IdUtilizator, // Setăm ID-ul adminului
+                        IdUtilizator = admin.IdUtilizator, // Setăm ID-ul adminului
                         IdReteta = reteta.IdReteta, // Setăm ID-ul rețetei adăugate
                         Vizualizat = false // Presupunem că notificarea nu a fost vizualizată inițial
                     };

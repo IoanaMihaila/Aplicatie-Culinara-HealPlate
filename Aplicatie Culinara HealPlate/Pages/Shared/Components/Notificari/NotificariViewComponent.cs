@@ -18,9 +18,9 @@ public class NotificariViewComponent : ViewComponent
         if (userId != null)
         {
             var notificari = _context.Notificaris
-                .Where(n => n.IdAdmin == userId && n.Vizualizat == false)
+                .Where(n => n.IdUtilizator == userId && n.Vizualizat == false)
             .ToList();
-
+            
             return View(notificari);
         }
 

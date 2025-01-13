@@ -256,7 +256,7 @@ public partial class HealPlateDbContext : DbContext
 
         modelBuilder.Entity<Notificari>(entity =>
         {
-            entity.HasKey(e => e.IdNotificare).HasName("PK__Notifica__03EEEB10DAF9A3F4");
+            entity.HasKey(e => e.IdNotificare).HasName("PK__Notifica__03EEEB10A3E3AD60");
 
             entity.ToTable("Notificari");
 
@@ -265,15 +265,13 @@ public partial class HealPlateDbContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.Vizualizat).HasDefaultValue(false);
 
-            entity.HasOne(d => d.IdAdminNavigation).WithMany(p => p.Notificaris)
-                .HasForeignKey(d => d.IdAdmin)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Notificar__IdAdm__7D0E9093");
-
             entity.HasOne(d => d.IdRetetaNavigation).WithMany(p => p.Notificaris)
                 .HasForeignKey(d => d.IdReteta)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Notificar__IdRet__7E02B4CC");
+                .HasConstraintName("FK__Notificar__IdRet__11158940");
+
+            entity.HasOne(d => d.IdUtilizatorNavigation).WithMany(p => p.Notificaris)
+                .HasForeignKey(d => d.IdUtilizator)
+                .HasConstraintName("FK__Notificar__IdUti__10216507");
         });
 
         modelBuilder.Entity<Recenzii>(entity =>

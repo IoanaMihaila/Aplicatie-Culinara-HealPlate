@@ -11,13 +11,13 @@ public partial class Notificari
 
     public DateTime? DataCreare { get; set; }
 
-    public int IdAdmin { get; set; }
+    public int IdUtilizator { get; set; }
 
     public int IdReteta { get; set; }
 
     public bool? Vizualizat { get; set; }
 
-    public virtual Utilizatori IdAdminNavigation { get; set; } = null!;
-
     public virtual Retete IdRetetaNavigation { get; set; } = null!;
+
+    public virtual Utilizatori IdUtilizatorNavigation { get; set; } = null!;
 }

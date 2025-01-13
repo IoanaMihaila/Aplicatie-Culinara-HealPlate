@@ -64,7 +64,7 @@
 
 <body>
     <div class="container">
-        @if (rolUtilizator == "Admin")
+        @if (rolUtilizator == "Admin"&&Model.Reteta.Aprobata==false)
         {
             <form id="approveForm" method="post" onsubmit="approveRecipe(@Model.Reteta.IdReteta); return false;">
                 <input type="hidden" name="IdReteta" value="@Model.Reteta.IdReteta" />
@@ -90,14 +90,18 @@
         </div>
         <div>
             <h4>Ingrediente</h4>
+
             <ul>
                 @foreach (var ingredient in Model.Reteta.RetetaIngredientes)
                 {
                     <li>
-                        <button type="button" class="btn btn-sm btn-outline-secondary btn-plus"
-                                onclick="adaugaInCos(@ingredient.IdIngredient, @ingredient.Cantitate, '@ingredient.Unitate')">
-                            <i class="fa fa-plus"></i>
-                        </button>
+                        @if (rolUtilizator == "Utilizator")
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-secondary btn-plus"
+                            onclick="adaugaInCos(@ingredient.IdIngredient, @ingredient.Cantitate, '@ingredient.Unitate')">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        }
                         @ingredient.IdIngredientNavigation.Nume - @ingredient.Cantitate @ingredient.Unitate
                         @if (ingredient.IdIngredientNavigation.IngredientAlergenis != null && ingredient.IdIngredientNavigation.IngredientAlergenis.Any())
                         {
@@ -115,7 +119,7 @@
                                     }
                                     else
                                     {
-                                        <span>(Alergen nevalid)</span>
+                                        <span>(Alergen invalid)</span>
                                     }
                                 }
                                 )
@@ -224,6 +228,7 @@
                 });
             }
         </script>
+        
         <!-- Mesaj de eroare dacă utilizatorul a lăsat deja o recenzie -->
         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
         {
@@ -232,7 +237,7 @@
             </div>
         }
         <div>
-            @if (string.IsNullOrEmpty(Model.ErrorMessage))
+            @if (string.IsNullOrEmpty(Model.ErrorMessage) && rolUtilizator == "Utilizator")
             {
                 <!-- Formularul POST pentru adăugarea unei recenzii -->
                 <form method="post">
@@ -270,7 +275,7 @@
                 <p>@recenzie.TextRecenzie</p>
             </div>
 
-                @if (recenzie.IdUtilizator == HttpContext.Session.GetInt32("IdUtilizator"))
+                @if (recenzie.IdUtilizator == HttpContext.Session.GetInt32("IdUtilizator") && rolUtilizator == "Utilizator")
                 {
                     <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5">
                     <button type="button" class="btn btn-custom mb-2" onclick="toggleEditForm()">Editează</button>
@@ -295,12 +300,10 @@
                         <input type="hidden" name="id" value="@recenzie.IdReteta" />
                             <button type="submit" class="btn btn-danger mt-2">Șterge</button>
                     </form>
-                </div>
+                    </div>
                 }
             </div>
         }
-
-       
     </div>
 </body>
 <script>
