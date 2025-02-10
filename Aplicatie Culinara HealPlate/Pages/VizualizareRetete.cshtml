@@ -106,15 +106,76 @@
                                 <div class="options">
                                     <button class="btn btn-detalii" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
                                     <!-- Buton Inimioară pentru adăugare în colecție -->
+                                        @if (rolUtilizator == "Utilizator")
+                                        {
                                     <button class="btn btn-favorite" onclick="addToFavorites(event, @reteta.IdReteta)">
                                         <i class="fa @(Model.EsteInColectie.ContainsKey(reteta.IdReteta) && Model.EsteInColectie[reteta.IdReteta] ? "fa-heart" : "fa-heart-o")" aria-hidden="true"></i>
                                     </button>
+                                        }
+                                        else if (rolUtilizator == "Admin")
+                                        {
+                                            <!-- Buton de ștergere pentru admini -->
+                                            <button class="btn btn-danger" onclick="deleteRecipe(event, @reteta.IdReteta)">
+                                                <i class="fa fa-trash" aria-hidden="true"></i> Șterge
+                                            </button>
+                                        }
 
                                     <!-- Include scripturile JS -->
                                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                                     <script src="~/js/site.js"></script>
-                                    <script>
-                                                                             function addToFavorites(event, idReteta) {
+                                        <script>
+                                            function deleteRecipe(event, idReteta) {
+                                                event.preventDefault();
+
+                                                if (!confirm('Sigur vrei să ștergi această rețetă?')) {
+                                                    return;
+                                                }
+                                                fetch('?handler=DeleteRecipe', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                                                    },
+                                                    body: JSON.stringify(idReteta),
+                                                })
+                                                .then((response) => {
+                                                    console.log("Cerere trimisă către server: /VizualizareRetete?handler=DeleteRecipe"); // Log pentru confirmare
+                                                    if (!response.ok) {
+                                                        throw new Error(`Eroare de server: ${response.statusText}`);
+                                                    }
+                                                    return response.json();
+                                                })
+                                                .then((data) => {
+                                                    if (data.success) {
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Succes!',
+                                                            text: 'Rețeta a fost ștearsă cu succes!',
+                                                            confirmButtonText: 'OK'
+                                                        }).then(() => {
+                                                            location.reload(); // 🔄 Reîncarcă pagina după succes
+                                                        });
+                                                    } else {
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Eroare',
+                                                            text: data.message || 'A apărut o eroare la ștergerea rețetei.',
+                                                            confirmButtonText: 'OK'
+                                                        });
+                                                    }
+                                                })
+                                                .catch((error) => {
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Eroare',
+                                                        text: `Ceva nu a mers bine: ${error.message}`,
+                                                        confirmButtonText: 'OK'
+                                                    });
+                                                });
+                                            }
+                                        </script>
+                                        <script>
+                                            function addToFavorites(event, idReteta) {
                                             event.preventDefault(); // Previne comportamentul implicit
 
                                             console.log("ID-ul rețetei: ", idReteta); // Verifică dacă ID-ul rețetei este corect
@@ -217,7 +278,7 @@
                                             }
                                         }
 
-                                    </script>
+                                        </script>
                                 </div>
                             </div>
                         </div>

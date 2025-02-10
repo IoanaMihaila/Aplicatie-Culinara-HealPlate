@@ -63,6 +63,12 @@
 </nav>
 
 <body>
+    @if (rolUtilizator == "Admin")
+    {
+        <form method="get">
+            <button type="button" class="btn btn-warning" onclick="enableEditing()">Modificare</button>
+        </form>
+    }
     <div class="container">
         @if (rolUtilizator == "Admin"&&Model.Reteta.Aprobata==false)
         {
@@ -76,7 +82,7 @@
         <h2>@Model.Reteta.Titlu</h2>
         <div class="row">
             <div class="col-md-6">
-                <img src="@Url.Content(Model.Reteta.Imagine)" alt="@Model.Reteta.Titlu" class="img-fluid" />
+                <img id="recipeImage" src="@Url.Content(Model.Reteta.Imagine)" alt="@Model.Reteta.Titlu" class="img-fluid" />
             </div>
             <div class="col-md-6">
                 <h4>Descriere</h4>
@@ -91,10 +97,11 @@
         <div>
             <h4>Ingrediente</h4>
 
-            <ul>
+            <ul id="ingredientList">
                 @foreach (var ingredient in Model.Reteta.RetetaIngredientes)
                 {
-                    <li>
+
+                    <li data-id="@ingredient.IdIngredient">
                         @if (rolUtilizator == "Utilizator")
                         {
                             <button type="button" class="btn btn-sm btn-outline-secondary btn-plus"
@@ -102,7 +109,9 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         }
+                        <span class="editable">
                         @ingredient.IdIngredientNavigation.Nume - @ingredient.Cantitate @ingredient.Unitate
+                        </span>
                         @if (ingredient.IdIngredientNavigation.IngredientAlergenis != null && ingredient.IdIngredientNavigation.IngredientAlergenis.Any())
                         {
                             <span>
@@ -130,6 +139,65 @@
             </ul>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            function enableEditing() {
+                console.log("Activare editare...");
+
+                let ingredientSpans = document.querySelectorAll("#ingredientList .editable");
+
+                if (ingredientSpans.length === 0) {
+                    console.error("Nu s-au găsit ingrediente!");
+                    return;
+                }
+
+                ingredientSpans.forEach(span => {
+                    span.setAttribute("contenteditable", "true");
+                    span.style.border = "1px solid orange";
+                    span.style.padding = "5px";
+                    span.style.outline = "none";
+
+                    // Salvare automată când se apasă Enter
+                    span.addEventListener("keypress", function (event) {
+                        if (event.key === "Enter") {
+                            event.preventDefault();
+                            span.removeAttribute("contenteditable");
+                            span.style.border = "none";
+                            saveIngredientChanges(span);
+                        }
+                    });
+                });
+            }
+                        function saveIngredientChanges(span) {
+                let li = span.closest("li");
+                let ingredientId = li.getAttribute("data-id"); // Asigură-te că ai atributul data-id în HTML
+                let newText = span.innerText.trim();
+
+                console.log("Salvare ingredient ID:", ingredientId, " | Noua valoare:", newText);
+
+                fetch('/Vizualizaredetalii?handler=UpdateIngredient', { // Actualizăm URL-ul să fie corect
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        IdIngredient: ingredientId,  // Trimitem și ID-ul ingredientului
+                        NewText: newText
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("Ingredient actualizat cu succes!");
+                    } else {
+                        console.error("Eroare:", data.message);
+                    }
+                })
+                .catch(error => console.error("Eroare la salvare:", error));
+            }
+        </script>
+
         <script>
             function adaugaInCos(idIngredient, cantitate, unitate) {
                  console.log("Parametri primiți:", { idIngredient, cantitate, unitate });

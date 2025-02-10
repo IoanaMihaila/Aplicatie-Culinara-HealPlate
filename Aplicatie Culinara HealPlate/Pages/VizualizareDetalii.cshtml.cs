@@ -7,23 +7,25 @@ using Microsoft.EntityFrameworkCore;
 using Aplicatie_Culinara_HealPlate.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace Aplicatie_Culinara_HealPlate.Pages
 {
     public class VizualizareDetaliiModel : PageModel
     {
+        private readonly IWebHostEnvironment _environment;
         private readonly IRetetaService _retetaService;
         private readonly HealPlateDbContext _context;
         private readonly IRecenzieService _recenzieService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public VizualizareDetaliiModel(IRetetaService retetaService, HealPlateDbContext context, IRecenzieService recenzieService, IHttpContextAccessor httpContextAccessor)
+        public VizualizareDetaliiModel(IRetetaService retetaService, HealPlateDbContext context, IRecenzieService recenzieService, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment)
         {
             _retetaService = retetaService;
             _context = context;
             _recenzieService = recenzieService;
             _httpContextAccessor = httpContextAccessor;
-
+            _environment = environment;
         }
 
         public Retete Reteta { get; set; }
@@ -149,7 +151,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 return StatusCode(500, "A apărut o eroare la salvarea modificărilor.");
             }
 
-                return RedirectToPage("./VizualizareDetalii", new { id = id});
+            return RedirectToPage("./VizualizareDetalii", new { id = id });
         }
         public async Task<IActionResult> OnPostEditareRecenzieAsync(int id, string textNou, int scorNou)
         {
@@ -298,16 +300,49 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             }
         }
 
-        // Clasa pentru Request Body
-        public class PostApproveRequest
+        public async Task<IActionResult> OnPostUpdateIngredient([FromBody] IngredientUpdateRequest request)
         {
-            public int IdReteta { get; set; }
-        }
-        public class AdaugaInCosRequest
-        {
-            public int IdIngredient { get; set; }
-            public double Cantitate { get; set; }
-            public string Unitate { get; set; }
+            if (request == null || string.IsNullOrWhiteSpace(request.NewText))
+            {
+                return new JsonResult(new { success = false, message = "Numele ingredientului nu poate fi gol." }) { StatusCode = 400 };
+            }
+
+            var ingredient = await _context.Ingredientes.FindAsync(request.IdIngredient);
+            if (ingredient == null)
+            {
+                return new JsonResult(new { success = false, message = "Ingredientul nu a fost găsit." }) { StatusCode = 404 };
+            }
+
+            ingredient.Nume = request.NewText;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new JsonResult(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, message = "Eroare la actualizarea ingredientului.", error = ex.Message }) { StatusCode = 500 };
+            }
         }
     }
+
+    public class IngredientUpdateRequest
+    {
+        public int IdIngredient { get; set; }
+        public string NewText { get; set; }
+    }
+
+    // Clasa pentru Request Body
+    public class PostApproveRequest
+    {
+        public int IdReteta { get; set; }
+    }
+    public class AdaugaInCosRequest
+    {
+        public int IdIngredient { get; set; }
+        public double Cantitate { get; set; }
+        public string Unitate { get; set; }
+    }
 }
+

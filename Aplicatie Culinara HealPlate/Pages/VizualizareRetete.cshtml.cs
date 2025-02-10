@@ -174,6 +174,17 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 return new JsonResult(new { success = false, message = "A apărut o eroare la ștergerea rețetei." });
             }
         }
+        public async Task<IActionResult> OnPostDeleteRecipeAsync([FromBody] int idReteta)
+        {
+            if (idReteta <= 0)
+            {
+                return new JsonResult(new { success = false, message = "ID-ul rețetei nu este valid." });
+            }
+            var reteta = await _context.Retetes.FindAsync(idReteta);
+            _context.Retetes.Remove(reteta);
+            await _context.SaveChangesAsync();
 
+            return new JsonResult(new { success = true, message = "Rețeta a fost ștearsă cu succes." });
+        }
     }
 }
