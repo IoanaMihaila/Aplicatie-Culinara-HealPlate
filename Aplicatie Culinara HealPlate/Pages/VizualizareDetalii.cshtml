@@ -70,7 +70,7 @@
         </form>
     }
     <div class="container">
-        @if (rolUtilizator == "Admin"&&Model.Reteta.Aprobata==false)
+        @if (rolUtilizator == "Admin" && Model.Reteta.Aprobata == false)
         {
             <form id="approveForm" method="post" onsubmit="approveRecipe(@Model.Reteta.IdReteta); return false;">
                 <input type="hidden" name="IdReteta" value="@Model.Reteta.IdReteta" />
@@ -88,7 +88,13 @@
                 <h4>Descriere</h4>
                 <p>@Model.Reteta.Descriere</p>
                 <h4>Mod de preparare</h4>
-                <p>@Model.Reteta.ModDePreparare</p>
+                @if (rolUtilizator == "Utilizator"){
+                    <p>@Model.Reteta.ModDePreparare</p>
+                }else if(rolUtilizator=="Admin"){
+                    <textarea id="modDePreparare" class="form-control form-control-lg" disabled style="min-height: 250px;">
+                        @Model.Reteta.ModDePreparare
+                    </textarea>
+                }
                 <h4>Timp de preparare: @Model.Reteta.TimpPreparare minute </h4>
                 <h4>Alergeni:</h4>
                 <p>@ViewData["AlergeniReteta"]</p>
@@ -105,13 +111,22 @@
                         @if (rolUtilizator == "Utilizator")
                         {
                             <button type="button" class="btn btn-sm btn-outline-secondary btn-plus"
-                            onclick="adaugaInCos(@ingredient.IdIngredient, @ingredient.Cantitate, '@ingredient.Unitate')">
+                                    onclick="adaugaInCos(@ingredient.IdIngredient, @ingredient.Cantitate, '@ingredient.Unitate')">
                                 <i class="fa fa-plus"></i>
                             </button>
                         }
-                        <span class="editable">
+                        else if (rolUtilizator == "Admin")
+                        {
+                            <input type="text" class="ingredient-name" value="@ingredient.IdIngredientNavigation.Nume" disabled />
+                            <input type="number" class="ingredient-quantity" value="@ingredient.Cantitate" min="1" disabled />
+                            <select class="ingredient-unit" disabled>
+                                <option selected>@ingredient.Unitate</option>
+                                <option value="g">g</option>
+                                <option value="ml">ml</option>
+                                <option value="buc">buc</option>
+                            </select>
+                        }
                         @ingredient.IdIngredientNavigation.Nume - @ingredient.Cantitate @ingredient.Unitate
-                        </span>
                         @if (ingredient.IdIngredientNavigation.IngredientAlergenis != null && ingredient.IdIngredientNavigation.IngredientAlergenis.Any())
                         {
                             <span>
@@ -141,55 +156,140 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            function enableEditing() {
+              function enableEditing() {
                 console.log("Activare editare...");
 
-                let ingredientSpans = document.querySelectorAll("#ingredientList .editable");
+            // Activare câmp pentru modul de preparare
+            let modDePreparareTextarea = document.getElementById("modDePreparare");
+            if (modDePreparareTextarea) {
+                modDePreparareTextarea.removeAttribute("disabled");
+            }
 
-                if (ingredientSpans.length === 0) {
+                let ingredientItems = document.querySelectorAll("#ingredientList li");
+
+                if (ingredientItems.length === 0) {
                     console.error("Nu s-au găsit ingrediente!");
                     return;
                 }
 
-                ingredientSpans.forEach(span => {
-                    span.setAttribute("contenteditable", "true");
-                    span.style.border = "1px solid orange";
-                    span.style.padding = "5px";
-                    span.style.outline = "none";
+                ingredientItems.forEach(item => {
+                    let nameInput = item.querySelector(".ingredient-name");
+                    let quantityInput = item.querySelector(".ingredient-quantity");
+                    let unitSelect = item.querySelector(".ingredient-unit");
 
-                    // Salvare automată când se apasă Enter
-                    span.addEventListener("keypress", function (event) {
-                        if (event.key === "Enter") {
-                            event.preventDefault();
-                            span.removeAttribute("contenteditable");
-                            span.style.border = "none";
-                            saveIngredientChanges(span);
-                        }
-                    });
+                    nameInput.removeAttribute("disabled");
+                    quantityInput.removeAttribute("disabled");
+                    unitSelect.removeAttribute("disabled");
+
+                    // Adăugăm un buton de salvare
+                    let saveBtn = document.createElement("button");
+                    saveBtn.textContent = "Salvează";
+                    saveBtn.classList.add("btn", "btn-success", "btn-sm");
+                    saveBtn.onclick = function () {
+                        saveIngredientChanges(item);
+                    };
+
+                    item.appendChild(saveBtn);
                 });
+                        // Adăugare buton de salvare pentru modul de preparare
+            let savePrepBtn = document.createElement("button");
+            savePrepBtn.textContent = "Salvează";
+            savePrepBtn.classList.add("btn", "btn-primary", "mt-3");
+            savePrepBtn.onclick = function () {
+                savePreparationChanges();
+            };
+
+            document.getElementById("modDePreparare").parentNode.appendChild(savePrepBtn);
             }
-                        function saveIngredientChanges(span) {
-                let li = span.closest("li");
-                let ingredientId = li.getAttribute("data-id"); // Asigură-te că ai atributul data-id în HTML
-                let newText = span.innerText.trim();
 
-                console.log("Salvare ingredient ID:", ingredientId, " | Noua valoare:", newText);
+             function saveIngredientChanges(item) {
+                let ingredientId = item.getAttribute("data-id");
+                let recipeId = @Model.Reteta.IdReteta // Adaugă ID-ul rețetei
+                let nameInput = item.querySelector(".ingredient-name").value.trim();
+                let quantityInput = item.querySelector(".ingredient-quantity").value;
+                let unitSelect = item.querySelector(".ingredient-unit").value;
 
-                fetch('/Vizualizaredetalii?handler=UpdateIngredient', { // Actualizăm URL-ul să fie corect
+                if (!nameInput || !quantityInput || quantityInput <= 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eroare',
+                        text: 'Introduceți un nume valid și o cantitate pozitivă!',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                console.log("Salvare ingredient ID:", ingredientId, "| Nou nume:", nameInput, "| Noua cantitate:", quantityInput, "| Unitate:", unitSelect);
+
+                fetch('/Vizualizaredetalii?handler=UpdateIngredient', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
                     },
                     body: JSON.stringify({
-                        IdIngredient: ingredientId,  // Trimitem și ID-ul ingredientului
-                        NewText: newText
+                        IdReteta: Number(recipeId),  // Adăugat ID-ul rețetei
+                        IdIngredient: Number(ingredientId),
+                        NumeIngredientNou: nameInput,
+                        CantitateNoua: Number(quantityInput),
+                        UnitateNoua: unitSelect
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        console.log("Ingredient actualizat cu succes!");
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Succes!',
+                            text: 'Ingredient modificat cu succes!',
+                            confirmButtonText: 'OK'
+                            }).then(() => {
+                location.reload(); // Reîncarcă pagina după ce utilizatorul apasă OK
+            });
+                    } else {
+                        console.error("Eroare:", data.message);
+                    }
+                })
+                .catch(error => console.error("Eroare la salvare:", error));
+            }
+                function savePreparationChanges() {
+                let recipeId = @Model.Reteta.IdReteta;
+                let newPreparation = document.getElementById("modDePreparare").value.trim();
+
+                if (!newPreparation) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eroare',
+                        text: 'Modul de preparare nu poate fi gol!',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                console.log("Salvare mod de preparare:", newPreparation);
+
+                fetch('/Vizualizaredetalii?handler=UpdatePreparation', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        IdReteta: Number(recipeId),
+                        ModDePreparareNou: newPreparation
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Succes!',
+                            text: 'Mod de preparare modificat cu succes!',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            location.reload();
+                        });
                     } else {
                         console.error("Eroare:", data.message);
                     }
@@ -197,7 +297,6 @@
                 .catch(error => console.error("Eroare la salvare:", error));
             }
         </script>
-
         <script>
             function adaugaInCos(idIngredient, cantitate, unitate) {
                  console.log("Parametri primiți:", { idIngredient, cantitate, unitate });
@@ -296,7 +395,7 @@
                 });
             }
         </script>
-        
+
         <!-- Mesaj de eroare dacă utilizatorul a lăsat deja o recenzie -->
         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
         {
@@ -331,28 +430,28 @@
         @foreach (var recenzie in Model.Reteta.Recenziis)
         {
             <div class="review d-flex justify-content-between">
-            <div class="review-content">
-                <strong>@recenzie.IdUtilizatorNavigation?.Nume @recenzie.IdUtilizatorNavigation?.Prenume</strong>
-                <span class="text-muted">@recenzie.DataRecenzie</span>
-                <p>
-                    @for (int i = 0; i < recenzie.Scor; i++)
-                    {
-                        <span style="color: gold;">⭐</span>
-                    }
-                </p>
-                <p>@recenzie.TextRecenzie</p>
-            </div>
+                <div class="review-content">
+                    <strong>@recenzie.IdUtilizatorNavigation?.Nume @recenzie.IdUtilizatorNavigation?.Prenume</strong>
+                    <span class="text-muted">@recenzie.DataRecenzie</span>
+                    <p>
+                        @for (int i = 0; i < recenzie.Scor; i++)
+                        {
+                            <span style="color: gold;">⭐</span>
+                        }
+                    </p>
+                    <p>@recenzie.TextRecenzie</p>
+                </div>
 
                 @if (recenzie.IdUtilizator == HttpContext.Session.GetInt32("IdUtilizator") && rolUtilizator == "Utilizator")
                 {
                     <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5">
-                    <button type="button" class="btn btn-custom mb-2" onclick="toggleEditForm()">Editează</button>
-                    <!-- Secțiunea pentru modificarea recenziei (inițial ascunsă) -->
-                    <div id="editForm" style="display: none;">
-                    <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="EditareRecenzie" class="mb-2">
-                            <input type="hidden" name="id" value="@recenzie.IdRecenzie" />
-                            <textarea name="textNou" rows="2" class="form-control">@recenzie.TextRecenzie</textarea>
-                            <label for="scor">Acordă un scor:</label>
+                        <button type="button" class="btn btn-custom mb-2" onclick="toggleEditForm()">Editează</button>
+                        <!-- Secțiunea pentru modificarea recenziei (inițial ascunsă) -->
+                        <div id="editForm" style="display: none;">
+                            <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="EditareRecenzie" class="mb-2">
+                                <input type="hidden" name="id" value="@recenzie.IdRecenzie" />
+                                <textarea name="textNou" rows="2" class="form-control">@recenzie.TextRecenzie</textarea>
+                                <label for="scor">Acordă un scor:</label>
                                 <select id="scor" name="scorNou" class="form-control">
                                     <option value="1">⭐</option>
                                     <option value="2">⭐⭐</option>
@@ -360,15 +459,21 @@
                                     <option value="4">⭐⭐⭐⭐</option>
                                     <option value="5">⭐⭐⭐⭐⭐</option>
                                 </select>
-                            <button type="submit" class="btn btn-primary">Salvează modificările</button>
+                                <button type="submit" class="btn btn-primary">Salvează modificările</button>
+                            </form>
+                        </div>
+
+                        <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie">
+                            <input type="hidden" name="id" value="@recenzie.IdReteta" />
+                            <button type="submit" class="btn btn-danger mt-2">Șterge</button>
                         </form>
                     </div>
-
+                }
+                else if(rolUtilizator=="Admin"){
                     <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie">
                         <input type="hidden" name="id" value="@recenzie.IdReteta" />
-                            <button type="submit" class="btn btn-danger mt-2">Șterge</button>
+                        <button type="submit" class="btn btn-danger mt-2">Șterge</button>
                     </form>
-                    </div>
                 }
             </div>
         }

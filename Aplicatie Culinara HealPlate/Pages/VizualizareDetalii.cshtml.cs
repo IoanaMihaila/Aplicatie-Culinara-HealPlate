@@ -300,38 +300,95 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostUpdateIngredient([FromBody] IngredientUpdateRequest request)
+        public async Task<IActionResult> OnPostUpdateIngredient([FromBody] IngredientUpdateModel model)
         {
-            if (request == null || string.IsNullOrWhiteSpace(request.NewText))
+            if (model == null || model.IdReteta <= 0 || model.IdIngredient <= 0 || string.IsNullOrWhiteSpace(model.NumeIngredientNou) || model.CantitateNoua <= 0)
             {
-                return new JsonResult(new { success = false, message = "Numele ingredientului nu poate fi gol." }) { StatusCode = 400 };
+                return new JsonResult(new { success = false, message = "Date invalide." });
             }
-
-            var ingredient = await _context.Ingredientes.FindAsync(request.IdIngredient);
-            if (ingredient == null)
-            {
-                return new JsonResult(new { success = false, message = "Ingredientul nu a fost găsit." }) { StatusCode = 404 };
-            }
-
-            ingredient.Nume = request.NewText;
 
             try
             {
+                // 1️⃣ Verificăm dacă ingredientul NOU există deja în tabela Ingrediente
+                var existingIngredient = await _context.Ingredientes
+                    .FirstOrDefaultAsync(i => i.Nume == model.NumeIngredientNou);
+
+                int newIngredientId;
+
+                if (existingIngredient == null)
+                {
+                    // 2️⃣ Dacă noul ingredient NU există, îl adăugăm
+                    var newIngredient = new Ingrediente
+                    {
+                        Nume = model.NumeIngredientNou
+                    };
+
+                    _context.Ingredientes.Add(newIngredient);
+                    await _context.SaveChangesAsync();
+                    newIngredientId = newIngredient.IdIngredient;
+                }
+                else
+                {
+                    // Dacă există, folosim ID-ul lui
+                    newIngredientId = existingIngredient.IdIngredient;
+                }
+
+                // 3️⃣ Găsim ingredientul asociat rețetei în Reteta_Ingrediente
+                var retetaIngredient = await _context.RetetaIngredientes
+                    .FirstOrDefaultAsync(ri => ri.IdReteta == model.IdReteta && ri.IdIngredient == model.IdIngredient);
+
+                if (retetaIngredient == null)
+                {
+                    return new JsonResult(new { success = false, message = "Ingredientul nu este asociat cu această rețetă." });
+                }
+
+                // 4️⃣ Actualizăm înregistrarea din Reteta_Ingrediente
+                retetaIngredient.IdIngredient = newIngredientId;
+                retetaIngredient.Cantitate = model.CantitateNoua;
+                retetaIngredient.Unitate = model.UnitateNoua;
+
                 await _context.SaveChangesAsync();
+
                 return new JsonResult(new { success = true });
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { success = false, message = "Eroare la actualizarea ingredientului.", error = ex.Message }) { StatusCode = 500 };
+                return new JsonResult(new { success = false, message = "Eroare la actualizare: " + ex.Message });
             }
         }
+        public async Task<IActionResult> OnPostUpdatePreparation([FromBody] UpdatePreparationModel model)
+        {
+            if (model == null || model.IdReteta <= 0 || string.IsNullOrWhiteSpace(model.ModDePreparareNou))
+            {
+                return new JsonResult(new { success = false, message = "Date invalide!" });
+            }
+
+            var reteta = await _context.Retetes.FindAsync(model.IdReteta);
+            if (reteta == null)
+            {
+                return new JsonResult(new { success = false, message = "Rețeta nu a fost găsită!" });
+            }
+
+            reteta.ModDePreparare = model.ModDePreparareNou;
+            await _context.SaveChangesAsync();
+
+            return new JsonResult(new { success = true });
+        }
+    }
+    public class UpdatePreparationModel
+    {
+        public int IdReteta { get; set; }
+        public string ModDePreparareNou { get; set; }
+    }
+    public class IngredientUpdateModel
+    {
+        public int IdReteta { get; set; }  // Adăugat ID-ul rețetei pentru siguranță
+        public int IdIngredient { get; set; }
+        public string NumeIngredientNou { get; set; }
+        public decimal CantitateNoua { get; set; }
+        public string UnitateNoua { get; set; }
     }
 
-    public class IngredientUpdateRequest
-    {
-        public int IdIngredient { get; set; }
-        public string NewText { get; set; }
-    }
 
     // Clasa pentru Request Body
     public class PostApproveRequest
