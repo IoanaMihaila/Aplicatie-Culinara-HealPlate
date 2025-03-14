@@ -1,4 +1,5 @@
-﻿using Aplicatie_Culinara_HealPlate.Models;
+﻿using Aplicatie_Culinara_HealPlate.Data;
+using Aplicatie_Culinara_HealPlate.Models;
 using Microsoft.AspNetCore.Mvc;
 
 public class NotificariViewComponent : ViewComponent

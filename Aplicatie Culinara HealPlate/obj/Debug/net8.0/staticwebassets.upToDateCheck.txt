@@ -87,3 +87,4 @@ wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
 wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
 wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
 wwwroot\uploads\1-eticheta.jpg
+wwwroot\uploads\hamker-maioneza-cu-50-ulei-vegetal-1.jpg

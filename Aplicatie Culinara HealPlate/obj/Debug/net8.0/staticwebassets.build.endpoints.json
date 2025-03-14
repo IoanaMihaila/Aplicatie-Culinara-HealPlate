@@ -3561,7 +3561,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 13 Jan 2025 20:45:13 GMT"
+          "Value": "Tue, 18 Feb 2025 16:20:09 GMT"
         }
       ],
       "EndpointProperties": [
@@ -3606,7 +3606,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 13 Jan 2025 20:45:13 GMT"
+          "Value": "Tue, 18 Feb 2025 16:20:09 GMT"
         }
       ],
       "EndpointProperties": [
@@ -4217,7 +4217,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 19 Dec 2024 13:11:24 GMT"
+          "Value": "Thu, 13 Feb 2025 09:49:36 GMT"
         }
       ],
       "EndpointProperties": [
@@ -4254,7 +4254,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 19 Dec 2024 13:11:24 GMT"
+          "Value": "Thu, 13 Feb 2025 09:49:36 GMT"
         }
       ],
       "EndpointProperties": [
@@ -9547,7 +9547,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 10 Feb 2025 11:40:57 GMT"
+          "Value": "Wed, 12 Mar 2025 20:12:14 GMT"
         }
       ],
       "EndpointProperties": [
@@ -9584,7 +9584,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 10 Feb 2025 11:40:57 GMT"
+          "Value": "Wed, 12 Mar 2025 20:12:14 GMT"
         }
       ],
       "EndpointProperties": [
@@ -9599,6 +9599,88 @@
         {
           "Name": "label",
           "Value": "uploads/1-eticheta.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "uploads/hamker-maioneza-cu-50-ulei-vegetal-1.jpg",
+      "AssetFile": "uploads/hamker-maioneza-cu-50-ulei-vegetal-1.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "60590"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1AJ/VmQ2ZzpMtIWK9l2iHJVPlX8DtVTfpbb39tyvS28=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 18 Feb 2025 16:18:55 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-1AJ/VmQ2ZzpMtIWK9l2iHJVPlX8DtVTfpbb39tyvS28="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/hamker-maioneza-cu-50-ulei-vegetal-1.wpjotffron.jpg",
+      "AssetFile": "uploads/hamker-maioneza-cu-50-ulei-vegetal-1.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "60590"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1AJ/VmQ2ZzpMtIWK9l2iHJVPlX8DtVTfpbb39tyvS28=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 18 Feb 2025 16:18:55 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "wpjotffron"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-1AJ/VmQ2ZzpMtIWK9l2iHJVPlX8DtVTfpbb39tyvS28="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/hamker-maioneza-cu-50-ulei-vegetal-1.jpg"
         }
       ]
     }

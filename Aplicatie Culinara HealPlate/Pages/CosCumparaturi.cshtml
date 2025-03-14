@@ -108,6 +108,26 @@
             .btn-plus i {
                 margin: 0; /* Asigură centrare perfectă pentru icon */
             }
+
+        #dropzone {
+            width: 400px;
+            height: 400px;
+            cursor: pointer;
+            background-color: #fafaf0;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Ascunde părțile care depășesc */
+        }
+
+        #image-preview {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            object-fit: contain; /* Asigură că imaginea se încadrează fără a fi distorsionată */
+        }
+
     </style>
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -197,6 +217,13 @@
             </div>
                 <button type="submit" class="btn btn-custom mt-3">Scanează Eticheta</button>
             </form>
+            @if (ViewData["UploadedImagePath"] != null)
+            {
+                <div class="text-center">
+                    <h5>Imaginea încărcată:</h5>
+                    <img src="@ViewData["UploadedImagePath"]" alt="Etichetă scanată" class="img-fluid" style="max-width: 300px; border: 1px solid #ddd; padding: 5px;" />
+                </div>
+            }
             <!-- Afișarea rezultatului scanării -->
             @if (ViewData["ScanResult"] != null)
             {

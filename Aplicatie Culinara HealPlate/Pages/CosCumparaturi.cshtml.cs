@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Text;
 using Tesseract;
-using TesseractOCR.Enums;
-using System.Globalization;
 
 namespace Aplicatie_Culinara_HealPlate.Pages
 {
@@ -117,7 +115,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             {
                 await image.CopyToAsync(stream);
             }
-
+            ViewData["UploadedImagePath"] = $"/uploads/{image.FileName}";
             try
             {
                 // Configurare Tesseract

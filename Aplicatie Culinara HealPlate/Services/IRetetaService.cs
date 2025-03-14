@@ -6,5 +6,6 @@ namespace Aplicatie_Culinara_HealPlate.Services
     {
         Retete GetRetetaById(int id);
         Task<bool> ApprovePost1Async(int idReteta);
+        Task<bool> RejectPostAsync(int idReteta);
     }
 }

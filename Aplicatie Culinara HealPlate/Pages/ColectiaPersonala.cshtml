@@ -140,6 +140,7 @@
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('imagine');
         const imagePreview = document.getElementById('image-preview');
+        const dropzoneText = document.getElementById('dropzone-text');
 
         dropzone.addEventListener('click', () => fileInput.click());
 
@@ -164,12 +165,15 @@
         });
 
             // Funcție pentru a afișa imaginea și a ascunde textul
-        function displayImage(file) {
+                function displayImage(file) {
             const reader = new FileReader();
+            const dropzoneText = document.getElementById('dropzone-text'); // Obține elementul text
             reader.onload = function (e) {
                 imagePreview.src = e.target.result;
                 imagePreview.style.display = 'block'; // Afișează imaginea
-                dropzoneText.style.display = 'none'; // Ascunde textul
+                if (dropzoneText) {
+                    dropzoneText.style.display = 'none'; // Ascunde textul
+                }
             };
             reader.readAsDataURL(file);
         }
@@ -232,7 +236,7 @@
                                         <h5>@reteta.Titlu</h5>
                                         <p>@reteta.Descriere</p>
                                         <p>@reteta.Categorie</p>
-                                        <p>@(reteta.Aprobata ? "Aprobata" : "Asteapta aprobare")</p>
+                                    <p>@(reteta.Aprobata.HasValue ? (reteta.Aprobata.Value ? "Aprobata" : "Respinsa") : "Asteapta aprobare")</p>
                                      <div class="options">
                                         <button class="btn btn-detalii" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
                                      </div>

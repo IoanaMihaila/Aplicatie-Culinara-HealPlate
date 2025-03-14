@@ -120,7 +120,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                     TimpPreparare = TimpPreparare,
                     Imagine = imaginePath // Atribuim calea imaginii
                 };
-
+                reteta.Aprobata = null;
                 _context.Retetes.Add(reteta);
                 await _context.SaveChangesAsync();
 

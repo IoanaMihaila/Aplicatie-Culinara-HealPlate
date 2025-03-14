@@ -70,14 +70,27 @@
         </form>
     }
     <div class="container">
-        @if (rolUtilizator == "Admin" && Model.Reteta.Aprobata == false)
+        @if (rolUtilizator == "Admin")
         {
-            <form id="approveForm" method="post" onsubmit="approveRecipe(@Model.Reteta.IdReteta); return false;">
-                <input type="hidden" name="IdReteta" value="@Model.Reteta.IdReteta" />
-                <button type="submit" class="btn btn-approve">
-                    Aproba postarea
-                </button>
-            </form>
+            @if (Model.Reteta.Aprobata == true)
+            {
+                <div id="statusMessage" class="alert alert-success">Rețeta aprobată</div>
+            }
+            else if (Model.Reteta.Aprobata == false)
+            {
+                <div id="statusMessage" class="alert alert-danger">Rețeta respinsă</div>
+            }
+            else
+            {
+                <form id="approveForm" method="post" onsubmit="approveRecipe(@Model.Reteta.IdReteta); return false;">
+                    <input type="hidden" name="IdReteta" value="@Model.Reteta.IdReteta" />
+                    <button type="submit" class="btn btn-approve">Aproba postarea</button>
+                </form>
+                <form id="rejectForm" method="post" onsubmit="rejectRecipe(@Model.Reteta.IdReteta); return false;">
+                    <input type="hidden" name="IdReteta" value="@Model.Reteta.IdReteta" />
+                    <button type="submit" class="btn btn-reject">Respinge postarea</button>
+                </form>
+            }
         }
         <h2>@Model.Reteta.Titlu</h2>
         <div class="row">
@@ -349,7 +362,6 @@
             }
         </script>
         <script>
-            // Funcția pentru aprobare postare
             function approveRecipe(idReteta) {
                 fetch('/VizualizareDetalii?handler=ApprovePost', {
                     method: "POST",
@@ -359,12 +371,7 @@
                     },
                     body: JSON.stringify({ IdReteta: idReteta }),
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Eroare de server: ${response.statusText}`);
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         Swal.fire({
@@ -372,26 +379,55 @@
                             title: 'Succes!',
                             text: 'Rețeta a fost aprobată cu succes!',
                             confirmButtonText: 'OK'
-                        });
-                        // Poți actualiza interfața pentru a reflecta aprobarea (de exemplu, ascunderea butonului)
-                        document.getElementById("approveForm").style.display = "none"; // Ascunde formularul după aprobare
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Eroare',
-                            text: data.message || 'A apărut o eroare la aprobarea rețetei.',
-                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            document.getElementById("approveForm").style.display = "none";
+                            document.getElementById("rejectForm").style.display = "none";
+                            document.getElementById("statusMessage").innerHTML = "Rețeta aprobată";
+                            document.getElementById("statusMessage").classList.add("alert", "alert-success");
                         });
                     }
                 })
-                .catch(error => {
-                    console.error("Eroare la aprobare:", error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Eroare',
-                        text: 'A apărut o eroare de server.',
-                        confirmButtonText: 'OK'
-                    });
+                .catch(error => console.error("Eroare la aprobare:", error));
+            }
+
+            function rejectRecipe(idReteta) {
+                Swal.fire({
+                    title: 'Ești sigur?',
+                    text: "Vrei să respingi această rețetă?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Da, respinge!',
+                    cancelButtonText: 'Anulează'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch('/VizualizareDetalii?handler=RejectPost', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                            },
+                            body: JSON.stringify({ IdReteta: idReteta }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Respins!',
+                                    text: 'Rețeta a fost respinsă cu succes!',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    document.getElementById("approveForm").style.display = "none";
+                                    document.getElementById("rejectForm").style.display = "none";
+                                    document.getElementById("statusMessage").innerHTML = "Rețeta respinsă";
+                                    document.getElementById("statusMessage").classList.add("alert", "alert-danger");
+                                });
+                            }
+                        })
+                        .catch(error => console.error("Eroare la respingere:", error));
+                    }
                 });
             }
         </script>

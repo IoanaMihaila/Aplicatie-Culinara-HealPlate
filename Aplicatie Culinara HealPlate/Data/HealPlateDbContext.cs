@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Aplicatie_Culinara_HealPlate.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Aplicatie_Culinara_HealPlate.Models;
+namespace Aplicatie_Culinara_HealPlate.Data;
 
 public partial class HealPlateDbContext : DbContext
 {
@@ -42,6 +43,8 @@ public partial class HealPlateDbContext : DbContext
     public virtual DbSet<Ingrediente> Ingredientes { get; set; }
 
     public virtual DbSet<Notificari> Notificaris { get; set; }
+
+    public virtual DbSet<PlanAlimentar> PlanAlimentars { get; set; }
 
     public virtual DbSet<Recenzii> Recenziis { get; set; }
 
@@ -274,6 +277,46 @@ public partial class HealPlateDbContext : DbContext
                 .HasConstraintName("FK__Notificar__IdUti__10216507");
         });
 
+        modelBuilder.Entity<PlanAlimentar>(entity =>
+        {
+            entity.HasKey(e => e.IdPlan).HasName("PK__PlanAlim__B4D79D370F5AB85A");
+
+            entity.ToTable("PlanAlimentar");
+
+            entity.Property(e => e.IdPlan).HasColumnName("ID_Plan");
+            entity.Property(e => e.IdCina).HasColumnName("ID_Cina");
+            entity.Property(e => e.IdDesert).HasColumnName("ID_Desert");
+            entity.Property(e => e.IdGustare).HasColumnName("ID_Gustare");
+            entity.Property(e => e.IdMicDeJun).HasColumnName("ID_MicDeJun");
+            entity.Property(e => e.IdPranz).HasColumnName("ID_Pranz");
+            entity.Property(e => e.IdUtilizator).HasColumnName("ID_Utilizator");
+
+            entity.HasOne(d => d.IdCinaNavigation).WithMany(p => p.PlanAlimentarIdCinaNavigations)
+                .HasForeignKey(d => d.IdCina)
+                .HasConstraintName("FK__PlanAlime__ID_Ci__29E1370A");
+
+            entity.HasOne(d => d.IdDesertNavigation).WithMany(p => p.PlanAlimentarIdDesertNavigations)
+                .HasForeignKey(d => d.IdDesert)
+                .HasConstraintName("FK__PlanAlime__ID_De__27F8EE98");
+
+            entity.HasOne(d => d.IdGustareNavigation).WithMany(p => p.PlanAlimentarIdGustareNavigations)
+                .HasForeignKey(d => d.IdGustare)
+                .HasConstraintName("FK__PlanAlime__ID_Gu__28ED12D1");
+
+            entity.HasOne(d => d.IdMicDeJunNavigation).WithMany(p => p.PlanAlimentarIdMicDeJunNavigations)
+                .HasForeignKey(d => d.IdMicDeJun)
+                .HasConstraintName("FK__PlanAlime__ID_Mi__2610A626");
+
+            entity.HasOne(d => d.IdPranzNavigation).WithMany(p => p.PlanAlimentarIdPranzNavigations)
+                .HasForeignKey(d => d.IdPranz)
+                .HasConstraintName("FK__PlanAlime__ID_Pr__2704CA5F");
+
+            entity.HasOne(d => d.IdUtilizatorNavigation).WithMany(p => p.PlanAlimentars)
+                .HasForeignKey(d => d.IdUtilizator)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__PlanAlime__ID_Ut__251C81ED");
+        });
+
         modelBuilder.Entity<Recenzii>(entity =>
         {
             entity.HasKey(e => e.IdRecenzie).HasName("PK__Recenzii__15081335FE29DAAE");
@@ -324,9 +367,10 @@ public partial class HealPlateDbContext : DbContext
         {
             entity.HasKey(e => e.IdReteta).HasName("PK__Retete__2F6450633F4D7924");
 
-            entity.ToTable("Retete");
+            entity.ToTable("Retete", tb => tb.HasTrigger("trg_SetNullOnDeleteReteta"));
 
             entity.Property(e => e.IdReteta).HasColumnName("ID_Reteta");
+            entity.Property(e => e.Aprobata).HasDefaultValue(false);
             entity.Property(e => e.Categorie)
                 .HasMaxLength(50)
                 .IsUnicode(false);

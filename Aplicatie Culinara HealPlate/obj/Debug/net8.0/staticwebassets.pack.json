@@ -361,6 +361,10 @@
       "PackagePath": "staticwebassets\\uploads\\1-eticheta.jpg"
     },
     {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\uploads\\hamker-maioneza-cu-50-ulei-vegetal-1.jpg",
+      "PackagePath": "staticwebassets\\uploads\\hamker-maioneza-cu-50-ulei-vegetal-1.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Aplicatie Culinara HealPlate.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },

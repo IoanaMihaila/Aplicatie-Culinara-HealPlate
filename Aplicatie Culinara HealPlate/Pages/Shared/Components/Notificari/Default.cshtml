@@ -8,7 +8,7 @@
         @foreach (var notificare in Model)
         {
             <li>
-                <a class="dropdown-item" href="/VizualizareDetalii?id=@notificare.IdReteta">
+                <a class="dropdown-item notificare-item @((bool)notificare.Vizualizat ? "vizualizat" : "nevizualizat")" href="/VizualizareDetalii?id=@notificare.IdReteta" data-id="@notificare.IdNotificare">
                     @notificare.Mesaj
                 </a>
             </li>
@@ -21,3 +21,39 @@
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item text-center" href="#">Vezi toate notificările</a></li>
 </ul>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".notificare-item").forEach(item => {
+            item.addEventListener("click", function () {
+                let notificareId = this.getAttribute("data-id");
+
+                fetch('/NotificariController/MarcareVizualizat', {
+                    method: 'POST',
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ id: notificareId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.classList.remove("nevizualizat");
+                        this.classList.add("vizualizat");
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<style>
+    .nevizualizat {
+        font-weight: bold;
+        background-color: #f8d7da;
+    }
+
+    .vizualizat {
+        color: gray !important;
+    }
+</style>

@@ -184,13 +184,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\granola_iaurt.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"e13lpearil"},{"Name":"integrity","Value":"sha256-Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/images/granola_iaurt.jpg"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"169103"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc=\u0022"},{"Name":"Last-Modified","Value":"Mon, 13 Jan 2025 20:45:13 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"169103"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc=\u0022"},{"Name":"Last-Modified","Value":"Tue, 18 Feb 2025 16:20:09 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/granola_iaurt.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\granola_iaurt.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"169103"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc=\u0022"},{"Name":"Last-Modified","Value":"Mon, 13 Jan 2025 20:45:13 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"169103"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc=\u0022"},{"Name":"Last-Modified","Value":"Tue, 18 Feb 2025 16:20:09 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/lactoza.3a06t1ajay.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\lactoza.jpg'))</AssetFile>
@@ -292,13 +292,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\somon_bowl.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-5ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"235114"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00225ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY=\u0022"},{"Name":"Last-Modified","Value":"Thu, 19 Dec 2024 13:11:24 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"235114"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00225ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY=\u0022"},{"Name":"Last-Modified","Value":"Thu, 13 Feb 2025 09:49:36 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/somon_bowl.pbk4ci8b1t.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\somon_bowl.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"pbk4ci8b1t"},{"Name":"integrity","Value":"sha256-5ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/images/somon_bowl.jpg"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"235114"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00225ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY=\u0022"},{"Name":"Last-Modified","Value":"Thu, 19 Dec 2024 13:11:24 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"235114"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00225ZPgxlI1IgVemILbHTYlym3KEadlrTR3vyKKbixCijY=\u0022"},{"Name":"Last-Modified","Value":"Thu, 13 Feb 2025 09:49:36 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/images/soya.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\soya.jpg'))</AssetFile>
@@ -1072,13 +1072,25 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\1-eticheta.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD\u002B8TF0="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"40210"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD\u002B8TF0=\u0022"},{"Name":"Last-Modified","Value":"Mon, 10 Feb 2025 11:40:57 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"40210"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD\u002B8TF0=\u0022"},{"Name":"Last-Modified","Value":"Wed, 12 Mar 2025 20:12:14 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/uploads/1-eticheta.qnkdy9ka1l.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\1-eticheta.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"qnkdy9ka1l"},{"Name":"integrity","Value":"sha256-KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD\u002B8TF0="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/uploads/1-eticheta.jpg"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"40210"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD\u002B8TF0=\u0022"},{"Name":"Last-Modified","Value":"Mon, 10 Feb 2025 11:40:57 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"40210"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022KnBeS4DDrQiiWsw1oDInhLtGoFe6nQd4rMm/gD\u002B8TF0=\u0022"},{"Name":"Last-Modified","Value":"Wed, 12 Mar 2025 20:12:14 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/uploads/hamker-maioneza-cu-50-ulei-vegetal-1.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\hamker-maioneza-cu-50-ulei-vegetal-1.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-1AJ/VmQ2ZzpMtIWK9l2iHJVPlX8DtVTfpbb39tyvS28="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"60590"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00221AJ/VmQ2ZzpMtIWK9l2iHJVPlX8DtVTfpbb39tyvS28=\u0022"},{"Name":"Last-Modified","Value":"Tue, 18 Feb 2025 16:18:55 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Aplicatie Culinara HealPlate/uploads/hamker-maioneza-cu-50-ulei-vegetal-1.wpjotffron.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\hamker-maioneza-cu-50-ulei-vegetal-1.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"wpjotffron"},{"Name":"integrity","Value":"sha256-1AJ/VmQ2ZzpMtIWK9l2iHJVPlX8DtVTfpbb39tyvS28="},{"Name":"label","Value":"_content/Aplicatie Culinara HealPlate/uploads/hamker-maioneza-cu-50-ulei-vegetal-1.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"60590"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00221AJ/VmQ2ZzpMtIWK9l2iHJVPlX8DtVTfpbb39tyvS28=\u0022"},{"Name":"Last-Modified","Value":"Tue, 18 Feb 2025 16:18:55 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

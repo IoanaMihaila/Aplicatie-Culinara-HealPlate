@@ -1,0 +1,283 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.PlanAlimentarModel
+@{
+    ViewData["Title"] = "Plan Alimentar";
+    var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    @Html.AntiForgeryToken()
+}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Plan Alimentar</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <!-- FullCalendar -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom CSS for additional styling -->
+    <link href="~/css/style.css" rel="stylesheet" />
+    <style>
+        #calendar {
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        #btnGenerare:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+        /* Stilizare personalizată pentru buton */
+        button.btn-custom {
+            background-color: #ffc107; /* Verde aprins */
+            color: #343a40; /* Text alb */
+            border: none; /* Fără bordură */
+            border-radius: 20px; /* Colțuri rotunjite */
+            padding: 10px 22px; /* Spațiu intern mai mare */
+            font-size: 14px; /* Mărimea textului */
+            font-weight: bold; /* Text îngroșat */
+            text-align: center; /* Centrat pe verticală și orizontală */
+            text-transform: uppercase; /* Text în majuscule */
+            cursor: pointer; /* Butonul devine pointer când este pus pe el */
+            transition: background-color 0.3s, transform 0.2s; /* Tranziție pentru efecte */
+        }
+        /* Stilizare butoane de navigare și Today din FullCalendar */
+        .fc-button {
+            background-color: #ffc107 !important; /* Culoarea butonului Generare */
+            color: #343a40 !important; /* Culoare text */
+            border: none !important; /* Fără bordură */
+            border-radius: 20px !important; /* Colțuri rotunjite */
+            font-weight: bold !important; /* Text îngroșat */
+            text-transform: uppercase !important; /* Majuscule */
+            transition: background-color 0.3s, transform 0.2s !important; /* Tranziție pentru efecte */
+        }
+
+            /* Efect hover */
+            .fc-button:hover {
+                background-color: #e0a800 !important; /* Ușor mai închis la hover */
+            }
+
+        .card {
+            width: 200px; /* Setează o lățime mai mică */
+            height: auto; /* Ajustează înălțimea automat */
+            margin: 10px auto; /* Spațiere între carduri */
+        }
+
+            .card img {
+                height: 120px; /* Ajustează înălțimea imaginilor */
+                object-fit: cover; /* Menține proporțiile imaginilor */
+            }
+
+        .card-title {
+            font-size: 14px; /* Reduce dimensiunea titlului */
+        }
+
+        .card-text {
+            font-size: 12px; /* Reduce dimensiunea textului */
+        }
+    </style>
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <ul class="navbar-nav ms-auto">
+            <!-- Adaugă ml-auto pentru aliniere la dreapta -->
+            @if (!string.IsNullOrEmpty(numeUtilizator))
+            {
+                <!-- Afisare nume utilizator autentificat -->
+                <li class="nav-item">
+                    <span class="navbar-text">
+                        <a href="" class="user_link">
+                            <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
+                        </a>
+                        Bun venit, @numeUtilizator!
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Autentificare"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h2 class="text-center">Planificare alimentară</h2>
+    <p class="text-center">Selectează o dată din viitor pentru a genera un plan alimentar</p>
+
+    <!-- Buton Generare (dezactivat inițial) -->
+    <div class="text-center mt-3">
+        <button id="btnGenerare" class="btn btn-warning">Generare Plan Alimentar</button>
+    </div>
+
+    <!-- Loc pentru afișarea rețetelor -->
+    <div id="reteteContainer" class="container mt-4">
+        <h3 class="text-center">Plan alimentar generat</h3>
+        <div class="row" id="reteteGrid"></div>
+    </div>
+
+    <!-- Calendar -->
+    <div id="calendar"></div>
+
+    <!-- Buton Salvare (inițial dezactivat) -->
+    <div class="text-center mt-3">
+        <button id="btnSalvare" class="btn btn-success" disabled>Salvare Plan Alimentar</button>
+    </div>
+
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date();
+        var selectedDate = null;
+        var selectedRecipes = []; // Stocăm rețetele generate
+        var calendarEl = document.getElementById('calendar');
+        var btnSalvare = document.getElementById('btnSalvare');
+        var btnGenerare = document.getElementById('btnGenerare');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            selectable: true,
+            select: function (info) {
+                if (selectedRecipes.length === 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eroare',
+                        text: 'Generează mai întâi rețetele!',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                var selected = new Date(info.startStr);
+                selected.setHours(0, 0, 0, 0);
+                today.setHours(0, 0, 0, 0);
+
+                if (selected < today) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eroare',
+                        text: 'Alege o dată din viitor!',
+                        confirmButtonText: 'OK'
+                    });
+                    selectedDate = null;
+                    btnSalvare.disabled = true;
+                } else {
+                    selectedDate = info.startStr;
+                    btnSalvare.disabled = false;
+                }
+            },
+            validRange: { start: today }
+        });
+
+        calendar.render();
+        calendarEl.style.pointerEvents = 'none'; // Dezactivează calendarul inițial
+
+        // Generare rețete
+        btnGenerare.addEventListener('click', function () {
+            fetch('/PlanAlimentar?handler=GenerarePlan', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Eroare server: ${response.status} ${response.statusText}`);
+                }
+                return response.json(); // Citim răspunsul ca JSON direct
+            })
+            .then(data => {
+                var reteteGrid = document.getElementById('reteteGrid');
+                reteteGrid.innerHTML = "";
+
+                if (data.length === 0) {
+                    reteteGrid.innerHTML = "<p class='text-center'>Nu există rețete disponibile!</p>";
+                    return;
+                }
+
+                console.log("Rețete primite:", data);
+                selectedRecipes = data; // Salvăm rețetele pentru a le folosi la salvare
+                calendarEl.style.pointerEvents = 'auto'; // Activează calendarul
+
+                data.forEach(reteta => {
+                    var card = `
+                        <div class="col-md-3">
+                            <div class="card">
+                                <img src="${reteta.imagine}" class="card-img-top" alt="Reteta">
+                                <div class="card-body">
+                                    <h5 class="card-title">${reteta.titlu}</h5>
+                                    <p class="card-text"><strong>Categorie:</strong> ${reteta.categorie}</p>
+                                </div>
+                            </div>
+                        </div>`;
+                    reteteGrid.innerHTML += card;
+                });
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Plan Generat',
+                    text: 'Planul alimentar a fost generat cu succes! Selectează o dată pentru a-l salva.',
+                    confirmButtonText: 'OK'
+                });
+            })
+            .catch(error => console.error("Eroare la fetch:", error));
+        });
+
+        // Salvare plan alimentar
+        btnSalvare.addEventListener('click', function () {
+            if (!selectedDate) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Eroare',
+                    text: 'Selectează o dată înainte de a salva!',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            fetch('/PlanAlimentar?handler=SalvarePlan', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    dataSelectata: selectedDate,
+                    retete: selectedRecipes
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Eroare server: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Plan Salvat',
+                    text: 'Planul alimentar a fost salvat cu succes!',
+                    confirmButtonText: 'OK'
+                });
+
+                // Resetare după salvare
+                selectedDate = null;
+                selectedRecipes = [];
+                calendarEl.style.pointerEvents = 'none';
+                btnSalvare.disabled = true;
+                document.getElementById('reteteGrid').innerHTML = "";
+            })
+            .catch(error => console.error("Eroare la salvare:", error));
+        });
+    });
+</script>
+<body>
+</body>
+</html>

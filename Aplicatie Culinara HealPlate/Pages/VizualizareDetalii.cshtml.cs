@@ -1,13 +1,9 @@
 ﻿using Aplicatie_Culinara_HealPlate.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Aplicatie_Culinara_HealPlate.Services;
 using Microsoft.EntityFrameworkCore;
 using Aplicatie_Culinara_HealPlate.Data;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using System;
 
 namespace Aplicatie_Culinara_HealPlate.Pages
 {
@@ -299,6 +295,67 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 return new JsonResult(new { success = false, message = "A apărut o eroare internă." });
             }
         }
+        public async Task<IActionResult> OnPostRejectPostAsync([FromBody] PostRejectRequest request)
+        {
+            Console.WriteLine("Am intrat în metoda OnPostRejectPostAsync");
+
+            if (request == null || request.IdReteta <= 0)
+            {
+                Console.WriteLine("Request-ul primit este invalid.");
+                return new JsonResult(new { success = false, message = "Datele trimise sunt invalide." });
+            }
+
+            Console.WriteLine($"ID rețetă primit pentru respingere: {request.IdReteta}");
+
+            try
+            {
+                var success = await _retetaService.RejectPostAsync(request.IdReteta);
+
+                if (success)
+                {
+                    var reteta = await _context.Retetes
+                        .FirstOrDefaultAsync(r => r.IdReteta == request.IdReteta);
+
+                    if (reteta != null)
+                    {
+                        var colectiePersonalaReteta = await _context.ColectiePersonalaRetetes
+                            .Include(cpr => cpr.IdColectieNavigation)
+                            .FirstOrDefaultAsync(cpr => cpr.IdReteta == reteta.IdReteta);
+
+                        if (colectiePersonalaReteta?.IdColectieNavigation == null)
+                        {
+                            Console.WriteLine("Navigarea către ColectiePersonala nu a fost găsită.");
+                            return new JsonResult(new { success = false, message = "Datele asociate rețetei nu au fost găsite." });
+                        }
+
+                        var utilizatorId = colectiePersonalaReteta.IdColectieNavigation.IdUtilizator;
+
+                        var notificareUtilizator = new Notificari
+                        {
+                            Mesaj = $"Adminul a respins rețeta ta: {reteta.Titlu}.",
+                            DataCreare = DateTime.Now,
+                            IdUtilizator = utilizatorId,
+                            IdReteta = reteta.IdReteta,
+                            Vizualizat = false
+                        };
+
+                        _context.Notificaris.Add(notificareUtilizator);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    return new JsonResult(new { success = true });
+                }
+                else
+                {
+                    return new JsonResult(new { success = false, message = "Rețeta nu a putut fi respinsă." });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Eroare în procesarea cererii: {ex.Message}");
+                return new JsonResult(new { success = false, message = "A apărut o eroare internă." });
+            }
+        }
 
         public async Task<IActionResult> OnPostUpdateIngredient([FromBody] IngredientUpdateModel model)
         {
@@ -392,6 +449,10 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
     // Clasa pentru Request Body
     public class PostApproveRequest
+    {
+        public int IdReteta { get; set; }
+    }
+    public class PostRejectRequest
     {
         public int IdReteta { get; set; }
     }
