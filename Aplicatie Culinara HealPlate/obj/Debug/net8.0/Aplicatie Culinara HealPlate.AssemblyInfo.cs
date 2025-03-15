@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Aplicatie Culinara HealPlate")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31f8fbdcabbebf24fd68277baf7818aa1785eaa1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c17a31f5efaa710908f4d1ca4411b8b8fd2098f7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Aplicatie Culinara HealPlate")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Aplicatie Culinara HealPlate")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

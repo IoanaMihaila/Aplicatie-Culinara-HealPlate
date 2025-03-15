@@ -242,6 +242,9 @@
                 return;
             }
 
+               var formattedDate = selectedDate.split('T')[0];
+               console.log("Data formatată pentru backend:", formattedDate);
+
             fetch('/PlanAlimentar?handler=SalvarePlan', {
                 method: "POST",
                 headers: {
@@ -249,8 +252,7 @@
                     "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
                 },
                 body: JSON.stringify({
-                    dataSelectata: selectedDate,
-                    retete: selectedRecipes
+                    dataSelectata: formattedDate,
                 })
             })
             .then(response => {

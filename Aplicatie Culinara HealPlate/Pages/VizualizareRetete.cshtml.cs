@@ -111,7 +111,36 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
             if (userId != null)
             {
-                // Obține ID-ul colecției personale a utilizatorului
+                // Obține lista ID-urilor alergenilor utilizatorului
+                var alergeniUtilizator = _context.UtilizatorAlergenis
+                    .Where(au => au.IdUtilizator == userId)
+                    .Select(au => au.IdAlergen)
+                    .ToList();
+
+                if (alergeniUtilizator.Any())
+                {
+                    // Obține ID-urile ingredientelor care conțin acei alergeni
+                    var ingredienteCuAlergeni = _context.IngredientAlergenis
+                        .Where(ia => alergeniUtilizator.Contains(ia.IdAlergen))
+                        .Select(ia => ia.IdIngredient)
+                        .ToList();
+
+                    if (ingredienteCuAlergeni.Any())
+                    {
+                        // Excludem rețetele care conțin acele ingrediente
+                        query = query.Where(r => !_context.RetetaIngredientes
+                            .Where(ri => ri.IdReteta == r.IdReteta)
+                            .Select(ri => ri.IdIngredient)
+                            .Any(idIngredient => ingredienteCuAlergeni.Contains(idIngredient)));
+                    }
+                }
+            }
+
+            Retete = query.ToList();
+
+            // Verifică dacă rețetele sunt în colecția personală a utilizatorului
+            if (userId != null)
+            {
                 var idColectie = _context.ColectiePersonalas
                     .Where(c => c.IdUtilizator == userId)
                     .Select(c => c.IdColectie)
@@ -119,13 +148,11 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
                 if (idColectie != 0)
                 {
-                    // Obține lista ID-urilor rețetelor din colecția personală
                     var reteteInColectie = _context.ColectiePersonalaRetetes
                         .Where(cr => cr.IdColectie == idColectie)
                         .Select(cr => cr.IdReteta)
                         .ToList();
 
-                    // Creează dicționarul pentru a marca rețetele existente în colecție
                     EsteInColectie = Retete.ToDictionary(
                         r => r.IdReteta,
                         r => reteteInColectie.Contains(r.IdReteta)
