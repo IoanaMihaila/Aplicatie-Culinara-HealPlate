@@ -20,14 +20,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
                     <partial name="_LoginPartial" />
                 </div>
 
@@ -43,16 +35,13 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/Index" style="color: #000000;">Home</a>
+                                <a class="nav-link" href="/Index" style="color: #000000;">Info</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/VizualizareRetete" style="color: #000000;">Retete</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/ColectiaPersonala" style="color: #000000;">Colectia Personala</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="book.html" style="color: #000000;">Book Table</a>
                             </li>
                         </ul>
 
@@ -65,7 +54,7 @@
                                     @await Component.InvokeAsync("Notificari")
                                 </div>
                             </div>
-                            <a href="" class="user_link">
+                            <a href="/StatisticaUtilizatori" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
                             </a>
                             <a href="/CosCumparaturi" class="cart_link">

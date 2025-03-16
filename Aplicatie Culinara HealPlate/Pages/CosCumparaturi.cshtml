@@ -127,7 +127,6 @@
             display: none;
             object-fit: contain; /* Asigură că imaginea se încadrează fără a fi distorsionată */
         }
-
     </style>
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -164,8 +163,6 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Ingredient</th>
-                            <th>Cantitate</th>
-                            <th>Unitate</th>
                             <th>Actiune</th>
                         </tr>
                     </thead>
@@ -174,14 +171,13 @@
                         {
                             <tr>
                                 <td>@cosIngrediente.IdIngredientNavigation.Nume</td>
-                                <td>@cosIngrediente.Cantitate</td>
-                                <td>@cosIngrediente.Unitate</td>
                                 <td>
                                    <!-- <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5"> -->
                                     <!-- Buton pentru eliminarea unui produs din coș -->
                                     <form method="post" asp-page-handler="EliminaDinCos" asp-route-id="@cosIngrediente.IdIngredient">
                                         <button type="submit" class="btn btn-custom mb-3">Elimină</button>
                                     </form>
+                                    <a href="https://www.freshful.ro/search/@cosIngrediente.IdIngredientNavigation.Nume" target="_blank" class="btn btn-link">Cumpără</a>
                                     <!-- </div>-->
                                 </td>
                             </tr>
