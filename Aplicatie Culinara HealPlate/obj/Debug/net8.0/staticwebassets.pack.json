@@ -45,6 +45,10 @@
       "PackagePath": "staticwebassets\\images\\bananaBread.jpg"
     },
     {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\breakfast.jpg",
+      "PackagePath": "staticwebassets\\images\\breakfast.jpg"
+    },
+    {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\chili.jpg",
       "PackagePath": "staticwebassets\\images\\chili.jpg"
     },
@@ -53,8 +57,16 @@
       "PackagePath": "staticwebassets\\images\\cofeina.jpg"
     },
     {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\creamySoup.jpg",
+      "PackagePath": "staticwebassets\\images\\creamySoup.jpg"
+    },
+    {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\crustacee.jpg",
       "PackagePath": "staticwebassets\\images\\crustacee.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\desert.jpg",
+      "PackagePath": "staticwebassets\\images\\desert.jpg"
     },
     {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\fish.jpg",

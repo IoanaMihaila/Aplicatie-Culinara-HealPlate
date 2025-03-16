@@ -1,9 +1,13 @@
 ﻿using Aplicatie_Culinara_HealPlate.Data;
 using Aplicatie_Culinara_HealPlate.Models;
 using Aplicatie_Culinara_HealPlate.Services;
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Globalization;
+using System.Text.Json;
 
 
 namespace Aplicatie_Culinara_HealPlate.Pages
@@ -67,6 +71,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                         var retetaSelectata = reteteCategorie.OrderBy(r => Guid.NewGuid()).First();
                         reteteGenerate.Add(new Retete
                         {
+                            IdReteta = retetaSelectata.IdReteta,
                             Titlu = retetaSelectata.Titlu,
                             Imagine = retetaSelectata.Imagine,
                             Categorie = retetaSelectata.Categorie,
@@ -94,87 +99,104 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 return new JsonResult(new { error = "Eroare internă la generarea planului." });
             }
         }
-        [HttpPost]
-        public async Task<IActionResult> OnPostSalvarePlanAsync([FromForm] DateOnly ziuaSelectata)
+        public async Task<IActionResult> OnPostSalvarePlanAsync([FromBody] JsonElement request)
         {
-            Console.WriteLine($"Data primită: {ziuaSelectata}");
-            try
+            Console.WriteLine($"JSON primit: {request}");
+
+            if (!request.TryGetProperty("dataSelectata", out JsonElement dataSelectataElement))
             {
-                // Obține ID-ul utilizatorului autentificat
-                var userId = HttpContext.Session.GetInt32("IdUtilizator");
-                var utilizator = await _context.Utilizatoris.FirstOrDefaultAsync(u => u.IdUtilizator == userId);
+                return BadRequest("Nu s-a găsit câmpul dataSelectata în JSON.");
+            }
 
-                if (utilizator == null)
+            if (!request.TryGetProperty("retete", out JsonElement reteteElement) || reteteElement.ValueKind != JsonValueKind.Array)
+            {
+                return BadRequest("Nu s-a găsit câmpul retete sau formatul este incorect.");
+            }
+
+            string dataSelectata = dataSelectataElement.GetString();
+            Console.WriteLine($"Data extrasă: {dataSelectata}");
+
+            if (string.IsNullOrWhiteSpace(dataSelectata))
+            {
+                return BadRequest("Data este goală sau invalidă.");
+            }
+
+            if (!DateOnly.TryParseExact(dataSelectata, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly dateOnlyValue))
+            {
+                return BadRequest("Formatul datei este invalid.");
+            }
+
+            Console.WriteLine($"Ziua convertită cu succes: {dateOnlyValue}");
+
+            var userId = HttpContext.Session.GetInt32("IdUtilizator");
+            var utilizator = await _context.Utilizatoris.FirstOrDefaultAsync(u => u.IdUtilizator == userId);
+
+            if (utilizator == null)
+            {
+                return RedirectToPage("/Autentificare");
+            }
+
+            var planExistent = await _context.PlanAlimentars
+                .FirstOrDefaultAsync(p => p.IdUtilizator == userId && p.Ziua == dateOnlyValue);
+
+            if (planExistent != null)
+            {
+                return new JsonResult(new { error = "Planul alimentar pentru această zi a fost deja generat." });
+            }
+
+            var categorii = new Dictionary<string, (int Id, string Titlu)>();
+
+            foreach (var retetaJson in reteteElement.EnumerateArray())
+            {
+                if (retetaJson.TryGetProperty("categorie", out JsonElement categorieElement) &&
+                    retetaJson.TryGetProperty("idReteta", out JsonElement idRetetaElement) &&
+                    retetaJson.TryGetProperty("titlu", out JsonElement titluElement) &&
+                    idRetetaElement.TryGetInt32(out int idReteta))
                 {
-                    return RedirectToPage("/Autentificare");
-                }
+                    string categorie = categorieElement.GetString();
+                    string titlu = titluElement.GetString();
 
-                var categorii = new List<string> { "Mic Dejun", "Prânz", "Cină", "Desert", "Gustare" };
-                var reteteGenerate = new Dictionary<string, Retete>();
-
-                // Extrage toate rețetele o singură dată
-                var toateRetetele = await _context.Retetes.Where(r => r.Aprobata == true).ToListAsync();
-
-                if (!toateRetetele.Any())
-                {
-                    return new JsonResult(new { error = "Nu există rețete disponibile." });
-                }
-
-                // Selectează o rețetă aleatorie pentru fiecare categorie
-                foreach (var categorie in categorii)
-                {
-                    var reteteCategorie = toateRetetele.Where(r => r.Categorie == categorie).ToList();
-                    if (reteteCategorie.Any())
+                    if (!string.IsNullOrEmpty(categorie) && !string.IsNullOrEmpty(titlu))
                     {
-                        reteteGenerate[categorie] = reteteCategorie.OrderBy(r => Guid.NewGuid()).First();
+                        categorii[categorie] = (idReteta, titlu);
                     }
                 }
-
-                // Verifică dacă există deja un plan alimentar pentru ziua curentă
-                var planExistent = await _context.PlanAlimentars
-                    .FirstOrDefaultAsync(p => p.IdUtilizator == userId && p.Ziua == ziuaSelectata);
-
-                if (planExistent != null)
-                {
-                    return new JsonResult(new { error = "Planul alimentar pentru azi a fost deja generat." });
-                }
-
-                // Salvează planul alimentar în baza de date
-                var planNou = new PlanAlimentar
-                {
-                    IdUtilizator = userId,
-                    IdMicDeJun = reteteGenerate.ContainsKey("Mic Dejun") ? reteteGenerate["Mic Dejun"].IdReteta : null,
-                    IdPranz = reteteGenerate.ContainsKey("Prânz") ? reteteGenerate["Prânz"].IdReteta : null,
-                    IdCina = reteteGenerate.ContainsKey("Cină") ? reteteGenerate["Cină"].IdReteta : null,
-                    IdDesert = reteteGenerate.ContainsKey("Desert") ? reteteGenerate["Desert"].IdReteta : null,
-                    IdGustare = reteteGenerate.ContainsKey("Gustare") ? reteteGenerate["Gustare"].IdReteta : null,
-                    Ziua = ziuaSelectata
-                };
-
-                _context.PlanAlimentars.Add(planNou);
-                int rowsAffected = await _context.SaveChangesAsync();
-                if (rowsAffected == 0)
-                {
-                    return new JsonResult(new { error = "Nicio modificare nu a fost salvată în baza de date." });
-                }
-                // Construiește mesajul email
-                var mesajEmail = $@"
-            <h2>Plan alimentar generat</h2>
-            <p>Ai generat un plan alimentar pentru data de <strong>{ziuaSelectata}</strong>.</p>
-            <p>Rețetele incluse:</p>
-            <ul>
-                {string.Join("", reteteGenerate.Values.Select(r => $"<li>{r.Titlu} ({r.Categorie})</li>"))}
-            </ul>
-            <p>Un reminder îți va fi trimis în ziua planificată.</p>";
-
-                // Trimite email
-                await _emailService.SendEmailAsync(utilizator.Email, "Plan alimentar generat", mesajEmail);
-                return new JsonResult(new { success = "Planul alimentar a fost salvat cu succes!", retete = reteteGenerate.Values });
             }
-            catch (Exception ex)
+
+            // Crearea obiectului `PlanAlimentar`
+            var planNou = new PlanAlimentar
             {
-                return new JsonResult(new { error = "Eroare la salvarea planului alimentar.", details = ex.Message });
+                IdUtilizator = userId,
+                IdMicDeJun = categorii.ContainsKey("Mic Dejun") ? categorii["Mic Dejun"].Id : null,
+                IdPranz = categorii.ContainsKey("Prânz") ? categorii["Prânz"].Id : null,
+                IdCina = categorii.ContainsKey("Cină") ? categorii["Cină"].Id : null,
+                IdDesert = categorii.ContainsKey("Desert") ? categorii["Desert"].Id : null,
+                IdGustare = categorii.ContainsKey("Gustare") ? categorii["Gustare"].Id : null,
+                Ziua = dateOnlyValue
+            };
+
+            _context.PlanAlimentars.Add(planNou);
+            int rowsAffected = await _context.SaveChangesAsync();
+
+            if (rowsAffected == 0)
+            {
+                return new JsonResult(new { error = "Nicio modificare nu a fost salvată în baza de date." });
             }
+
+            // Construire mesaj email cu titlurile rețetelor în loc de ID-uri
+            var mesajEmail = $@"
+<h2>Plan alimentar generat</h2>
+<p>Ai generat un plan alimentar pentru data de <strong>{dataSelectata}</strong>.</p>
+<p>Rețetele incluse:</p>
+<ul>
+    {string.Join("", categorii.Select(r => $"<li>{r.Value.Titlu} - Categorie: {r.Key}</li>"))}
+</ul>
+<p>Un reminder îți va fi trimis în ziua planificată.</p>";
+
+            await _emailService.SendEmailAsync(utilizator.Email, "Plan alimentar generat", mesajEmail);
+
+            return new JsonResult(new { success = "Planul alimentar a fost salvat cu succes!", retete = categorii, ziua = planNou.Ziua });
+
         }
     }
 }

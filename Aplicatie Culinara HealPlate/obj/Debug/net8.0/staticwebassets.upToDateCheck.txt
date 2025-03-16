@@ -7,9 +7,12 @@ wwwroot\css\style.scss
 wwwroot\favicon.ico
 wwwroot\images\aboutIMG.jpg
 wwwroot\images\bananaBread.jpg
+wwwroot\images\breakfast.jpg
 wwwroot\images\chili.jpg
 wwwroot\images\cofeina.jpg
+wwwroot\images\creamySoup.jpg
 wwwroot\images\crustacee.jpg
+wwwroot\images\desert.jpg
 wwwroot\images\fish.jpg
 wwwroot\images\gluten.jpg
 wwwroot\images\granola_iaurt.jpg
