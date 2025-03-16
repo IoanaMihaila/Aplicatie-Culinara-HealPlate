@@ -16,6 +16,7 @@ wwwroot\images\desert.jpg
 wwwroot\images\fish.jpg
 wwwroot\images\gluten.jpg
 wwwroot\images\granola_iaurt.jpg
+wwwroot\images\greek.jpg
 wwwroot\images\lactoza.jpg
 wwwroot\images\logo.jpg
 wwwroot\images\logo1.jpg

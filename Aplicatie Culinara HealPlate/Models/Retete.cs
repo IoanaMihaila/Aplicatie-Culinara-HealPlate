@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Aplicatie_Culinara_HealPlate.Models;
 
@@ -26,15 +25,14 @@ public partial class Retete
 
     public virtual ICollection<Notificari> Notificaris { get; set; } = new List<Notificari>();
 
-    [JsonIgnore]
     public virtual ICollection<PlanAlimentar> PlanAlimentarIdCinaNavigations { get; set; } = new List<PlanAlimentar>();
-    [JsonIgnore]
+
     public virtual ICollection<PlanAlimentar> PlanAlimentarIdDesertNavigations { get; set; } = new List<PlanAlimentar>();
-    [JsonIgnore]
+
     public virtual ICollection<PlanAlimentar> PlanAlimentarIdGustareNavigations { get; set; } = new List<PlanAlimentar>();
-    [JsonIgnore]
+
     public virtual ICollection<PlanAlimentar> PlanAlimentarIdMicDeJunNavigations { get; set; } = new List<PlanAlimentar>();
-    [JsonIgnore]
+
     public virtual ICollection<PlanAlimentar> PlanAlimentarIdPranzNavigations { get; set; } = new List<PlanAlimentar>();
 
     public virtual ICollection<Recenzii> Recenziis { get; set; } = new List<Recenzii>();

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "b20FbCWpO2vuBcixq5Huw5l/eYNhNj6qdDLu8c9gBKM=",
+  "Hash": "yg8sBzD34Uute1VENEpijtY08QvjfmUtr/PDraORgDA=",
   "Source": "Aplicatie Culinara HealPlate",
   "BasePath": "_content/Aplicatie Culinara HealPlate",
   "Mode": "Default",
@@ -1695,6 +1695,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\granola_iaurt.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\greek.jpg",
+      "SourceId": "Aplicatie Culinara HealPlate",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\",
+      "BasePath": "_content/Aplicatie Culinara HealPlate",
+      "RelativePath": "images/greek#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "za216hgccm",
+      "Integrity": "FZRg13TehjDuHUwTWsO+cHMiRNVMuX3UUQUjGhAjQJw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\greek.jpg"
     },
     {
       "Identity": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\lactoza.jpg",
@@ -7130,6 +7151,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-Xux9OFYkVgrRH289L0YqjjGtdSrbBNEj4V/IQDfxLGc="
+        }
+      ]
+    },
+    {
+      "Route": "images/greek.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\greek.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207765"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FZRg13TehjDuHUwTWsO+cHMiRNVMuX3UUQUjGhAjQJw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 16 Mar 2025 11:05:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FZRg13TehjDuHUwTWsO+cHMiRNVMuX3UUQUjGhAjQJw="
+        }
+      ]
+    },
+    {
+      "Route": "images/greek.za216hgccm.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\greek.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "207765"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FZRg13TehjDuHUwTWsO+cHMiRNVMuX3UUQUjGhAjQJw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 16 Mar 2025 11:05:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "za216hgccm"
+        },
+        {
+          "Name": "label",
+          "Value": "images/greek.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FZRg13TehjDuHUwTWsO+cHMiRNVMuX3UUQUjGhAjQJw="
         }
       ]
     },
@@ -13142,7 +13245,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 12 Mar 2025 20:12:14 GMT"
+          "Value": "Sun, 16 Mar 2025 11:29:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13179,7 +13282,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 12 Mar 2025 20:12:14 GMT"
+          "Value": "Sun, 16 Mar 2025 11:29:20 GMT"
         },
         {
           "Name": "Cache-Control",

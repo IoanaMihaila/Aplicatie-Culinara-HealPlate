@@ -370,7 +370,7 @@ public partial class HealPlateDbContext : DbContext
             entity.ToTable("Retete", tb => tb.HasTrigger("trg_SetNullOnDeleteReteta"));
 
             entity.Property(e => e.IdReteta).HasColumnName("ID_Reteta");
-            entity.Property(e => e.Aprobata).HasDefaultValue(false);
+            entity.Property(e => e.Aprobata).HasDefaultValue(null);
             entity.Property(e => e.Categorie)
                 .HasMaxLength(50)
                 .IsUnicode(false);

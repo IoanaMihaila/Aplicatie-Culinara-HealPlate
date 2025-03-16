@@ -184,7 +184,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                         DataCreare = DateTime.Now, // Setăm data curentă ca fiind data creării notificării
                         IdUtilizator = admin.IdUtilizator, // Setăm ID-ul adminului
                         IdReteta = reteta.IdReteta, // Setăm ID-ul rețetei adăugate
-                        Vizualizat = false // Presupunem că notificarea nu a fost vizualizată inițial
+                        Vizualizat = null // Presupunem că notificarea nu a fost vizualizată inițial
                     };
 
                     _context.Notificaris.Add(notificareAdmin);
