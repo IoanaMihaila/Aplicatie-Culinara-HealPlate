@@ -1,0 +1,212 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.RaportNutritieModel
+@{
+    ViewData["Title"] = "Raport Nutritie";
+    var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    @Html.AntiForgeryToken()
+}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Plan Alimentar</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom CSS -->
+    <link href="~/css/style.css" rel="stylesheet" />
+
+    <style>
+        /* Stilizare buton */
+        .btn-custom {
+            background-color: #ffc107;
+            color: #343a40;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 22px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+            .btn-custom:hover {
+                background-color: #e0a800;
+            }
+
+        /* Card pentru raport */
+        #raportCard {
+            display: none;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigație -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <ul class="navbar-nav ms-auto">
+                @if (!string.IsNullOrEmpty(numeUtilizator))
+                {
+                    <li class="nav-item">
+                        <span class="navbar-text">
+                            <a href="#" class="user_link">
+                                <i class="fa fa-user" style="color: #000000;"></i>
+                            </a>
+                            Bun venit, @numeUtilizator!
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Autentificare"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Container principal -->
+    <div class="container mt-4">
+        <h2 class="text-center">Planurile Alimentare</h2>
+        <table class="table table-bordered text-center">
+            <thead class="table-warning">
+                <tr>
+                    <th>Ziua</th>
+                    <th>Mic Dejun</th>
+                    <th>Prânz</th>
+                    <th>Desert</th>
+                    <th>Gustare</th>
+                    <th>Cina</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PlanuriAlimentare == null || !Model.PlanuriAlimentare.Any())
+                {
+                    <tr><td colspan="6">Nu există planuri alimentare disponibile.</td></tr>
+                }
+                else
+                {
+                    @foreach (var plan in Model.PlanuriAlimentare)
+                    {
+                        <tr>
+                            <td>@plan.Ziua.ToString("dd-MM-yyyy")</td>
+                            <td><img src="@plan.IdMicDeJunNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                            <td><img src="@plan.IdPranzNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                            <td><img src="@plan.IdDesertNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                            <td><img src="@plan.IdGustareNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                            <td><img src="@plan.IdCinaNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <!-- Formular pentru datele nutriționale -->
+        <div class="container mt-4">
+            <h3 class="text-center">Completează detaliile pentru calculul necesarului caloric</h3>
+            <form id="formularNutritie">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="age" class="form-label">Vârsta</label>
+                        <input type="number" id="age" class="form-control" placeholder="Introdu vârsta" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="weight" class="form-label">Greutatea (kg)</label>
+                        <input type="number" id="weight" class="form-control" placeholder="Introdu greutatea" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="height" class="form-label">Înălțimea (cm)</label>
+                        <input type="number" id="height" class="form-control" placeholder="Introdu înălțimea" required>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label for="gender" class="form-label">Genul</label>
+                        <select id="gender" class="form-select" required>
+                            <option value="male">Masculin</option>
+                            <option value="female">Feminin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="activity_level" class="form-label">Nivel de activitate</label>
+                        <select id="activity_level" class="form-select" required>
+                            <option value="sedentary">Sedentar</option>
+                            <option value="lightly_active">Activitate ușoară</option>
+                            <option value="moderately_active">Activitate moderată</option>
+                            <option value="very_active">Activitate intensă</option>
+                            <option value="extra_active">Activitate extra-intensă</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="goal" class="form-label">Scopul</label>
+                        <select id="goal" class="form-select" required>
+                            <option value="weight_loss">Pierderea în greutate</option>
+                            <option value="maintenance">Menținerea greutății</option>
+                            <option value="weight_gain">Creșterea în greutate</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Câmp ascuns pentru formula Mifflin-St Jeor (calculul se face pe backend) -->
+                <input type="hidden" id="equation" value="mifflin">
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-custom">Calculază necesarul caloric</button>
+                </div>
+                <div id="caloriesResult" class="mt-4" style="display: none;">
+                    <h4>Necesarul Caloric: <span id="caloriesValue"></span></h4>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script pentru trimiterea datelor -->
+    <script>
+                document.getElementById("formularNutritie").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Obținerea valorilor din formular
+            var age = document.getElementById("age").value;
+            var weight = document.getElementById("weight").value;
+            var height = document.getElementById("height").value;
+            var gender = document.getElementById("gender").value;
+            var activity_level = document.getElementById("activity_level").value;
+            var goal = document.getElementById("goal").value;
+            var equation = document.getElementById("equation").value;
+
+            // Crearea cererii XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `https://health-calculator-api.p.rapidapi.com/dcn?age=${age}&weight=${weight}&height=${height}&gender=${gender}&activity_level=${activity_level}&goal=${goal}&equation=${equation}`);
+            xhr.setRequestHeader('x-rapidapi-key', '7fb61485a0mshe687d00c1901b51p1306c1jsnae721f78f3d2');
+            xhr.setRequestHeader('x-rapidapi-host', 'health-calculator-api.p.rapidapi.com');
+
+            // Procesarea răspunsului API
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+
+                // Afișează rezultatul în containerul de mai sus
+                document.getElementById("caloriesResult").style.display = "block";
+                document.getElementById("caloriesValue").textContent = response.caloric_needs.calories; // Update the path to access 'calories'
+            }
+            else if (xhr.readyState === 4) {
+                // Tratează eventuale erori
+                Swal.fire("Eroare!", "A apărut o problemă la calculul necesarului caloric.", "error");
+            }
+        };
+
+            // Trimite cererea
+            xhr.send();
+        });
+
+    </script>
+</body>
+</html>

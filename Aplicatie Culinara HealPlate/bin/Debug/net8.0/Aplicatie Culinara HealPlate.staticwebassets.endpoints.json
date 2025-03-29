@@ -29,7 +29,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Nov 2024 10:52:58 GMT"
+          "Value": "Wed, 19 Mar 2025 20:25:33 GMT"
         }
       ],
       "EndpointProperties": [
@@ -74,7 +74,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Nov 2024 10:52:58 GMT"
+          "Value": "Wed, 19 Mar 2025 20:25:33 GMT"
         }
       ],
       "EndpointProperties": [
@@ -3043,6 +3043,88 @@
       ]
     },
     {
+      "Route": "images/apple-pie.7jqcp4n7e5.jpg",
+      "AssetFile": "images/apple-pie.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "185292"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 18:59:07 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "7jqcp4n7e5"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg="
+        },
+        {
+          "Name": "label",
+          "Value": "images/apple-pie.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/apple-pie.jpg",
+      "AssetFile": "images/apple-pie.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "185292"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 18:59:07 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg="
+        }
+      ]
+    },
+    {
       "Route": "images/bananaBread.b5j0511z1b.jpg",
       "AssetFile": "images/bananaBread.jpg",
       "Selectors": [],
@@ -3397,7 +3479,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 10:05:54 GMT"
+          "Value": "Mon, 24 Mar 2025 22:04:14 GMT"
         }
       ],
       "EndpointProperties": [
@@ -3442,7 +3524,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 10:05:54 GMT"
+          "Value": "Mon, 24 Mar 2025 22:04:14 GMT"
         }
       ],
       "EndpointProperties": [
@@ -3807,7 +3889,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 18 Feb 2025 16:20:09 GMT"
+          "Value": "Mon, 24 Mar 2025 22:03:35 GMT"
         }
       ],
       "EndpointProperties": [
@@ -3852,7 +3934,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 18 Feb 2025 16:20:09 GMT"
+          "Value": "Mon, 24 Mar 2025 22:03:35 GMT"
         }
       ],
       "EndpointProperties": [
@@ -4761,6 +4843,88 @@
         {
           "Name": "label",
           "Value": "images/sugar.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/supa-legume.jpg",
+      "AssetFile": "images/supa-legume.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120842"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 19:04:58 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ="
+        }
+      ]
+    },
+    {
+      "Route": "images/supa-legume.q4wxd2hztc.jpg",
+      "AssetFile": "images/supa-legume.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120842"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 19:04:58 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "q4wxd2hztc"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ="
+        },
+        {
+          "Name": "label",
+          "Value": "images/supa-legume.jpg"
         }
       ]
     },
@@ -9875,7 +10039,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 11:29:20 GMT"
+          "Value": "Wed, 19 Mar 2025 20:58:42 GMT"
         }
       ],
       "EndpointProperties": [
@@ -9912,7 +10076,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 11:29:20 GMT"
+          "Value": "Wed, 19 Mar 2025 20:58:42 GMT"
         }
       ],
       "EndpointProperties": [

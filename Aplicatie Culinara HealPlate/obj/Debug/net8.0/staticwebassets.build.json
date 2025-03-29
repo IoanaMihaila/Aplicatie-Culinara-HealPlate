@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QsPHqFB855PZ5ebRI3iSeFMe/VG1tZJzTQd6KNeJsAA=",
+  "Hash": "AanAoyxcain/ux+n8XARSBZ9W4Fp9UXeywCD3HJGTrg=",
   "Source": "Aplicatie Culinara HealPlate",
   "BasePath": "_content/Aplicatie Culinara HealPlate",
   "Mode": "Default",
@@ -1487,6 +1487,27 @@
       "OriginalItemSpec": "wwwroot\\images\\aboutIMG.jpg"
     },
     {
+      "Identity": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\apple-pie.jpg",
+      "SourceId": "Aplicatie Culinara HealPlate",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\",
+      "BasePath": "_content/Aplicatie Culinara HealPlate",
+      "RelativePath": "images/apple-pie#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "7jqcp4n7e5",
+      "Integrity": "rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\apple-pie.jpg"
+    },
+    {
       "Identity": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\bananaBread.jpg",
       "SourceId": "Aplicatie Culinara HealPlate",
       "SourceType": "Discovered",
@@ -1947,6 +1968,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\sugar.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\supa-legume.jpg",
+      "SourceId": "Aplicatie Culinara HealPlate",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\",
+      "BasePath": "_content/Aplicatie Culinara HealPlate",
+      "RelativePath": "images/supa-legume#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "q4wxd2hztc",
+      "Integrity": "FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\supa-legume.jpg"
     },
     {
       "Identity": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\usturoi.jpg",
@@ -3317,7 +3359,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Nov 2024 10:52:58 GMT"
+          "Value": "Wed, 19 Mar 2025 20:25:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3354,7 +3396,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Nov 2024 10:52:58 GMT"
+          "Value": "Wed, 19 Mar 2025 20:25:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3399,7 +3441,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Nov 2024 10:52:58 GMT"
+          "Value": "Wed, 19 Mar 2025 20:25:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3444,7 +3486,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 27 Nov 2024 10:52:58 GMT"
+          "Value": "Wed, 19 Mar 2025 20:25:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6335,6 +6377,88 @@
       ]
     },
     {
+      "Route": "images/apple-pie.7jqcp4n7e5.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\apple-pie.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "185292"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 18:59:07 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "7jqcp4n7e5"
+        },
+        {
+          "Name": "label",
+          "Value": "images/apple-pie.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg="
+        }
+      ]
+    },
+    {
+      "Route": "images/apple-pie.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\apple-pie.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "185292"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 18:59:07 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-rXVrwnXutLudD99yMcdiPIallMe8zCtsZbt742YcZxg="
+        }
+      ]
+    },
+    {
       "Route": "images/bananaBread.b5j0511z1b.jpg",
       "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\bananaBread.jpg",
       "Selectors": [],
@@ -6685,7 +6809,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 10:05:54 GMT"
+          "Value": "Mon, 24 Mar 2025 22:04:14 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6730,7 +6854,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 10:05:54 GMT"
+          "Value": "Mon, 24 Mar 2025 22:04:14 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7095,7 +7219,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 18 Feb 2025 16:20:09 GMT"
+          "Value": "Mon, 24 Mar 2025 22:03:35 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7140,7 +7264,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 18 Feb 2025 16:20:09 GMT"
+          "Value": "Mon, 24 Mar 2025 22:03:35 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8135,6 +8259,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-95LwQ0PbELgg9HGjlDFLKy/1LnYKvrIfpg3vG+PtADw="
+        }
+      ]
+    },
+    {
+      "Route": "images/supa-legume.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\supa-legume.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120842"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 19:04:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ="
+        }
+      ]
+    },
+    {
+      "Route": "images/supa-legume.q4wxd2hztc.jpg",
+      "AssetFile": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\supa-legume.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120842"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 27 Mar 2025 19:04:58 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "q4wxd2hztc"
+        },
+        {
+          "Name": "label",
+          "Value": "images/supa-legume.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FpolaIgfI8v2oNhUA+1/VThpDR5i2WQAudsGhoDjdoQ="
         }
       ]
     },
@@ -13245,7 +13451,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 11:29:20 GMT"
+          "Value": "Wed, 19 Mar 2025 20:58:42 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13282,7 +13488,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 11:29:20 GMT"
+          "Value": "Wed, 19 Mar 2025 20:58:42 GMT"
         },
         {
           "Name": "Cache-Control",

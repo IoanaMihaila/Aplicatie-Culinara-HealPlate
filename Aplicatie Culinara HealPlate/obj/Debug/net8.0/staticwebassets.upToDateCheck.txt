@@ -6,6 +6,7 @@ wwwroot\css\style.css.map
 wwwroot\css\style.scss
 wwwroot\favicon.ico
 wwwroot\images\aboutIMG.jpg
+wwwroot\images\apple-pie.jpg
 wwwroot\images\bananaBread.jpg
 wwwroot\images\breakfast.jpg
 wwwroot\images\chili.jpg
@@ -28,6 +29,7 @@ wwwroot\images\SalataGreceasca.jpg
 wwwroot\images\somon_bowl.jpg
 wwwroot\images\soya.jpg
 wwwroot\images\sugar.jpg
+wwwroot\images\supa-legume.jpg
 wwwroot\images\usturoi.jpg
 wwwroot\images\vegetarian.jpg
 wwwroot\js\bootstrap.js

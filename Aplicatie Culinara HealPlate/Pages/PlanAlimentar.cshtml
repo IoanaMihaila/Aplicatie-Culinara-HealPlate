@@ -279,6 +279,21 @@
             })
             .catch(error => console.error("Eroare la salvare:", error));
         });
+        fetch('/PlanAlimentar?handler=PlanuriActive')
+    .then(response => response.json())
+    .then(dates => {
+        var events = dates.map(date => ({
+            title: "🍽️ Plan Activ",
+            start: date,
+            allDay: true,
+            color: "#28a745", // Verde pentru a indica activ
+            textColor: "white"
+        }));
+
+        // Adaugă evenimentele în calendar
+        calendar.addEventSource(events);
+    })
+    .catch(error => console.error("Eroare la obținerea planurilor active:", error));
     });
 </script>
 <body>

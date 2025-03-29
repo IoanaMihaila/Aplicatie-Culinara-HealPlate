@@ -36,6 +36,9 @@
     <link href="css/style.css" rel="stylesheet" />
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
 </head>
 
 <!-- Navbar -->
@@ -62,6 +65,7 @@
     </div>
 </nav>
 <body>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd6i5o5eD1fOMu_Yc5ENGZUSveTqO91NA&libraries=places&async&defer"></script>
     <div class="container mt-5">
         <h2 class="text-center">Statistica Utilizatori</h2>
         @{
@@ -114,6 +118,10 @@
             {   
                 <p class="text-muted">Nu există utilizatori în baza de date.</p>
             }
+            <h4 class="mt-5">Statistica celor mai Apreciate Retete</h4>
+            <div class="card p-4">
+                <canvas id="chartRetete"></canvas>
+            </div>
         }
         else{
             var utilizatorCurent = Model.Utilizatori.FirstOrDefault(u => u.IdUtilizator == idUtilizator);
@@ -154,6 +162,10 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="alert alert-info mt-4" role="alert">
+                    <strong>Magazine în Timișoara:</strong> Găsește locuri care oferă produse fără alergeni. Căută pe hartă cele mai apropiate opțiuni!
+                </div>
+                <div id="map" style="height: 400px; width: 100%;"></div>
             }
             else
             {
@@ -174,10 +186,10 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var ctx = document.getElementById('chartAlergeni').getContext('2d');
+                document.addEventListener("DOMContentLoaded", function () {
+            var ctxAlergeni = document.getElementById('chartAlergeni').getContext('2d');
 
-            // Datele din backend
+            // Datele pentru alergeni
             var alergeniLabels = @Html.Raw(Json.Serialize(Model.StatisticaAlergeni.Keys));
             var alergeniValues = @Html.Raw(Json.Serialize(Model.StatisticaAlergeni.Values));
 
@@ -187,7 +199,8 @@
                 '#FF9F40', '#8D6E63', '#26A69A', '#F06292', '#5C6BC0'
             ];
 
-            var myPieChart = new Chart(ctx, {
+            // Graficul pentru alergeni
+            var myPieChart = new Chart(ctxAlergeni, {
                 type: 'pie',
                 data: {
                     labels: alergeniLabels,
@@ -213,8 +226,119 @@
                     }
                 }
             });
+
+            // Datele pentru statistica rețetelor cele mai apreciate
+            var reteteLabels = @Html.Raw(Json.Serialize(Model.StatisticaRetete.Keys));
+            var reteteValues = @Html.Raw(Json.Serialize(Model.StatisticaRetete.Values));
+
+            // Graficul pentru rețetele cele mai apreciate
+            var ctxRetete = document.getElementById('chartRetete').getContext('2d');
+            var myBarChart = new Chart(ctxRetete, {
+                type: 'bar',
+                data: {
+                    labels: reteteLabels,
+                    datasets: [{
+                        label: 'Număr de colecții',
+                        data: reteteValues,
+                        backgroundColor: '#4BC0C0', // culoare pentru bare
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    return `${reteteLabels[tooltipItem.dataIndex]}: ${reteteValues[tooltipItem.dataIndex]} colecții`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Rețete'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Număr colecții'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         });
+                      function initMap() {
+            // Inițializează harta
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 45.7489, lng: 21.2087}, // București, de exemplu
+                zoom: 12
+            });
+
+            // Definirea cererii pentru a căuta magazine bio
+            var request = {
+                location: map.getCenter(),
+                radius: 5000,  // Căutăm într-o rază de 5 km
+                keyword: 'magazin bio'  // Căutăm doar magazinele bio
+            };
+
+            // Creează un serviciu pentru Places API
+            var service = new google.maps.places.PlacesService(map);
+
+            // Execută cererea pentru a căuta magazine
+            service.nearbySearch(request, function(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    // Dacă cererea a avut succes, marchează locațiile pe hartă
+                    for (var i = 0; i < results.length; i++) {
+                        var place = results[i];
+                        var marker = new google.maps.Marker({
+                            position: place.geometry.location,
+                            map: map,
+                            title: place.name
+                        });
+
+                        // Creează un InfoWindow pentru fiecare locație
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<div><strong>' + place.name + '</strong><br>' + place.vicinity + '</div>'
+                        });
+
+                        // Adaugă un eveniment de click pentru marker
+                        (function(marker, infowindow) {
+                            marker.addListener('click', function() {
+                                infowindow.open(map, marker);
+                            });
+                        })(marker, infowindow);
+                    }
+                } else {
+                    console.error('Error fetching places: ' + status);
+                }
+            });
+        }
     </script>
+    <body>
+        <!-- Conținutul paginii -->
+
+        <script>
+            function loadGoogleMapsAPI() {
+              var script = document.createElement('script');
+              script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCd6i5o5eD1fOMu_Yc5ENGZUSveTqO91NA&libraries=places&callback=initMap";
+              script.async = true;
+              script.defer = true;
+              document.head.appendChild(script);
+            }
+
+            // Call the function to load the API
+            loadGoogleMapsAPI();
+        </script>
+    </body>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -41,6 +41,10 @@
       "PackagePath": "staticwebassets\\images\\aboutIMG.jpg"
     },
     {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\apple-pie.jpg",
+      "PackagePath": "staticwebassets\\images\\apple-pie.jpg"
+    },
+    {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\bananaBread.jpg",
       "PackagePath": "staticwebassets\\images\\bananaBread.jpg"
     },
@@ -123,6 +127,10 @@
     {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\sugar.jpg",
       "PackagePath": "staticwebassets\\images\\sugar.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\supa-legume.jpg",
+      "PackagePath": "staticwebassets\\images\\supa-legume.jpg"
     },
     {
       "Id": "C:\\Users\\ioana\\source\\repos\\Aplicatie Culinara HealPlate\\Aplicatie Culinara HealPlate\\wwwroot\\images\\usturoi.jpg",

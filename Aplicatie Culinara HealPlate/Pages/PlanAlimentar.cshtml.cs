@@ -1,11 +1,9 @@
 ﻿using Aplicatie_Culinara_HealPlate.Data;
 using Aplicatie_Culinara_HealPlate.Models;
 using Aplicatie_Culinara_HealPlate.Services;
-using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System.Globalization;
 using System.Text.Json;
 
@@ -198,5 +196,17 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             return new JsonResult(new { success = "Planul alimentar a fost salvat cu succes!", retete = categorii, ziua = planNou.Ziua });
 
         }
+        public async Task<IActionResult> OnGetPlanuriActiveAsync()
+        {
+            // Obține ID-ul utilizatorului autentificat
+            var userId = HttpContext.Session.GetInt32("IdUtilizator");
+            var planuri = await _context.PlanAlimentars
+                .Where(p => p.IdUtilizator == userId)
+                .Select(p => p.Ziua)
+                .ToListAsync();
+
+            return new JsonResult(planuri);
+        }
+
     }
 }

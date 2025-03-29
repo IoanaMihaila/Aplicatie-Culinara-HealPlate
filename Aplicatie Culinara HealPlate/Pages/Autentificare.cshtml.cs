@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Http;
 using Aplicatie_Culinara_HealPlate.Models;
-using Aplicatie_Culinara_HealPlate.Data;
 
 
 namespace Aplicatie_Culinara_HealPlate.Pages
