@@ -163,7 +163,7 @@
             reader.readAsDataURL(file);
         }
 
-            document.getElementById('uploadButton').addEventListener('click', function () {
+                   document.getElementById('uploadButton').addEventListener('click', async function () {
             let fileInput = document.getElementById('imagine');
             let file = fileInput.files[0];
 
@@ -172,27 +172,60 @@
                 return;
             }
 
+            // 1. Trimite imaginea la backend pentru a o salva și a primi un URL public
             let formData = new FormData();
             formData.append("Imagine", file);
 
-            fetch('/Inspiratie?handler=GenerareReteta', {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            formData.append("__RequestVerificationToken", token);
+
+
+            const backendResponse = await fetch('/Inspiratie?handler=SalveazaImagine', {
                 method: 'POST',
                 body: formData
-            })
-                    .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+            });
+
+            const backendData = await backendResponse.json();
+            const imageUrl = backendData.url;
+
+            if (!imageUrl) {
+                Swal.fire("Eroare", "Nu s-a putut încărca imaginea.", "error");
+                return;
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Server response:", data);
-            Swal.fire("Succes!", data.message, "success");
-        })
-        .catch(error => {
-            Swal.fire("Eroare", "A apărut o problemă la trimiterea imaginii.", "error");
-            console.error("Error details:", error);
-        });
+
+            // 2. Trimite URL-ul la RapidAPI pentru recunoaștere ingrediente
+            const data = new URLSearchParams();
+            data.append("url", imageUrl);
+
+            const response = await fetch('https://objects-detection.p.rapidapi.com/objects-detection', {
+                method: 'POST',
+                headers: {
+                    'x-rapidapi-key': '7fb61485a0mshe687d00c1901b51p1306c1jsnae721f78f3d2',
+                    'x-rapidapi-host': 'objects-detection.p.rapidapi.com',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: data
+            });
+
+            const apiData = await response.json();
+            const obiecte = apiData.objects.map(obj => obj.name.toLowerCase());
+
+            console.log("Ingrediente detectate:", obiecte);
+
+            // 3. Trimite ingredientele la backend pentru a căuta rețeta
+            const retetaResponse = await fetch('/Inspiratie?handler=GenerareReteta', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ingrediente: obiecte })
+            });
+
+            const rezultat = await retetaResponse.json();
+
+            if (rezultat.reteta) {
+                Swal.fire("Rețetă găsită!", `Sugestie: ${rezultat.reteta.nume}`, "success");
+            } else {
+                Swal.fire("Nicio rețetă găsită", "Încearcă alt ingredient.", "info");
+            }
         });
     </script>
 </body>

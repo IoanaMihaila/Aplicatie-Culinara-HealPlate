@@ -36,6 +36,8 @@
     <link href="css/style.css" rel="stylesheet" />
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 <!-- Navbar -->
@@ -102,7 +104,10 @@
                 <p>@Model.Reteta.Descriere</p>
                 <h4>Mod de preparare</h4>
                 @if (rolUtilizator == "Utilizator"){
-                    <p>@Model.Reteta.ModDePreparare</p>
+                    <p id="modPreparareText">@Model.Reteta.ModDePreparare</p>
+                    <button class="btn btn-outline-primary" onclick="citesteReteta()" title="Ascultă modul de preparare">
+                        <i class="fa fa-volume-up"></i>
+                    </button>
                 }else if(rolUtilizator=="Admin"){
                     <textarea id="modDePreparare" class="form-control form-control-lg" disabled style="min-height: 250px;">
                         @Model.Reteta.ModDePreparare
@@ -169,6 +174,70 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+                   let recognizer;
+            let rezultatFinal = "";
+
+            function pornesteInregistrarea() {
+                const status = document.getElementById("statusVocal");
+
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {
+                    alert("Browserul tău nu suportă recunoaștere vocală.");
+                    return;
+                }
+
+                recognizer = new SpeechRecognition();
+                recognizer.lang = "ro-RO";
+                recognizer.interimResults = false;
+                recognizer.maxAlternatives = 1;
+
+                rezultatFinal = "";
+                status.innerText = "🎙️ Ascult... Vorbește acum.";
+
+                recognizer.start();
+
+                recognizer.onresult = function (event) {
+                    rezultatFinal = event.results[0][0].transcript;
+                    status.innerText = "📝 Transcriere completă.";
+                };
+
+                recognizer.onerror = function (event) {
+                    status.innerText = "❌ Eroare: " + event.error;
+                    console.error("Eroare:", event.error);
+                };
+            }
+
+            function opresteInregistrarea() {
+                if (recognizer) {
+                    recognizer.stop();
+
+                    recognizer.onend = function () {
+                        const textarea = document.getElementById("recenzieText");
+                        const status = document.getElementById("statusVocal");
+
+                        if (rezultatFinal) {
+                            textarea.value += (textarea.value ? " " : "") + rezultatFinal;
+                            status.innerText = "✅ Textul a fost adăugat în câmpul de recenzie.";
+                        } else {
+                            status.innerText = "⚠️ Nu s-a detectat nicio voce.";
+                        }
+                    };
+                }
+            }
+
+
+               function citesteReteta() {
+               const modPreparare = document.getElementById("modPreparareText").innerText;
+
+                if ('speechSynthesis' in window) {
+                    const mesaj = new SpeechSynthesisUtterance(modPreparare);
+                    mesaj.lang = 'ro-RO'; // limba română
+                    speechSynthesis.speak(mesaj);
+                } else {
+                    alert("Browserul tău nu suportă citirea vocală.");
+                }
+            }
+
               function enableEditing() {
                 console.log("Activare editare...");
 
@@ -316,7 +385,7 @@
                 const data = {
                     idIngredient: idIngredient,
                     cantitate: cantitate,
-                    unitate: unitate
+                    unitate: unitate.toString()
                 };
 
                 fetch('/Vizualizaredetalii?handler=AdaugaInCos', {
@@ -447,6 +516,16 @@
                     <div class="form-group">
                         <label for="recenzieText">Scrie o recenzie</label>
                         <textarea id="recenzieText" name="RecenzieText" class="form-control" rows="3"></textarea>
+                        <div class="mt-2 d-flex align-items-center gap-2">
+                            <button type="button" class="btn btn-outline-primary" onclick="pornesteInregistrarea()" title="Înregistrează">
+                                <i class="fa fa-microphone"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" onclick="opresteInregistrarea()" title="Oprește înregistrarea">
+                                <i class="fa fa-stop"></i>
+                            </button>
+                            <small id="statusVocal" class="form-text text-muted ml-2"></small>
+                        </div>
+                        <small id="statusVocal" class="form-text text-muted ml-2"></small>
                     </div>
                     <div class="form-group">
                         <label for="scor">Acordă un scor:</label>

@@ -162,10 +162,21 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="alert alert-info mt-4" role="alert">
-                    <strong>Magazine în Timișoara:</strong> Găsește locuri care oferă produse fără alergeni. Căută pe hartă cele mai apropiate opțiuni!
+                <h5 class="mt-4">Top 5 rețete folosite</h5>
+                <div class="card p-4 mb-4">
+                    <canvas id="chartReteteFrecvente"></canvas>
                 </div>
-                <div id="map" style="height: 400px; width: 100%;"></div>
+
+                <h5 class="mt-4">Top 5 ingrediente frecvente</h5>
+                <div class="card p-4 mb-4">
+                    <canvas id="chartIngredienteFrecvente"></canvas>
+                </div>
+
+                <h5 class="mt-4">Timp total de gătit săptămânal</h5>
+                <div class="card p-4 mb-4" style="max-width: 300px;">
+                    <canvas id="chartTimpGatire"></canvas>
+                </div>
+
             }
             else
             {
@@ -186,7 +197,7 @@
 
 
     <script>
-                document.addEventListener("DOMContentLoaded", function () {
+                        document.addEventListener("DOMContentLoaded", function () {
             var ctxAlergeni = document.getElementById('chartAlergeni').getContext('2d');
 
             // Datele pentru alergeni
@@ -276,68 +287,90 @@
                 }
             });
         });
-                      function initMap() {
-            // Inițializează harta
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 45.7489, lng: 21.2087}, // București, de exemplu
-                zoom: 12
-            });
+                   document.addEventListener("DOMContentLoaded", function () {
+            // =================== TOP 5 RETETE ====================
+            var reteteFrecventeLabels = @Html.Raw(Json.Serialize(Model.ReteteFrecventeUtilizator.Keys.Take(5)));
+            var reteteFrecventeValues = @Html.Raw(Json.Serialize(Model.ReteteFrecventeUtilizator.Values.Take(5)));
 
-            // Definirea cererii pentru a căuta magazine bio
-            var request = {
-                location: map.getCenter(),
-                radius: 5000,  // Căutăm într-o rază de 5 km
-                keyword: 'magazin bio'  // Căutăm doar magazinele bio
-            };
-
-            // Creează un serviciu pentru Places API
-            var service = new google.maps.places.PlacesService(map);
-
-            // Execută cererea pentru a căuta magazine
-            service.nearbySearch(request, function(results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    // Dacă cererea a avut succes, marchează locațiile pe hartă
-                    for (var i = 0; i < results.length; i++) {
-                        var place = results[i];
-                        var marker = new google.maps.Marker({
-                            position: place.geometry.location,
-                            map: map,
-                            title: place.name
-                        });
-
-                        // Creează un InfoWindow pentru fiecare locație
-                        var infowindow = new google.maps.InfoWindow({
-                            content: '<div><strong>' + place.name + '</strong><br>' + place.vicinity + '</div>'
-                        });
-
-                        // Adaugă un eveniment de click pentru marker
-                        (function(marker, infowindow) {
-                            marker.addListener('click', function() {
-                                infowindow.open(map, marker);
-                            });
-                        })(marker, infowindow);
+            new Chart(document.getElementById('chartReteteFrecvente'), {
+                type: 'bar',
+                data: {
+                    labels: reteteFrecventeLabels,
+                    datasets: [{
+                        label: 'Utilizări',
+                        data: reteteFrecventeValues,
+                        backgroundColor: '#FF6384',
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Top 5 Rețete Folosite' }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Utilizări' }
+                        }
                     }
-                } else {
-                    console.error('Error fetching places: ' + status);
                 }
             });
-        }
+
+            // =================== TOP 5 INGREDIENTE ====================
+            var ingredienteLabels = @Html.Raw(Json.Serialize(Model.IngredienteFrecventeUtilizator.Keys.Take(5)));
+            var ingredienteValues = @Html.Raw(Json.Serialize(Model.IngredienteFrecventeUtilizator.Values.Take(5)));
+
+            new Chart(document.getElementById('chartIngredienteFrecvente'), {
+                type: 'doughnut',
+                data: {
+                    labels: ingredienteLabels,
+                    datasets: [{
+                        data: ingredienteValues,
+                        backgroundColor: ['#4BC0C0', '#36A2EB', '#9966FF', '#FF9F40', '#FF6384']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: { display: true, text: 'Top 5 Ingrediente Frecvente' }
+                    }
+                }
+            });
+
+            // =================== TIMP GATIRE SAPTAMANAL ====================
+            var timpGatire = @Model.TimpGatireSaptamanal;
+            var timpMaxim = 7 * 120; // presupunem 120 min/zi ca maxim
+            var timpRamas = Math.max(0, timpMaxim - timpGatire);
+
+            new Chart(document.getElementById('chartTimpGatire'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Timp folosit', 'Timp rămas'],
+                    datasets: [{
+                        data: [timpGatire, timpRamas],
+                        backgroundColor: ['#36A2EB', '#e0e0e0']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Timp gătit săptămânal (minute)' },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `${context.label}: ${context.parsed} min`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
     </script>
     <body>
-        <!-- Conținutul paginii -->
-
-        <script>
-            function loadGoogleMapsAPI() {
-              var script = document.createElement('script');
-              script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCd6i5o5eD1fOMu_Yc5ENGZUSveTqO91NA&libraries=places&callback=initMap";
-              script.async = true;
-              script.defer = true;
-              document.head.appendChild(script);
-            }
-
-            // Call the function to load the API
-            loadGoogleMapsAPI();
-        </script>
     </body>
 
     <!-- Bootstrap JS -->

@@ -16,60 +16,34 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             _context = context;
         }
         [HttpPost]
-        public async Task<IActionResult> OnPostGenerareRetetaAsync(IFormFile Imagine)
+        public async Task<IActionResult> OnPostGenerareRetetaAsync([FromBody] IngredientInputModel input)
         {
-            if (Imagine == null || Imagine.Length == 0)
-            {
-                ModelState.AddModelError(string.Empty, "Te rugăm să încarci o imagine validă.");
-                return Page();
-            }
+            if (input?.Ingrediente == null || !input.Ingrediente.Any())
+                return BadRequest("Lista ingredientelor este goală.");
 
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-            Directory.CreateDirectory(uploadPath);
-
-            var filePath = Path.Combine(uploadPath, Imagine.FileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await Imagine.CopyToAsync(stream);
-            }
-            ViewData["UploadedImagePath"] = $"/uploads/{Imagine.FileName}";
-
-            // 🔍 Trimite imaginea la Google Vision API pentru recunoaștere
-            List<string> ingredienteDetectate = await DetecteazaIngrediente(filePath);
-
-            if (!ingredienteDetectate.Any())
-            {
-                return BadRequest("Nu s-au detectat ingrediente.");
-            }
-
-            // 🔎 Traducerea ingredientelor detectate în limba română
-            List<string> ingredienteRomanesti = ingredienteDetectate
-                .Select(ingredient => TraducatorIngrediente.TraducereIngredient(ingredient.ToLower()))
+            var ingredienteRomanesti = input.Ingrediente
+                .Select(i => TraducatorIngrediente.TraducereIngredient(i.ToLower()))
                 .ToList();
 
-            // 🔍 Logarea ingredientelor detectate și traduse în consola
-            Console.WriteLine("Ingrediente detectate: ");
-            foreach (var ingredient in ingredienteDetectate)
-            {
-                Console.WriteLine(ingredient);
-            }
-
-            Console.WriteLine("Ingrediente traduse: ");
-            foreach (var ingredient in ingredienteRomanesti)
-            {
-                Console.WriteLine(ingredient);
-            }
-
-            // 🔎 Caută rețete care conțin ingredientele traduse
             var reteta = GasesteReteta(ingredienteRomanesti);
 
             if (reteta == null)
-            {
-                return NotFound("Nicio rețetă potrivită găsită.");
-            }
+                return new JsonResult(new { reteta = (object)null });
 
-            return new JsonResult(new { success = true, reteta });
+            return new JsonResult(new
+            {
+                reteta = new
+                {
+                    nume = reteta.Titlu,
+                    descriere = reteta.Descriere
+                }
+            });
         }
+        public class IngredientInputModel
+        {
+            public List<string> Ingrediente { get; set; }
+        }
+
 
         // 🔍 Metodă pentru trimiterea imaginii la Google Vision API
         private async Task<List<string>> DetecteazaIngrediente(string imagePath)
@@ -110,5 +84,24 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                     .Count(ri => ingrediente.Contains(ri.IdIngredientNavigation.Nume.ToLower())))
                 .FirstOrDefault();
         }
+        public async Task<IActionResult> OnPostSalveazaImagineAsync(IFormFile Imagine)
+        {
+            if (Imagine == null || Imagine.Length == 0)
+                return BadRequest(new { error = "Imagine invalidă" });
+
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            Directory.CreateDirectory(uploadPath);
+
+            var fileName = Path.GetRandomFileName() + Path.GetExtension(Imagine.FileName);
+            var filePath = Path.Combine(uploadPath, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+                await Imagine.CopyToAsync(stream);
+
+            var publicUrl = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
+
+            return new JsonResult(new { url = publicUrl });
+        }
+
     }
 }

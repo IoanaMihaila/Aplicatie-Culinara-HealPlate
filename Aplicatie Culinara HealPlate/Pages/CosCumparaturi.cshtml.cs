@@ -13,6 +13,8 @@ namespace Aplicatie_Culinara_HealPlate.Pages
     {
         private readonly HealPlateDbContext _context;
         public CosuriDeCumparaturi CosCumparaturi { get; set; }
+        public Utilizatori UtilizatorCurent { get; set; }
+
 
         public CosCumparaturiModel(HealPlateDbContext context)
         {
@@ -53,6 +55,11 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             {
                 return RedirectToPage("/Autentificare");
             }
+
+            UtilizatorCurent = await _context.Utilizatoris
+        .Include(u => u.UtilizatorAlergenis)
+        .ThenInclude(ua => ua.IdAlergenNavigation)
+        .FirstOrDefaultAsync(u => u.IdUtilizator == idUtilizator);
 
             // Obținem coșul de cumpărături al utilizatorului din baza de date
             CosCumparaturi = await _context.CosuriDeCumparaturis

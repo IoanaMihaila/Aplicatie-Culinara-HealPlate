@@ -4,6 +4,9 @@
 @{
     ViewData["Title"] = "Coșul de Cumpărături";
     var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
+    var pagina = HttpContext.Request.Query["page"].ToString();
+    var estePagina2 = pagina == "2";
 }
 
 <!DOCTYPE html>
@@ -23,109 +26,109 @@
     <style>
         /* Stilizare personalizată pentru buton */
         button.btn-custom {
-            background-color: #ffc107; /* Verde aprins */
-            color: #343a40; /* Text alb */
-            border: none; /* Fără bordură */
-            border-radius: 20px; /* Colțuri rotunjite */
-            padding: 10px 22px; /* Spațiu intern mai mare */
-            font-size: 14px; /* Mărimea textului */
-            font-weight: bold; /* Text îngroșat */
-            text-align: center; /* Centrat pe verticală și orizontală */
-            text-transform: uppercase; /* Text în majuscule */
-            cursor: pointer; /* Butonul devine pointer când este pus pe el */
-            transition: background-color 0.3s, transform 0.2s; /* Tranziție pentru efecte */
+        background-color: #ffc107; /* Verde aprins */
+        color: #343a40; /* Text alb */
+        border: none; /* Fără bordură */
+        border-radius: 20px; /* Colțuri rotunjite */
+        padding: 10px 22px; /* Spațiu intern mai mare */
+        font-size: 14px; /* Mărimea textului */
+        font-weight: bold; /* Text îngroșat */
+        text-align: center; /* Centrat pe verticală și orizontală */
+        text-transform: uppercase; /* Text în majuscule */
+        cursor: pointer; /* Butonul devine pointer când este pus pe el */
+        transition: background-color 0.3s, transform 0.2s; /* Tranziție pentru efecte */
         }
 
-            button.btn-custom:hover {
-                transform: scale(1.05); /* Mică mărire a dimensiunii */
-            }
+        button.btn-custom:hover {
+        transform: scale(1.05); /* Mică mărire a dimensiunii */
+        }
 
-            button.btn-custom:focus {
-                outline: none; /* Elimină outline-ul implicit */
-            }
+        button.btn-custom:focus {
+        outline: none; /* Elimină outline-ul implicit */
+        }
 
-            button.btn-custom:active {
-                transform: scale(1); /* Revenire la dimensiunea inițială */
-            }
+        button.btn-custom:active {
+        transform: scale(1); /* Revenire la dimensiunea inițială */
+        }
 
         button {
-            border-radius: 5px;
+        border-radius: 5px;
         }
 
-            button:focus {
-                outline: 1px dotted;
-                outline: 5px auto -webkit-focus-ring-color;
-            }
+        button:focus {
+        outline: 1px dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        }
 
         .review {
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
-            display: flex;
-            justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-between;
         }
 
         .review-content {
-            flex: 1;
+        flex: 1;
         }
 
         .review-buttons {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 10px; /* Distanța între butoane */
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px; /* Distanța între butoane */
         }
 
-            .review-buttons .btn {
-                background-color: #fff;
-                color: #6c757d;
-                border: 1px solid #6c757d;
-            }
+        .review-buttons .btn {
+        background-color: #fff;
+        color: #6c757d;
+        border: 1px solid #6c757d;
+        }
 
-                .review-buttons .btn:hover {
-                    background-color: #fff;
-                }
+        .review-buttons .btn:hover {
+        background-color: #fff;
+        }
 
         .btn-plus {
-            padding: 2px 6px; /* Dimensiuni mici pentru buton */
-            font-size: 0.8rem; /* Text mai mic */
-            border-radius: 50%; /* Formă rotundă */
-            display: inline-flex; /* Flexibil pentru centrul iconiței */
-            align-items: center;
-            justify-content: center;
-            height: 24px; /* Dimensiune fixă */
-            width: 24px; /* Dimensiune fixă */
-            background-color: transparent; /* Fundal transparent */
-            border: 1px solid #ccc; /* Border discret */
-            color: #6c757d; /* Culoare neutru închis */
+        padding: 2px 6px; /* Dimensiuni mici pentru buton */
+        font-size: 0.8rem; /* Text mai mic */
+        border-radius: 50%; /* Formă rotundă */
+        display: inline-flex; /* Flexibil pentru centrul iconiței */
+        align-items: center;
+        justify-content: center;
+        height: 24px; /* Dimensiune fixă */
+        width: 24px; /* Dimensiune fixă */
+        background-color: transparent; /* Fundal transparent */
+        border: 1px solid #ccc; /* Border discret */
+        color: #6c757d; /* Culoare neutru închis */
         }
 
-            .btn-plus:hover {
-                background-color: #f8f9fa; /* Fundal mai deschis la hover */
-                border-color: #aaa; /* Border mai închis la hover */
-                color: #000; /* Text mai vizibil */
-            }
+        .btn-plus:hover {
+        background-color: #f8f9fa; /* Fundal mai deschis la hover */
+        border-color: #aaa; /* Border mai închis la hover */
+        color: #000; /* Text mai vizibil */
+        }
 
-            .btn-plus i {
-                margin: 0; /* Asigură centrare perfectă pentru icon */
-            }
+        .btn-plus i {
+        margin: 0; /* Asigură centrare perfectă pentru icon */
+        }
 
         #dropzone {
-            width: 400px;
-            height: 400px;
-            cursor: pointer;
-            background-color: #fafaf0;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden; /* Ascunde părțile care depășesc */
+        width: 400px;
+        height: 400px;
+        cursor: pointer;
+        background-color: #fafaf0;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden; /* Ascunde părțile care depășesc */
         }
 
         #image-preview {
-            max-width: 100%;
-            max-height: 100%;
-            display: none;
-            object-fit: contain; /* Asigură că imaginea se încadrează fără a fi distorsionată */
+        max-width: 100%;
+        max-height: 100%;
+        display: none;
+        object-fit: contain; /* Asigură că imaginea se încadrează fără a fi distorsionată */
         }
     </style>
 </head>
@@ -152,86 +155,218 @@
     </div>
 </nav>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4 text-center">Coșul de Cumpărături</h1>
+    @if (!estePagina2){
+        <div class="container mt-5">
+            <h1 class="mb-4 text-center">Coșul de Cumpărături</h1>
 
-        <!-- Verifică dacă coșul este gol -->
-        @if (Model.CosCumparaturi?.CosIngredientes?.Any() == true)
-        {
-            <div class="table-responsive">
-                <table class="table table-striped table-hover shadow-sm">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Ingredient</th>
-                            <th>Actiune</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var cosIngrediente in Model.CosCumparaturi.CosIngredientes)
-                        {
+            <!-- Verifică dacă coșul este gol -->
+            @if (Model.CosCumparaturi?.CosIngredientes?.Any() == true)
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover shadow-sm">
+                        <thead class="thead-light">
                             <tr>
-                                <td>@cosIngrediente.IdIngredientNavigation.Nume</td>
-                                <td>
-                                   <!-- <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5"> -->
-                                    <!-- Buton pentru eliminarea unui produs din coș -->
-                                    <form method="post" asp-page-handler="EliminaDinCos" asp-route-id="@cosIngrediente.IdIngredient">
-                                        <button type="submit" class="btn btn-custom mb-3">Elimină</button>
-                                    </form>
-                                    <a href="https://www.freshful.ro/search/@cosIngrediente.IdIngredientNavigation.Nume" target="_blank" class="btn btn-link">Cumpără</a>
-                                    <!-- </div>-->
-                                </td>
+                                <th>Ingredient</th>
+                                <th>Actiune</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach (var cosIngrediente in Model.CosCumparaturi.CosIngredientes)
+                            {
+                                <tr>
+                                    <td>@cosIngrediente.IdIngredientNavigation.Nume</td>
+                                    <td>
+                                        <!-- <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5"> -->
+                                        <!-- Buton pentru eliminarea unui produs din coș -->
+                                        <form method="post" asp-page-handler="EliminaDinCos" asp-route-id="@cosIngrediente.IdIngredient">
+                                            <button type="submit" class="btn btn-custom mb-3">Elimină</button>
+                                        </form>
+                                        <a href="https://www.freshful.ro/search/@cosIngrediente.IdIngredientNavigation.Nume" target="_blank" class="btn btn-link">Cumpără</a>
+                                        <!-- </div>-->
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
-            <!-- Totalul coșului
-            <div class="d-flex justify-content-between mt-4">
+                <!-- Totalul coșului
+                <div class="d-flex justify-content-between mt-4">
                 <a href="/Checkout" class="btn btn-success btn-lg">Finalizează Comanda <i class="fas fa-check-circle"></i></a>
-            </div>-->
+                </div>-->
+            }
+            else
+            {
+                <div class="alert alert-warning text-center mt-4" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i> Coșul tău este gol.
+                </div>
+            }
+        </div>
+        <div class="container mt-5 d-flex justify-content-center">
+            <section id="verifica-eticheta" class="shadow-lg p-4 rounded" style="max-width: 600px; background-color: #f5f5dc; border: 1px solid #e0e0d1;">
+                <h2 class="text-center mb-4">Verifică Eticheta</h2>
+                <form method="post" enctype="multipart/form-data" asp-page-handler="UploadImage">
+                    <!-- Zona Drag and Drop -->
+                    <div class="form-group mb-3">
+                        <!-- <label for="imagine" class="form-label h5 text-dark font-weight-bold">Verifică Eticheta!</label> -->
+                        <div id="dropzone" class="border rounded d-flex align-items-center justify-content-center p-3" style="width: 400px; height: 400px; cursor: pointer; background-color: #fafaf0; margin: 0 auto;">
+                            <p id="dropzone-text" class="text-muted">Inserați eticheta pentru verificare</p>
+                            <input type="file" id="imagine" name="image" class="d-none" accept="image/*" required />
+                            <img id="image-preview" src="" alt="Imagine Previzualizare" style="max-width: 200%; max-height: 200%; display: none; object-fit: contain;" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-custom mt-3">Scanează Eticheta</button>
+                </form>
+                @if (ViewData["UploadedImagePath"] != null)
+                {
+                    <div class="text-center">
+                        <h5>Imaginea încărcată:</h5>
+                        <img src="@ViewData["UploadedImagePath"]" alt="Etichetă scanată" class="img-fluid" style="max-width: 300px; border: 1px solid #ddd; padding: 5px;" />
+                    </div>
+                }
+                <!-- Afișarea rezultatului scanării -->
+                @if (ViewData["ScanResult"] != null)
+                {
+                    <div class="alert alert-info mt-3">
+                        @ViewData["ScanResult"]
+                    </div>
+                }
+            </section>
+        </div>
+    }
+    else{
+        var utilizatorCurent = Model.UtilizatorCurent;
+        <div class="alert alert-info mt-4" role="alert">
+            <strong>Caută magazine bio în orașul tău:</strong>
+        </div>
+
+        <div class="mb-3">
+            <label for="orasInput" class="form-label">Introdu un oraș din România:</label>
+            <input type="text" class="form-control" id="orasInput" placeholder="Ex: Cluj-Napoca">
+        </div>
+        <div class="mb-3">
+            <label for="tipLocatie" class="form-label">Alege tipul de locație:</label>
+            <select id="tipLocatie" class="form-select">
+                <option value="magazin bio">Magazine Bio</option>
+                <option value="restaurant bio">Restaurante Bio</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            @foreach (var alergen in utilizatorCurent.UtilizatorAlergenis.Select(ua => ua.IdAlergenNavigation.NumeAlergen))
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="fara @alergen.ToLower()" id="filter_@alergen.Replace(" ", "")">
+                    <label class="form-check-label" for="filter_@alergen.Replace(" ", "")">
+                        Fără @alergen
+                    </label>
+                </div>
+            }
+        </div>
+        <button class="btn btn-primary mt-2" onclick="cautaOras()">Caută magazine</button>
+
+
+        <div id="map" style="height: 400px; width: 100%;"></div>
+    }
+
+    <div class="d-flex justify-content-center mt-5">
+        @if (!estePagina2)
+        {
+            <a href="?page=2" class="btn btn-outline-secondary">Pagina 2 - Harta</a>
         }
         else
         {
-            <div class="alert alert-warning text-center mt-4" role="alert">
-                <i class="fas fa-exclamation-triangle me-2"></i> Coșul tău este gol.
-            </div>
+            <a href="?page=1" class="btn btn-outline-secondary">Înapoi la Coș</a>
         }
-    </div>
-    <div class="container mt-5 d-flex justify-content-center">
-        <section id="verifica-eticheta" class="shadow-lg p-4 rounded" style="max-width: 600px; background-color: #f5f5dc; border: 1px solid #e0e0d1;">
-            <h2 class="text-center mb-4">Verifică Eticheta</h2>
-            <form method="post" enctype="multipart/form-data" asp-page-handler="UploadImage">
-            <!-- Zona Drag and Drop -->
-            <div class="form-group mb-3">
-                    <!-- <label for="imagine" class="form-label h5 text-dark font-weight-bold">Verifică Eticheta!</label> -->
-                    <div id="dropzone" class="border rounded d-flex align-items-center justify-content-center p-3" style="width: 400px; height: 400px; cursor: pointer; background-color: #fafaf0; margin: 0 auto;">
-                    <p id="dropzone-text" class="text-muted">Inserați eticheta pentru verificare</p>
-                    <input type="file" id="imagine" name="image" class="d-none" accept="image/*" required />
-                    <img id="image-preview" src="" alt="Imagine Previzualizare" style="max-width: 200%; max-height: 200%; display: none; object-fit: contain;" />
-                </div>
-            </div>
-                <button type="submit" class="btn btn-custom mt-3">Scanează Eticheta</button>
-            </form>
-            @if (ViewData["UploadedImagePath"] != null)
-            {
-                <div class="text-center">
-                    <h5>Imaginea încărcată:</h5>
-                    <img src="@ViewData["UploadedImagePath"]" alt="Etichetă scanată" class="img-fluid" style="max-width: 300px; border: 1px solid #ddd; padding: 5px;" />
-                </div>
-            }
-            <!-- Afișarea rezultatului scanării -->
-            @if (ViewData["ScanResult"] != null)
-            {
-                <div class="alert alert-info mt-3">
-                    @ViewData["ScanResult"]
-                </div>
-            }
-        </section>
     </div>
 
 
     <script>
+         let map;
+
+        function initMap() {
+            // Harta inițială (centrată pe România)
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 45.9432, lng: 24.9668 },
+                zoom: 6
+            });
+        }
+
+                function cautaOras() {
+            var oras = document.getElementById('orasInput').value;
+            if (!oras) {
+                alert("Te rog introdu un oraș.");
+                return;
+            }
+
+            // Adună filtrele bifate
+                    var filtre = [];
+        document.querySelectorAll('.form-check-input:checked').forEach(chk => {
+            filtre.push(chk.value);
+        });
+
+            var keyword = document.getElementById('tipLocatie').value;
+            if (filtre.length > 0) {
+                keyword += " " + filtre.join(" ");
+            }
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: oras + ', Romania' }, function (results, status) {
+                if (status === 'OK') {
+                    var locatie = results[0].geometry.location;
+
+                    map.setCenter(locatie);
+                    map.setZoom(13);
+
+                    var request = {
+                        location: locatie,
+                        radius: 5000,
+                        keyword: keyword
+                    };
+
+                    var service = new google.maps.places.PlacesService(map);
+                    service.nearbySearch(request, function (results, status) {
+                        if (status === google.maps.places.PlacesServiceStatus.OK) {
+                            for (var i = 0; i < results.length; i++) {
+                                var place = results[i];
+                                var marker = new google.maps.Marker({
+                                    position: place.geometry.location,
+                                    map: map,
+                                    title: place.name
+                                });
+
+                                var infowindow = new google.maps.InfoWindow({
+                                    content: '<div><strong>' + place.name + '</strong><br>' + place.vicinity + '</div>'
+                                });
+
+                                (function (marker, infowindow) {
+                                    marker.addListener('click', function () {
+                                        infowindow.open(map, marker);
+                                    });
+                                })(marker, infowindow);
+                            }
+                        } else {
+                            alert('Nu s-au găsit magazine în acel oraș.');
+                        }
+                    });
+                } else {
+                    alert('Orașul nu a putut fi găsit: ' + status);
+                }
+            });
+        }
+
+
+        // Încarcă Google Maps API cu callback către initMap()
+        function loadGoogleMapsAPI() {
+            var script = document.createElement('script');
+            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCd6i5o5eD1fOMu_Yc5ENGZUSveTqO91NA&libraries=places&callback=initMap";
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+
+        // Pornește încărcarea API-ului după ce pagina se încarcă
+        document.addEventListener("DOMContentLoaded", loadGoogleMapsAPI);
+
         // Drag and Drop pentru imagine
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('imagine');
