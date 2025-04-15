@@ -105,9 +105,15 @@
                 <h4>Mod de preparare</h4>
                 @if (rolUtilizator == "Utilizator"){
                     <p id="modPreparareText">@Model.Reteta.ModDePreparare</p>
-                    <button class="btn btn-outline-primary" onclick="citesteReteta()" title="Ascultă modul de preparare">
-                        <i class="fa fa-volume-up"></i>
+                    <button class="btn btn-outline-success" onclick="initializareCitire()">
+                        <i class="fa fa-play"></i>
                     </button>
+
+                    <button class="btn btn-outline-secondary" onclick="ascultaComenziVocale()">
+                        <i class="fa fa-microphone"></i>
+                    </button>
+
+                    <span id="statusPasCurent" class="ml-3 text-muted" style="font-weight: 600;"></span>
                 }else if(rolUtilizator=="Admin"){
                     <textarea id="modDePreparare" class="form-control form-control-lg" disabled style="min-height: 250px;">
                         @Model.Reteta.ModDePreparare
@@ -500,6 +506,86 @@
                 });
             }
         </script>
+        <script>
+            let pasi = [];
+            let pasCurent = 0;
+            let cititor;
+
+            function initializareCitire() {
+                const text = document.getElementById("modPreparareText").innerText;
+                pasi = text.split(/[\.\n]/).map(p => p.trim()).filter(p => p.length > 0);
+                pasCurent = 0;
+
+                if (pasi.length === 0) {
+                    alert("Modul de preparare este gol.");
+                    return;
+                }
+
+                citestePas(pasCurent);
+                actualizeazaStatus(pasCurent);
+            }
+
+            function citestePas(index) {
+                if ('speechSynthesis' in window && pasi.length > index) {
+                    speechSynthesis.cancel(); // oprește orice citire anterioară
+
+                    cititor = new SpeechSynthesisUtterance(pasi[index]);
+                    cititor.lang = 'ro-RO';
+
+                    cititor.onend = () => {
+                        actualizeazaStatus(index);
+                    };
+
+                    speechSynthesis.speak(cititor);
+                }
+            }
+
+            function actualizeazaStatus(index) {
+                const status = document.getElementById("statusPasCurent");
+                status.innerText = `Pasul ${index + 1}/${pasi.length}`;
+            }
+
+            function ascultaComenziVocale() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {
+                    alert("Browserul tău nu suportă recunoaștere vocală.");
+                    return;
+                }
+
+                const recognizer = new SpeechRecognition();
+                recognizer.lang = "ro-RO";
+                recognizer.interimResults = false;
+                recognizer.continuous = false;
+
+                recognizer.start();
+                document.getElementById("statusPasCurent").innerText = "🎤 Ascult comanda...";
+
+                recognizer.onresult = function (event) {
+                    const comanda = event.results[0][0].transcript.toLowerCase().trim();
+
+                    if (comanda.includes("următor")) {
+                        pasCurent = Math.min(pasCurent + 1, pasi.length - 1);
+                        citestePas(pasCurent);
+                    } else if (comanda.includes("repetă")) {
+                        citestePas(pasCurent);
+                    } else if (comanda.includes("pauză")) {
+                        speechSynthesis.cancel();
+                    } else {
+                        const raspuns = new SpeechSynthesisUtterance("Comandă necunoscută.");
+                        raspuns.lang = "ro-RO";
+                        speechSynthesis.speak(raspuns);
+                    }
+
+                    actualizeazaStatus(pasCurent);
+                };
+
+                recognizer.onerror = function (event) {
+                    console.error("Eroare recunoaștere vocală:", event.error);
+                    document.getElementById("statusPasCurent").innerText = "❌ Eroare: " + event.error;
+                };
+            }
+        </script>
+
 
         <!-- Mesaj de eroare dacă utilizatorul a lăsat deja o recenzie -->
         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
