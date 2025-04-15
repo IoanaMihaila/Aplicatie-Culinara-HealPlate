@@ -37,9 +37,42 @@
     <link href="css/style.css" rel="stylesheet" />
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet" />
+
+    <style>
+        .btn-detalii {
+            background-color: #8B4513; /* Maro */
+            color: white; /* Text alb */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+            .btn-detalii:hover {
+                background-color: #6A3C27; /* Maro mai închis la hover */
+            }
+
+        .btn-favorite {
+            background-color: transparent;
+            border: none;
+            color: #e74c3c; /* Culoare roșie pentru inimioară */
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+            .btn-favorite:hover {
+                color: #c0392b; /* Culoare mai închisă la hover */
+            }
+
+            .btn-favorite .fa-heart {
+                color: #e74c3c; /* Culoare roșie pentru inimioară când este selectată */
+            }
+    </style>
 </head>
 
-    <!-- Navbar -->
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
@@ -62,24 +95,24 @@
     </div>
 </nav>
 <body>
-<section class="food_section layout_padding">
-    <div class="container">
-        <div class="heading_container heading_center">
-            <h2>
-                Rețete Disponibile
-            </h2>
-        </div>
+    <section class="food_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>
+                    Rețete Disponibile
+                </h2>
+            </div>
 
-        <!-- Categorii -->
-        <ul class="filters_menu">
-            @foreach (var categorie in Model.Categorii)
-            {
-                <li class="@(Model.CategorieSelectata == categorie ? "active" : "")"
-                    onclick="location.href='@Url.Page("VizualizareRetete", new { categorie = categorie })'">
-                    @categorie
-                </li>
-            }
-        </ul>
+            <!-- Categorii -->
+            <ul class="filters_menu">
+                @foreach (var categorie in Model.Categorii)
+                {
+                    <li class="@(Model.CategorieSelectata == categorie ? "active" : "")"
+                        onclick="location.href='@Url.Page("VizualizareRetete", new { categorie = categorie })'">
+                        @categorie
+                    </li>
+                }
+            </ul>
             <div style="display: flex; justify-content: center; align-items: center; height:5vh;">
                 <form method="get" class="form-inline" style="margin-bottom: 20px;">
                     <input type="text" name="searchQuery" class="form-control" placeholder="Caută rețete sau ingrediente..." style="width: 300px; margin-right: 10px;">
@@ -89,27 +122,27 @@
                 </form>
             </div>
 
-        <!-- Rețete -->
-        <div class="filters-content">
-            <div class="row grid">
-                @foreach (var reteta in Model.Retete)
-                {
-                    <div class="col-sm-6 col-lg-4 all @reteta.Categorie.ToLower()">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="@Url.Content(reteta.Imagine)" alt="@reteta.Titlu" />
-                            </div>
-                            <div class="detail-box">
-                                <h5>@reteta.Titlu</h5>
-                                <p>@reteta.Descriere</p>
-                                <div class="options">
-                                    <button class="btn btn-detalii" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
-                                    <!-- Buton Inimioară pentru adăugare în colecție -->
+            <!-- Rețete -->
+            <div class="filters-content">
+                <div class="row grid">
+                    @foreach (var reteta in Model.Retete)
+                    {
+                        <div class="col-sm-6 col-lg-4 all @reteta.Categorie.ToLower()">
+                            <div class="box">
+                                <div class="img-box">
+                                    <img src="@Url.Content(reteta.Imagine)" alt="@reteta.Titlu" />
+                                </div>
+                                <div class="detail-box">
+                                    <h5>@reteta.Titlu</h5>
+                                    <p>@reteta.Descriere</p>
+                                    <div class="options">
+                                        <button class="btn btn-detalii" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
+                                        <!-- Buton Inimioară pentru adăugare în colecție -->
                                         @if (rolUtilizator == "Utilizator")
                                         {
-                                    <button class="btn btn-favorite" onclick="addToFavorites(event, @reteta.IdReteta)">
-                                        <i class="@(Model.EsteInColectie.ContainsKey(reteta.IdReteta) && Model.EsteInColectie[reteta.IdReteta] ? "fas fa-heart" : "far fa-heart")"></i>
-                                    </button>
+                                            <button class="btn btn-favorite" onclick="addToFavorites(event, @reteta.IdReteta)">
+                                                <i class="@(Model.EsteInColectie.ContainsKey(reteta.IdReteta) && Model.EsteInColectie[reteta.IdReteta] ? "fas fa-heart" : "far fa-heart")"></i>
+                                            </button>
                                         }
                                         else if (rolUtilizator == "Admin")
                                         {
@@ -119,9 +152,9 @@
                                             </button>
                                         }
 
-                                    <!-- Include scripturile JS -->
-                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                                    <script src="~/js/site.js"></script>
+                                        <!-- Include scripturile JS -->
+                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                        <script src="~/js/site.js"></script>
                                         <script>
                                             function deleteRecipe(event, idReteta) {
                                                 event.preventDefault();
@@ -174,155 +207,123 @@
                                             }
                                         </script>
                                         <script>
-                                            function addToFavorites(event, idReteta) {
-                                            event.preventDefault(); // Previne comportamentul implicit
+                                                function addToFavorites(event, idReteta) {
+                                                event.preventDefault(); // Previne comportamentul implicit
 
-                                            console.log("ID-ul rețetei: ", idReteta); // Verifică dacă ID-ul rețetei este corect
+                                                console.log("ID-ul rețetei: ", idReteta); // Verifică dacă ID-ul rețetei este corect
 
-                                            var button = event.target.closest("button");
-                                            var icon = button.querySelector("i");
+                                                var button = event.target.closest("button");
+                                                var icon = button.querySelector("i");
 
-                                            // Verifică starea inimii (dacă este adăugată sau nu în colecție)
-                                           var isFavorite = icon.classList.contains("fas");
+                                                // Verifică starea inimii (dacă este adăugată sau nu în colecție)
+                                               var isFavorite = icon.classList.contains("fas");
 
-                                            if (!isFavorite) {
-                                                // Adaugă rețeta în colecția utilizatorului
-                                                fetch('/VizualizareRetete?handler=AddToCollection', {
-                                                    method: "POST",
-                                                    headers: {
-                                                        "Content-Type": "application/json",
-                                                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                                                    },
-                                                    body: JSON.stringify(idReteta),
-                                                })
-                                                .then((response) => {
-                                                    console.log("Cerere trimisă către server: /VizualizareRetete?handler=AddToCollection"); // Log pentru confirmare
-                                                    if (!response.ok) {
-                                                        throw new Error(`Eroare de server: ${response.statusText}`);
-                                                    }
-                                                    return response.json();
-                                                })
-                                                .then((data) => {
-                                                    if (data.success) {
-                                                        Swal.fire({
-                                                            icon: 'success',
-                                                            title: 'Succes!',
-                                                            text: 'Rețeta a fost cu succes adăugată în colecția ta personală!',
-                                                            confirmButtonText: 'OK'
-                                                        });
-                                                        icon.classList.remove("far");
-                                                        icon.classList.add("fas");
-                                                    } else {
-                                                        Swal.fire({
-                                                            icon: 'error',
-                                                            title: 'Eroare',
-                                                            text: data.message || 'A apărut o eroare la adăugarea rețetei.',
-                                                            confirmButtonText: 'OK'
-                                                        });
-                                                    }
-                                                })
-                                                .catch((error) => {
-                                                    console.error("Eroare la adăugarea rețetei:", error);
-                                                    Swal.fire({
-                                                        icon: 'error',
-                                                        title: 'Eroare',
-                                                        text: 'A apărut o eroare la adăugarea rețetei. Detalii în consola browserului.',
-                                                        confirmButtonText: 'OK'
-                                                    });
-                                                });
-                                            } else {
-                                                // Șterge rețeta din colecția utilizatorului
-                                                fetch('/VizualizareRetete?handler=RemoveFromCollection', {
-                                                    method: "POST",
-                                                    headers: {
-                                                        "Content-Type": "application/json",
-                                                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                                                    },
-                                                    body: JSON.stringify(idReteta),
-                                                })
-                                                .then((response) => {
-                                                    if (!response.ok) {
-                                                        throw new Error(`Eroare de server: ${response.statusText}`);
-                                                    }
-                                                    return response.json();
-                                                })
-                                                .then((data) => {
-                                                    if (data.success) {
-                                                        Swal.fire({
-                                                            icon: 'success',
-                                                            title: 'Succes!',
-                                                            text: 'Rețeta a fost ștearsă din colecția ta!',
-                                                            confirmButtonText: 'OK'
-                                                        });
-                                                        icon.classList.remove("fas");
-                                                        icon.classList.add("far");
-                                                    } else {
+                                                if (!isFavorite) {
+                                                    // Adaugă rețeta în colecția utilizatorului
+                                                    fetch('/VizualizareRetete?handler=AddToCollection', {
+                                                        method: "POST",
+                                                        headers: {
+                                                            "Content-Type": "application/json",
+                                                            "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                                                        },
+                                                        body: JSON.stringify(idReteta),
+                                                    })
+                                                    .then((response) => {
+                                                        console.log("Cerere trimisă către server: /VizualizareRetete?handler=AddToCollection"); // Log pentru confirmare
+                                                        if (!response.ok) {
+                                                            throw new Error(`Eroare de server: ${response.statusText}`);
+                                                        }
+                                                        return response.json();
+                                                    })
+                                                    .then((data) => {
+                                                        if (data.success) {
+                                                            Swal.fire({
+                                                                icon: 'success',
+                                                                title: 'Succes!',
+                                                                text: 'Rețeta a fost cu succes adăugată în colecția ta personală!',
+                                                                confirmButtonText: 'OK'
+                                                            });
+                                                            icon.classList.remove("far");
+                                                            icon.classList.add("fas");
+                                                        } else {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Eroare',
+                                                                text: data.message || 'A apărut o eroare la adăugarea rețetei.',
+                                                                confirmButtonText: 'OK'
+                                                            });
+                                                        }
+                                                    })
+                                                    .catch((error) => {
+                                                        console.error("Eroare la adăugarea rețetei:", error);
                                                         Swal.fire({
                                                             icon: 'error',
                                                             title: 'Eroare',
-                                                            text: data.message || 'A apărut o eroare la ștergerea rețetei.',
+                                                            text: 'A apărut o eroare la adăugarea rețetei. Detalii în consola browserului.',
                                                             confirmButtonText: 'OK'
                                                         });
-                                                    }
-                                                })
-                                                .catch((error) => {
-                                                    console.error("Eroare la ștergerea rețetei:", error);
-                                                    Swal.fire({
-                                                        icon: 'error',
-                                                        title: 'Eroare',
-                                                        text: 'A apărut o eroare la ștergerea rețetei. Detalii în consola browserului.',
-                                                        confirmButtonText: 'OK'
                                                     });
-                                                });
+                                                } else {
+                                                    // Șterge rețeta din colecția utilizatorului
+                                                    fetch('/VizualizareRetete?handler=RemoveFromCollection', {
+                                                        method: "POST",
+                                                        headers: {
+                                                            "Content-Type": "application/json",
+                                                            "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                                                        },
+                                                        body: JSON.stringify(idReteta),
+                                                    })
+                                                    .then((response) => {
+                                                        if (!response.ok) {
+                                                            throw new Error(`Eroare de server: ${response.statusText}`);
+                                                        }
+                                                        return response.json();
+                                                    })
+                                                    .then((data) => {
+                                                        if (data.success) {
+                                                            Swal.fire({
+                                                                icon: 'success',
+                                                                title: 'Succes!',
+                                                                text: 'Rețeta a fost ștearsă din colecția ta!',
+                                                                confirmButtonText: 'OK'
+                                                            });
+                                                            icon.classList.remove("fas");
+                                                            icon.classList.add("far");
+                                                        } else {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Eroare',
+                                                                text: data.message || 'A apărut o eroare la ștergerea rețetei.',
+                                                                confirmButtonText: 'OK'
+                                                            });
+                                                        }
+                                                    })
+                                                    .catch((error) => {
+                                                        console.error("Eroare la ștergerea rețetei:", error);
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Eroare',
+                                                            text: 'A apărut o eroare la ștergerea rețetei. Detalii în consola browserului.',
+                                                            confirmButtonText: 'OK'
+                                                        });
+                                                    });
+                                                }
                                             }
-                                        }
 
                                         </script>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
 
-                @if (!Model.Retete.Any())
-                {
-                    <p style="text-align: center;">Nu sunt rețete disponibile pentru această categorie.</p>
-                }
+                    @if (!Model.Retete.Any())
+                    {
+                        <p style="text-align: center;">Nu sunt rețete disponibile pentru această categorie.</p>
+                    }
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </body>
 </html>
-<style>
-    .btn-detalii {
-        background-color: #8B4513; /* Maro */
-        color: white; /* Text alb */
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        font-size: 1rem;
-        cursor: pointer;
-    }
-
-        .btn-detalii:hover {
-            background-color: #6A3C27; /* Maro mai închis la hover */
-        }
-
-    .btn-favorite {
-        background-color: transparent;
-        border: none;
-        color: #e74c3c; /* Culoare roșie pentru inimioară */
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: color 0.3s ease;
-    }
-
-        .btn-favorite:hover {
-            color: #c0392b; /* Culoare mai închisă la hover */
-        }
-
-        .btn-favorite .fa-heart {
-            color: #e74c3c; /* Culoare roșie pentru inimioară când este selectată */
-        }
-</style>

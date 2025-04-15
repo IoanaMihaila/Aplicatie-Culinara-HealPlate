@@ -26,109 +26,109 @@
     <style>
         /* Stilizare personalizată pentru buton */
         button.btn-custom {
-        background-color: #ffc107; /* Verde aprins */
-        color: #343a40; /* Text alb */
-        border: none; /* Fără bordură */
-        border-radius: 20px; /* Colțuri rotunjite */
-        padding: 10px 22px; /* Spațiu intern mai mare */
-        font-size: 14px; /* Mărimea textului */
-        font-weight: bold; /* Text îngroșat */
-        text-align: center; /* Centrat pe verticală și orizontală */
-        text-transform: uppercase; /* Text în majuscule */
-        cursor: pointer; /* Butonul devine pointer când este pus pe el */
-        transition: background-color 0.3s, transform 0.2s; /* Tranziție pentru efecte */
+            background-color: #ffc107; /* Verde aprins */
+            color: #343a40; /* Text alb */
+            border: none; /* Fără bordură */
+            border-radius: 20px; /* Colțuri rotunjite */
+            padding: 10px 22px; /* Spațiu intern mai mare */
+            font-size: 14px; /* Mărimea textului */
+            font-weight: bold; /* Text îngroșat */
+            text-align: center; /* Centrat pe verticală și orizontală */
+            text-transform: uppercase; /* Text în majuscule */
+            cursor: pointer; /* Butonul devine pointer când este pus pe el */
+            transition: background-color 0.3s, transform 0.2s; /* Tranziție pentru efecte */
         }
 
-        button.btn-custom:hover {
-        transform: scale(1.05); /* Mică mărire a dimensiunii */
-        }
+            button.btn-custom:hover {
+                transform: scale(1.05); /* Mică mărire a dimensiunii */
+            }
 
-        button.btn-custom:focus {
-        outline: none; /* Elimină outline-ul implicit */
-        }
+            button.btn-custom:focus {
+                outline: none; /* Elimină outline-ul implicit */
+            }
 
-        button.btn-custom:active {
-        transform: scale(1); /* Revenire la dimensiunea inițială */
-        }
+            button.btn-custom:active {
+                transform: scale(1); /* Revenire la dimensiunea inițială */
+            }
 
         button {
-        border-radius: 5px;
+            border-radius: 5px;
         }
 
-        button:focus {
-        outline: 1px dotted;
-        outline: 5px auto -webkit-focus-ring-color;
-        }
+            button:focus {
+                outline: 1px dotted;
+                outline: 5px auto -webkit-focus-ring-color;
+            }
 
         .review {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-        display: flex;
-        justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
         }
 
         .review-content {
-        flex: 1;
+            flex: 1;
         }
 
         .review-buttons {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 10px; /* Distanța între butoane */
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px; /* Distanța între butoane */
         }
 
-        .review-buttons .btn {
-        background-color: #fff;
-        color: #6c757d;
-        border: 1px solid #6c757d;
-        }
+            .review-buttons .btn {
+                background-color: #fff;
+                color: #6c757d;
+                border: 1px solid #6c757d;
+            }
 
-        .review-buttons .btn:hover {
-        background-color: #fff;
-        }
+                .review-buttons .btn:hover {
+                    background-color: #fff;
+                }
 
         .btn-plus {
-        padding: 2px 6px; /* Dimensiuni mici pentru buton */
-        font-size: 0.8rem; /* Text mai mic */
-        border-radius: 50%; /* Formă rotundă */
-        display: inline-flex; /* Flexibil pentru centrul iconiței */
-        align-items: center;
-        justify-content: center;
-        height: 24px; /* Dimensiune fixă */
-        width: 24px; /* Dimensiune fixă */
-        background-color: transparent; /* Fundal transparent */
-        border: 1px solid #ccc; /* Border discret */
-        color: #6c757d; /* Culoare neutru închis */
+            padding: 2px 6px; /* Dimensiuni mici pentru buton */
+            font-size: 0.8rem; /* Text mai mic */
+            border-radius: 50%; /* Formă rotundă */
+            display: inline-flex; /* Flexibil pentru centrul iconiței */
+            align-items: center;
+            justify-content: center;
+            height: 24px; /* Dimensiune fixă */
+            width: 24px; /* Dimensiune fixă */
+            background-color: transparent; /* Fundal transparent */
+            border: 1px solid #ccc; /* Border discret */
+            color: #6c757d; /* Culoare neutru închis */
         }
 
-        .btn-plus:hover {
-        background-color: #f8f9fa; /* Fundal mai deschis la hover */
-        border-color: #aaa; /* Border mai închis la hover */
-        color: #000; /* Text mai vizibil */
-        }
+            .btn-plus:hover {
+                background-color: #f8f9fa; /* Fundal mai deschis la hover */
+                border-color: #aaa; /* Border mai închis la hover */
+                color: #000; /* Text mai vizibil */
+            }
 
-        .btn-plus i {
-        margin: 0; /* Asigură centrare perfectă pentru icon */
-        }
+            .btn-plus i {
+                margin: 0; /* Asigură centrare perfectă pentru icon */
+            }
 
         #dropzone {
-        width: 400px;
-        height: 400px;
-        cursor: pointer;
-        background-color: #fafaf0;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden; /* Ascunde părțile care depășesc */
+            width: 400px;
+            height: 400px;
+            cursor: pointer;
+            background-color: #fafaf0;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Ascunde părțile care depășesc */
         }
 
         #image-preview {
-        max-width: 100%;
-        max-height: 100%;
-        display: none;
-        object-fit: contain; /* Asigură că imaginea se încadrează fără a fi distorsionată */
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            object-fit: contain; /* Asigură că imaginea se încadrează fără a fi distorsionată */
         }
     </style>
 </head>
@@ -154,7 +154,8 @@
     </div>
 </nav>
 <body>
-    @if (!estePagina2){
+    @if (!estePagina2)
+    {
         <div class="container mt-5">
             <h1 class="mb-4 text-center">Coșul de Cumpărături</h1>
 
@@ -233,7 +234,8 @@
             </section>
         </div>
     }
-    else{
+    else
+    {
         var utilizatorCurent = Model.UtilizatorCurent;
         <div class="alert alert-info mt-4" role="alert">
             <strong>Caută magazine bio în orașul tău:</strong>

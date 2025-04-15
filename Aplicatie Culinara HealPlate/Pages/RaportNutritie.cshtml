@@ -35,27 +35,27 @@
     <style>
         /* Stilizare buton */
         .btn-custom {
-        background-color: #ffc107;
-        color: #343a40;
-        border: none;
-        border-radius: 20px;
-        padding: 10px 22px;
-        font-size: 14px;
-        font-weight: bold;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
+            background-color: #ffc107;
+            color: #343a40;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 22px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
-        .btn-custom:hover {
-        background-color: #e0a800;
-        }
+            .btn-custom:hover {
+                background-color: #e0a800;
+            }
 
         /* Card pentru raport */
         #raportCard {
-        display: none;
-        max-width: 600px;
-        margin: 20px auto;
+            display: none;
+            max-width: 600px;
+            margin: 20px auto;
         }
     </style>
 </head>
@@ -109,76 +109,76 @@
                         {
                             <tr>
                                 <td>@plan.Ziua.ToString("dd-MM-yyyy")</td>
-                            <td><img src="@plan.IdMicDeJunNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
-                            <td><img src="@plan.IdPranzNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
-                            <td><img src="@plan.IdDesertNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
-                            <td><img src="@plan.IdGustareNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
-                            <td><img src="@plan.IdCinaNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
-                        </tr>
+                                <td><img src="@plan.IdMicDeJunNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                                <td><img src="@plan.IdPranzNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                                <td><img src="@plan.IdDesertNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                                <td><img src="@plan.IdGustareNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                                <td><img src="@plan.IdCinaNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
 
-        <!-- Formular pentru datele nutriționale -->
-        <div class="container mt-4">
-            <h3 class="text-center">Completează detaliile pentru calculul necesarului caloric</h3>
-            <form id="formularNutritie">
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="age" class="form-label">Vârsta</label>
-                        <input type="number" id="age" class="form-control" placeholder="Introdu vârsta" required>
+            <!-- Formular pentru datele nutriționale -->
+            <div class="container mt-4">
+                <h3 class="text-center">Completează detaliile pentru calculul necesarului caloric</h3>
+                <form id="formularNutritie">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="age" class="form-label">Vârsta</label>
+                            <input type="number" id="age" class="form-control" placeholder="Introdu vârsta" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="weight" class="form-label">Greutatea (kg)</label>
+                            <input type="number" id="weight" class="form-control" placeholder="Introdu greutatea" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="height" class="form-label">Înălțimea (cm)</label>
+                            <input type="number" id="height" class="form-control" placeholder="Introdu înălțimea" required>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label for="weight" class="form-label">Greutatea (kg)</label>
-                        <input type="number" id="weight" class="form-control" placeholder="Introdu greutatea" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="height" class="form-label">Înălțimea (cm)</label>
-                        <input type="number" id="height" class="form-control" placeholder="Introdu înălțimea" required>
-                    </div>
-                </div>
 
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <label for="gender" class="form-label">Genul</label>
-                        <select id="gender" class="form-select" required>
-                            <option value="male">Masculin</option>
-                            <option value="female">Feminin</option>
-                        </select>
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <label for="gender" class="form-label">Genul</label>
+                            <select id="gender" class="form-select" required>
+                                <option value="male">Masculin</option>
+                                <option value="female">Feminin</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="activity_level" class="form-label">Nivel de activitate</label>
+                            <select id="activity_level" class="form-select" required>
+                                <option value="sedentary">Sedentar</option>
+                                <option value="lightly_active">Activitate ușoară</option>
+                                <option value="moderately_active">Activitate moderată</option>
+                                <option value="very_active">Activitate intensă</option>
+                                <option value="extra_active">Activitate extra-intensă</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="goal" class="form-label">Scopul</label>
+                            <select id="goal" class="form-select" required>
+                                <option value="weight_loss">Pierderea în greutate</option>
+                                <option value="maintenance">Menținerea greutății</option>
+                                <option value="weight_gain">Creșterea în greutate</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label for="activity_level" class="form-label">Nivel de activitate</label>
-                        <select id="activity_level" class="form-select" required>
-                            <option value="sedentary">Sedentar</option>
-                            <option value="lightly_active">Activitate ușoară</option>
-                            <option value="moderately_active">Activitate moderată</option>
-                            <option value="very_active">Activitate intensă</option>
-                            <option value="extra_active">Activitate extra-intensă</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="goal" class="form-label">Scopul</label>
-                        <select id="goal" class="form-select" required>
-                            <option value="weight_loss">Pierderea în greutate</option>
-                            <option value="maintenance">Menținerea greutății</option>
-                            <option value="weight_gain">Creșterea în greutate</option>
-                        </select>
-                    </div>
-                </div>
 
-                <!-- Câmp ascuns pentru formula Mifflin-St Jeor (calculul se face pe backend) -->
-                <input type="hidden" id="equation" value="mifflin">
+                    <!-- Câmp ascuns pentru formula Mifflin-St Jeor (calculul se face pe backend) -->
+                    <input type="hidden" id="equation" value="mifflin">
 
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-custom">Calculază necesarul caloric</button>
-                </div>
-                <div id="caloriesResult" class="mt-4" style="display: none;">
-                    <h4>Necesarul Caloric: <span id="caloriesValue"></span></h4>
-                </div>
-            </form>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-custom">Calculază necesarul caloric</button>
+                    </div>
+                    <div id="caloriesResult" class="mt-4" style="display: none;">
+                        <h4>Necesarul Caloric: <span id="caloriesValue"></span></h4>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
     }
     else if (rolUtilizator == "Admin")
     {

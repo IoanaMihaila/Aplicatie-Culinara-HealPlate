@@ -5,7 +5,8 @@
     var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
     var rolUtilizator = HttpContext.Session.GetString("Rol");
     var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
-    @Html.AntiForgeryToken();
+    @Html.AntiForgeryToken()
+    ;
 }
 <!DOCTYPE html>
 <html>
@@ -91,7 +92,7 @@
                 <strong>Modificare întrebări și răspunsuri</strong>
             </div>
 
-           <form method="post" id="adminForm">
+            <form method="post" id="adminForm">
                 @for (int i = 0; i < Model.Intrebari.Count; i++)
                 {
                     var intrebare = Model.Intrebari[i];
@@ -116,11 +117,11 @@
                         </div>
                     </div>
                 }
-    <div class="text-center">
-        <button type="submit" formaction="/Chestionar?handler=SalveazaIntrebari" class="btn btn-success px-4">
-            💾 Salvează toate modificările
-        </button>
-    </div>
+                <div class="text-center">
+                    <button type="submit" formaction="/Chestionar?handler=SalveazaIntrebari" class="btn btn-success px-4">
+                        💾 Salvează toate modificările
+                    </button>
+                </div>
             </form>
         }
         else if (Model.PoateRaspunde)

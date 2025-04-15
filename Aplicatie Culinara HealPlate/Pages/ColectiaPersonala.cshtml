@@ -229,32 +229,32 @@
             });
         </script>
     }
-        <!-- Afișare rețete -->
-        <section class="food_section layout_padding">
-            <div class="container">
-                <div class="heading_container heading_center">
-                    <h2>
-                        Colecția ta personală
-                    </h2>
-                </div>
-                <div class="row grid">
+    <!-- Afișare rețete -->
+    <section class="food_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>
+                    Colecția ta personală
+                </h2>
+            </div>
+            <div class="row grid">
                 @if (Model.Retete.Any())
                 {
                     @foreach (var reteta in Model.Retete)
                     {
-                            <div class="col-sm-6 col-lg-4 all @reteta.Categorie.ToLower()">
-                                <div class="box">
-                                    <div class="img-box">
-                                        <img src="@Url.Content(reteta.Imagine)" alt="@reteta.Titlu" />
-                                    </div>
-                                    <div class="detail-box">
-                                        <h5>@reteta.Titlu</h5>
-                                        <p>@reteta.Descriere</p>
-                                        <p>@reteta.Categorie</p>
+                        <div class="col-sm-6 col-lg-4 all @reteta.Categorie.ToLower()">
+                            <div class="box">
+                                <div class="img-box">
+                                    <img src="@Url.Content(reteta.Imagine)" alt="@reteta.Titlu" />
+                                </div>
+                                <div class="detail-box">
+                                    <h5>@reteta.Titlu</h5>
+                                    <p>@reteta.Descriere</p>
+                                    <p>@reteta.Categorie</p>
                                     <p>@(reteta.Aprobata.HasValue ? (reteta.Aprobata.Value ? "Aprobata" : "Respinsa") : "Asteapta aprobare")</p>
-                                     <div class="options">
+                                    <div class="options">
                                         <button class="btn btn-detalii" onclick="window.location.href='@Url.Page("VizualizareDetalii", new { id = reteta.IdReteta })'">Detalii</button>
-                                     </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -262,10 +262,10 @@
                 }
                 else
                 {
-                        <p style="text-align: center;">Nu ai încă rețete salvate sau adăugate în colecția ta.</p>
+                    <p style="text-align: center;">Nu ai încă rețete salvate sau adăugate în colecția ta.</p>
                 }
             </div>
-        </section>
+    </section>
     </div>
 </body>
 </html>

@@ -106,196 +106,196 @@
     </div>
 </nav>
 <body>
-<div class="container">
-    <h2 class="text-center">Planificare alimentară</h2>
-    <p class="text-center">Selectează o dată din viitor pentru a genera un plan alimentar</p>
+    <div class="container">
+        <h2 class="text-center">Planificare alimentară</h2>
+        <p class="text-center">Selectează o dată din viitor pentru a genera un plan alimentar</p>
 
-    <!-- Buton Generare (dezactivat inițial) -->
-    <div class="text-center mt-3">
-        <button id="btnGenerare" class="btn btn-warning">Generare Plan Alimentar</button>
+        <!-- Buton Generare (dezactivat inițial) -->
+        <div class="text-center mt-3">
+            <button id="btnGenerare" class="btn btn-warning">Generare Plan Alimentar</button>
+        </div>
+
+        <!-- Loc pentru afișarea rețetelor -->
+        <div id="reteteContainer" class="container mt-4">
+            <h3 class="text-center">Plan alimentar generat</h3>
+            <div class="row" id="reteteGrid"></div>
+        </div>
+
+        <!-- Calendar -->
+        <div id="calendar"></div>
+
+        <!-- Buton Salvare (inițial dezactivat) -->
+        <div class="text-center mt-3">
+            <button id="btnSalvare" class="btn btn-success" disabled>Salvare Plan Alimentar</button>
+        </div>
+
     </div>
 
-    <!-- Loc pentru afișarea rețetelor -->
-    <div id="reteteContainer" class="container mt-4">
-        <h3 class="text-center">Plan alimentar generat</h3>
-        <div class="row" id="reteteGrid"></div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var today = new Date();
+            var selectedDate = null;
+            var selectedRecipes = []; // Stocăm rețetele generate
+            var calendarEl = document.getElementById('calendar');
+            var btnSalvare = document.getElementById('btnSalvare');
+            var btnGenerare = document.getElementById('btnGenerare');
 
-    <!-- Calendar -->
-    <div id="calendar"></div>
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                selectable: true,
+                select: function (info) {
+                    if (selectedRecipes.length === 0) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Eroare',
+                            text: 'Generează mai întâi rețetele!',
+                            confirmButtonText: 'OK'
+                        });
+                        return;
+                    }
 
-    <!-- Buton Salvare (inițial dezactivat) -->
-    <div class="text-center mt-3">
-        <button id="btnSalvare" class="btn btn-success" disabled>Salvare Plan Alimentar</button>
-    </div>
+                    var selected = new Date(info.startStr);
+                    selected.setHours(0, 0, 0, 0);
+                    today.setHours(0, 0, 0, 0);
 
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var today = new Date();
-        var selectedDate = null;
-        var selectedRecipes = []; // Stocăm rețetele generate
-        var calendarEl = document.getElementById('calendar');
-        var btnSalvare = document.getElementById('btnSalvare');
-        var btnGenerare = document.getElementById('btnGenerare');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            selectable: true,
-            select: function (info) {
-                if (selectedRecipes.length === 0) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Eroare',
-                        text: 'Generează mai întâi rețetele!',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
-
-                var selected = new Date(info.startStr);
-                selected.setHours(0, 0, 0, 0);
-                today.setHours(0, 0, 0, 0);
-
-                if (selected < today) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Eroare',
-                        text: 'Alege o dată din viitor!',
-                        confirmButtonText: 'OK'
-                    });
-                    selectedDate = null;
-                    btnSalvare.disabled = true;
-                } else {
-                    selectedDate = info.startStr;
-                    btnSalvare.disabled = false;
-                }
-            },
-            validRange: { start: today }
-        });
-
-        calendar.render();
-        calendarEl.style.pointerEvents = 'none'; // Dezactivează calendarul inițial
-
-        // Generare rețete
-        btnGenerare.addEventListener('click', function () {
-            fetch('/PlanAlimentar?handler=GenerarePlan', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    if (selected < today) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Eroare',
+                            text: 'Alege o dată din viitor!',
+                            confirmButtonText: 'OK'
+                        });
+                        selectedDate = null;
+                        btnSalvare.disabled = true;
+                    } else {
+                        selectedDate = info.startStr;
+                        btnSalvare.disabled = false;
+                    }
                 },
-                body: JSON.stringify({})
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Eroare server: ${response.status} ${response.statusText}`);
-                }
-                return response.json(); // Citim răspunsul ca JSON direct
-            })
-            .then(data => {
-                var reteteGrid = document.getElementById('reteteGrid');
-                reteteGrid.innerHTML = "";
+                validRange: { start: today }
+            });
 
-                if (data.length === 0) {
-                    reteteGrid.innerHTML = "<p class='text-center'>Nu există rețete disponibile!</p>";
-                    return;
-                }
+            calendar.render();
+            calendarEl.style.pointerEvents = 'none'; // Dezactivează calendarul inițial
 
-                console.log("Rețete primite:", data);
-                selectedRecipes = data; // Salvăm rețetele pentru a le folosi la salvare
-                calendarEl.style.pointerEvents = 'auto'; // Activează calendarul
-
-                data.forEach(reteta => {
-                    var card = `
-                        <div class="col-md-3">
-                            <div class="card">
-                                <img src="${reteta.imagine}" class="card-img-top" alt="Reteta">
-                                <div class="card-body">
-                                    <h5 class="card-title">${reteta.titlu}</h5>
-                                    <p class="card-text"><strong>Categorie:</strong> ${reteta.categorie}</p>
-                                </div>
-                            </div>
-                        </div>`;
-                    reteteGrid.innerHTML += card;
-                });
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Plan Generat',
-                    text: 'Planul alimentar a fost generat cu succes! Selectează o dată pentru a-l salva.',
-                    confirmButtonText: 'OK'
-                });
-            })
-            .catch(error => console.error("Eroare la fetch:", error));
-        });
-
-        // Salvare plan alimentar
-        btnSalvare.addEventListener('click', function () {
-            if (!selectedDate) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Eroare',
-                    text: 'Selectează o dată înainte de a salva!',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-
-               var formattedDate = selectedDate.split('T')[0];
-    console.log("JSON trimis către backend:", JSON.stringify({ dataSelectata: formattedDate }));
-
-            fetch('/PlanAlimentar?handler=SalvarePlan', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                },
-                body: JSON.stringify({
-                    dataSelectata: formattedDate,
-                     retete: selectedRecipes
+            // Generare rețete
+            btnGenerare.addEventListener('click', function () {
+                fetch('/PlanAlimentar?handler=GenerarePlan', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({})
                 })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Eroare server: ${response.status} ${response.statusText}`);
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Eroare server: ${response.status} ${response.statusText}`);
+                    }
+                    return response.json(); // Citim răspunsul ca JSON direct
+                })
+                .then(data => {
+                    var reteteGrid = document.getElementById('reteteGrid');
+                    reteteGrid.innerHTML = "";
+
+                    if (data.length === 0) {
+                        reteteGrid.innerHTML = "<p class='text-center'>Nu există rețete disponibile!</p>";
+                        return;
+                    }
+
+                    console.log("Rețete primite:", data);
+                    selectedRecipes = data; // Salvăm rețetele pentru a le folosi la salvare
+                    calendarEl.style.pointerEvents = 'auto'; // Activează calendarul
+
+                    data.forEach(reteta => {
+                        var card = `
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img src="${reteta.imagine}" class="card-img-top" alt="Reteta">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${reteta.titlu}</h5>
+                                        <p class="card-text"><strong>Categorie:</strong> ${reteta.categorie}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                        reteteGrid.innerHTML += card;
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Plan Generat',
+                        text: 'Planul alimentar a fost generat cu succes! Selectează o dată pentru a-l salva.',
+                        confirmButtonText: 'OK'
+                    });
+                })
+                .catch(error => console.error("Eroare la fetch:", error));
+            });
+
+            // Salvare plan alimentar
+            btnSalvare.addEventListener('click', function () {
+                if (!selectedDate) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eroare',
+                        text: 'Selectează o dată înainte de a salva!',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
                 }
-                return response.json();
-            })
-            .then(data => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Plan Salvat',
-                    text: 'Planul alimentar a fost salvat cu succes!',
-                    confirmButtonText: 'OK'
-                });
 
-                // Resetare după salvare
-                selectedDate = null;
-                selectedRecipes = [];
-                calendarEl.style.pointerEvents = 'none';
-                btnSalvare.disabled = true;
-                document.getElementById('reteteGrid').innerHTML = "";
-            })
-            .catch(error => console.error("Eroare la salvare:", error));
+                   var formattedDate = selectedDate.split('T')[0];
+        console.log("JSON trimis către backend:", JSON.stringify({ dataSelectata: formattedDate }));
+
+                fetch('/PlanAlimentar?handler=SalvarePlan', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        dataSelectata: formattedDate,
+                         retete: selectedRecipes
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Eroare server: ${response.status} ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Plan Salvat',
+                        text: 'Planul alimentar a fost salvat cu succes!',
+                        confirmButtonText: 'OK'
+                    });
+
+                    // Resetare după salvare
+                    selectedDate = null;
+                    selectedRecipes = [];
+                    calendarEl.style.pointerEvents = 'none';
+                    btnSalvare.disabled = true;
+                    document.getElementById('reteteGrid').innerHTML = "";
+                })
+                .catch(error => console.error("Eroare la salvare:", error));
+            });
+            fetch('/PlanAlimentar?handler=PlanuriActive')
+        .then(response => response.json())
+        .then(dates => {
+            var events = dates.map(date => ({
+                title: "🍽️ Plan Activ",
+                start: date,
+                allDay: true,
+                color: "#28a745", // Verde pentru a indica activ
+                textColor: "white"
+            }));
+
+            // Adaugă evenimentele în calendar
+            calendar.addEventSource(events);
+        })
+        .catch(error => console.error("Eroare la obținerea planurilor active:", error));
         });
-        fetch('/PlanAlimentar?handler=PlanuriActive')
-    .then(response => response.json())
-    .then(dates => {
-        var events = dates.map(date => ({
-            title: "🍽️ Plan Activ",
-            start: date,
-            allDay: true,
-            color: "#28a745", // Verde pentru a indica activ
-            textColor: "white"
-        }));
-
-        // Adaugă evenimentele în calendar
-        calendar.addEventSource(events);
-    })
-    .catch(error => console.error("Eroare la obținerea planurilor active:", error));
-    });
-</script>
+    </script>
 </body>
 </html>

@@ -155,7 +155,8 @@
                 <h4>Descriere</h4>
                 <p>@Model.Reteta.Descriere</p>
                 <h4>Mod de preparare</h4>
-                @if (rolUtilizator == "Utilizator"){
+                @if (rolUtilizator == "Utilizator")
+                {
                     <p id="modPreparareText">@Model.Reteta.ModDePreparare</p>
                     <button class="btn btn-outline-success" onclick="initializareCitire()">
                         <i class="fa fa-play"></i>
@@ -166,10 +167,12 @@
                     </button>
 
                     <span id="statusPasCurent" class="ml-3 text-muted" style="font-weight: 600;"></span>
-                }else if(rolUtilizator=="Admin"){
+                }
+                else if (rolUtilizator == "Admin")
+                {
                     <textarea id="modDePreparare" class="form-control form-control-lg" disabled style="min-height: 250px;">
                         @Model.Reteta.ModDePreparare
-                    </textarea>
+                            </textarea>
                 }
                 <h4>Timp de preparare: @Model.Reteta.TimpPreparare minute </h4>
                 <h4>Alergeni:</h4>
@@ -324,414 +327,414 @@
         }
     </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <script>
-                   let recognizer;
-            let rezultatFinal = "";
+    <script>
+               let recognizer;
+        let rezultatFinal = "";
 
-            function pornesteInregistrarea() {
-                const status = document.getElementById("statusVocal");
+        function pornesteInregistrarea() {
+            const status = document.getElementById("statusVocal");
 
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) {
-                    alert("Browserul tău nu suportă recunoaștere vocală.");
-                    return;
-                }
-
-                recognizer = new SpeechRecognition();
-                recognizer.lang = "ro-RO";
-                recognizer.interimResults = false;
-                recognizer.maxAlternatives = 1;
-
-                rezultatFinal = "";
-                status.innerText = "🎙️ Ascult... Vorbește acum.";
-
-                recognizer.start();
-
-                recognizer.onresult = function (event) {
-                    rezultatFinal = event.results[0][0].transcript;
-                    status.innerText = "📝 Transcriere completă.";
-                };
-
-                recognizer.onerror = function (event) {
-                    status.innerText = "❌ Eroare: " + event.error;
-                    console.error("Eroare:", event.error);
-                };
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("Browserul tău nu suportă recunoaștere vocală.");
+                return;
             }
 
-            function opresteInregistrarea() {
-                if (recognizer) {
-                    recognizer.stop();
+            recognizer = new SpeechRecognition();
+            recognizer.lang = "ro-RO";
+            recognizer.interimResults = false;
+            recognizer.maxAlternatives = 1;
 
-                    recognizer.onend = function () {
-                        const textarea = document.getElementById("recenzieText");
-                        const status = document.getElementById("statusVocal");
+            rezultatFinal = "";
+            status.innerText = "🎙️ Ascult... Vorbește acum.";
 
-                        if (rezultatFinal) {
-                            textarea.value += (textarea.value ? " " : "") + rezultatFinal;
-                            status.innerText = "✅ Textul a fost adăugat în câmpul de recenzie.";
-                        } else {
-                            status.innerText = "⚠️ Nu s-a detectat nicio voce.";
-                        }
-                    };
-                }
-            }
+            recognizer.start();
 
-
-               function citesteReteta() {
-               const modPreparare = document.getElementById("modPreparareText").innerText;
-
-                if ('speechSynthesis' in window) {
-                    const mesaj = new SpeechSynthesisUtterance(modPreparare);
-                    mesaj.lang = 'ro-RO'; // limba română
-                    speechSynthesis.speak(mesaj);
-                } else {
-                    alert("Browserul tău nu suportă citirea vocală.");
-                }
-            }
-
-              function enableEditing() {
-                console.log("Activare editare...");
-
-            // Activare câmp pentru modul de preparare
-            let modDePreparareTextarea = document.getElementById("modDePreparare");
-            if (modDePreparareTextarea) {
-                modDePreparareTextarea.removeAttribute("disabled");
-            }
-
-                let ingredientItems = document.querySelectorAll("#ingredientList li");
-
-                if (ingredientItems.length === 0) {
-                    console.error("Nu s-au găsit ingrediente!");
-                    return;
-                }
-
-                ingredientItems.forEach(item => {
-                    let nameInput = item.querySelector(".ingredient-name");
-                    let quantityInput = item.querySelector(".ingredient-quantity");
-                    let unitSelect = item.querySelector(".ingredient-unit");
-
-                    nameInput.removeAttribute("disabled");
-                    quantityInput.removeAttribute("disabled");
-                    unitSelect.removeAttribute("disabled");
-
-                    // Adăugăm un buton de salvare
-                    let saveBtn = document.createElement("button");
-                    saveBtn.textContent = "Salvează";
-                    saveBtn.classList.add("btn", "btn-success", "btn-sm");
-                    saveBtn.onclick = function () {
-                        saveIngredientChanges(item);
-                    };
-
-                    item.appendChild(saveBtn);
-                });
-                        // Adăugare buton de salvare pentru modul de preparare
-            let savePrepBtn = document.createElement("button");
-            savePrepBtn.textContent = "Salvează";
-            savePrepBtn.classList.add("btn", "btn-primary", "mt-3");
-            savePrepBtn.onclick = function () {
-                savePreparationChanges();
+            recognizer.onresult = function (event) {
+                rezultatFinal = event.results[0][0].transcript;
+                status.innerText = "📝 Transcriere completă.";
             };
 
-            document.getElementById("modDePreparare").parentNode.appendChild(savePrepBtn);
+            recognizer.onerror = function (event) {
+                status.innerText = "❌ Eroare: " + event.error;
+                console.error("Eroare:", event.error);
+            };
+        }
+
+        function opresteInregistrarea() {
+            if (recognizer) {
+                recognizer.stop();
+
+                recognizer.onend = function () {
+                    const textarea = document.getElementById("recenzieText");
+                    const status = document.getElementById("statusVocal");
+
+                    if (rezultatFinal) {
+                        textarea.value += (textarea.value ? " " : "") + rezultatFinal;
+                        status.innerText = "✅ Textul a fost adăugat în câmpul de recenzie.";
+                    } else {
+                        status.innerText = "⚠️ Nu s-a detectat nicio voce.";
+                    }
+                };
+            }
+        }
+
+
+           function citesteReteta() {
+           const modPreparare = document.getElementById("modPreparareText").innerText;
+
+            if ('speechSynthesis' in window) {
+                const mesaj = new SpeechSynthesisUtterance(modPreparare);
+                mesaj.lang = 'ro-RO'; // limba română
+                speechSynthesis.speak(mesaj);
+            } else {
+                alert("Browserul tău nu suportă citirea vocală.");
+            }
+        }
+
+          function enableEditing() {
+            console.log("Activare editare...");
+
+        // Activare câmp pentru modul de preparare
+        let modDePreparareTextarea = document.getElementById("modDePreparare");
+        if (modDePreparareTextarea) {
+            modDePreparareTextarea.removeAttribute("disabled");
+        }
+
+            let ingredientItems = document.querySelectorAll("#ingredientList li");
+
+            if (ingredientItems.length === 0) {
+                console.error("Nu s-au găsit ingrediente!");
+                return;
             }
 
-             function saveIngredientChanges(item) {
-                let ingredientId = item.getAttribute("data-id");
-                let recipeId = @Model.Reteta.IdReteta // Adaugă ID-ul rețetei
-                let nameInput = item.querySelector(".ingredient-name").value.trim();
-                let quantityInput = item.querySelector(".ingredient-quantity").value;
-                let unitSelect = item.querySelector(".ingredient-unit").value;
+            ingredientItems.forEach(item => {
+                let nameInput = item.querySelector(".ingredient-name");
+                let quantityInput = item.querySelector(".ingredient-quantity");
+                let unitSelect = item.querySelector(".ingredient-unit");
 
-                if (!nameInput || !quantityInput || quantityInput <= 0) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Eroare',
-                        text: 'Introduceți un nume valid și o cantitate pozitivă!',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
+                nameInput.removeAttribute("disabled");
+                quantityInput.removeAttribute("disabled");
+                unitSelect.removeAttribute("disabled");
 
-                console.log("Salvare ingredient ID:", ingredientId, "| Nou nume:", nameInput, "| Noua cantitate:", quantityInput, "| Unitate:", unitSelect);
+                // Adăugăm un buton de salvare
+                let saveBtn = document.createElement("button");
+                saveBtn.textContent = "Salvează";
+                saveBtn.classList.add("btn", "btn-success", "btn-sm");
+                saveBtn.onclick = function () {
+                    saveIngredientChanges(item);
+                };
 
-                fetch('/Vizualizaredetalii?handler=UpdateIngredient', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
-                    body: JSON.stringify({
-                        IdReteta: Number(recipeId),  // Adăugat ID-ul rețetei
-                        IdIngredient: Number(ingredientId),
-                        NumeIngredientNou: nameInput,
-                        CantitateNoua: Number(quantityInput),
-                        UnitateNoua: unitSelect
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Succes!',
-                            text: 'Ingredient modificat cu succes!',
-                            confirmButtonText: 'OK'
-                            }).then(() => {
-                location.reload(); // Reîncarcă pagina după ce utilizatorul apasă OK
+                item.appendChild(saveBtn);
             });
-                    } else {
-                        console.error("Eroare:", data.message);
-                    }
-                })
-                .catch(error => console.error("Eroare la salvare:", error));
-            }
-                function savePreparationChanges() {
-                let recipeId = @Model.Reteta.IdReteta;
-                let newPreparation = document.getElementById("modDePreparare").value.trim();
+                    // Adăugare buton de salvare pentru modul de preparare
+        let savePrepBtn = document.createElement("button");
+        savePrepBtn.textContent = "Salvează";
+        savePrepBtn.classList.add("btn", "btn-primary", "mt-3");
+        savePrepBtn.onclick = function () {
+            savePreparationChanges();
+        };
 
-                if (!newPreparation) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Eroare',
-                        text: 'Modul de preparare nu poate fi gol!',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
+        document.getElementById("modDePreparare").parentNode.appendChild(savePrepBtn);
+        }
 
-                console.log("Salvare mod de preparare:", newPreparation);
+         function saveIngredientChanges(item) {
+            let ingredientId = item.getAttribute("data-id");
+            let recipeId = @Model.Reteta.IdReteta // Adaugă ID-ul rețetei
+            let nameInput = item.querySelector(".ingredient-name").value.trim();
+            let quantityInput = item.querySelector(".ingredient-quantity").value;
+            let unitSelect = item.querySelector(".ingredient-unit").value;
 
-                fetch('/Vizualizaredetalii?handler=UpdatePreparation', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
-                    body: JSON.stringify({
-                        IdReteta: Number(recipeId),
-                        ModDePreparareNou: newPreparation
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Succes!',
-                            text: 'Mod de preparare modificat cu succes!',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        console.error("Eroare:", data.message);
-                    }
-                })
-                .catch(error => console.error("Eroare la salvare:", error));
-            }
-        </script>
-        <script>
-            function adaugaInCos(idIngredient, cantitate, unitate) {
-                 console.log("Parametri primiți:", { idIngredient, cantitate, unitate });
-                const data = {
-                    idIngredient: idIngredient,
-                    cantitate: cantitate,
-                    unitate: unitate.toString()
-                };
-
-                fetch('/Vizualizaredetalii?handler=AdaugaInCos', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
-                    body: JSON.stringify(data),
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Eroare de server: ${response.statusText}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Succes!',
-                            text: 'Ingredient adăugat în coșul de cumpărături!',
-                            confirmButtonText: 'OK'
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Eroare',
-                            text: data.message || 'A apărut o eroare la adăugarea ingredientului în coș.',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error("Eroare la adăugarea ingredientului în coș:", error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Eroare',
-                        text: 'A apărut o eroare la adăugarea ingredientului. Detalii în consola browserului.',
-                        confirmButtonText: 'OK'
-                    });
-                });
-            }
-        </script>
-        <script>
-            function approveRecipe(idReteta) {
-                fetch('/VizualizareDetalii?handler=ApprovePost', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
-                    body: JSON.stringify({ IdReteta: idReteta }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Succes!',
-                            text: 'Rețeta a fost aprobată cu succes!',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            document.getElementById("approveForm").style.display = "none";
-                            document.getElementById("rejectForm").style.display = "none";
-                            document.getElementById("statusMessage").innerHTML = "Rețeta aprobată";
-                            document.getElementById("statusMessage").classList.add("alert", "alert-success");
-                        });
-                    }
-                })
-                .catch(error => console.error("Eroare la aprobare:", error));
-            }
-
-            function rejectRecipe(idReteta) {
+            if (!nameInput || !quantityInput || quantityInput <= 0) {
                 Swal.fire({
-                    title: 'Ești sigur?',
-                    text: "Vrei să respingi această rețetă?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Da, respinge!',
-                    cancelButtonText: 'Anulează'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        fetch('/VizualizareDetalii?handler=RejectPost', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                            },
-                            body: JSON.stringify({ IdReteta: idReteta }),
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Respins!',
-                                    text: 'Rețeta a fost respinsă cu succes!',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    document.getElementById("approveForm").style.display = "none";
-                                    document.getElementById("rejectForm").style.display = "none";
-                                    document.getElementById("statusMessage").innerHTML = "Rețeta respinsă";
-                                    document.getElementById("statusMessage").classList.add("alert", "alert-danger");
-                                });
-                            }
-                        })
-                        .catch(error => console.error("Eroare la respingere:", error));
-                    }
+                    icon: 'error',
+                    title: 'Eroare',
+                    text: 'Introduceți un nume valid și o cantitate pozitivă!',
+                    confirmButtonText: 'OK'
                 });
+                return;
             }
-        </script>
-        <script>
-            let pasi = [];
-            let pasCurent = 0;
-            let cititor;
 
-            function initializareCitire() {
-                const text = document.getElementById("modPreparareText").innerText;
-                pasi = text.split(/[\.\n]/).map(p => p.trim()).filter(p => p.length > 0);
-                pasCurent = 0;
+            console.log("Salvare ingredient ID:", ingredientId, "| Nou nume:", nameInput, "| Noua cantitate:", quantityInput, "| Unitate:", unitSelect);
 
-                if (pasi.length === 0) {
-                    alert("Modul de preparare este gol.");
-                    return;
+            fetch('/Vizualizaredetalii?handler=UpdateIngredient', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    IdReteta: Number(recipeId),  // Adăugat ID-ul rețetei
+                    IdIngredient: Number(ingredientId),
+                    NumeIngredientNou: nameInput,
+                    CantitateNoua: Number(quantityInput),
+                    UnitateNoua: unitSelect
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Succes!',
+                        text: 'Ingredient modificat cu succes!',
+                        confirmButtonText: 'OK'
+                        }).then(() => {
+            location.reload(); // Reîncarcă pagina după ce utilizatorul apasă OK
+        });
+                } else {
+                    console.error("Eroare:", data.message);
+                }
+            })
+            .catch(error => console.error("Eroare la salvare:", error));
+        }
+            function savePreparationChanges() {
+            let recipeId = @Model.Reteta.IdReteta;
+            let newPreparation = document.getElementById("modDePreparare").value.trim();
+
+            if (!newPreparation) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Eroare',
+                    text: 'Modul de preparare nu poate fi gol!',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            console.log("Salvare mod de preparare:", newPreparation);
+
+            fetch('/Vizualizaredetalii?handler=UpdatePreparation', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    IdReteta: Number(recipeId),
+                    ModDePreparareNou: newPreparation
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Succes!',
+                        text: 'Mod de preparare modificat cu succes!',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    console.error("Eroare:", data.message);
+                }
+            })
+            .catch(error => console.error("Eroare la salvare:", error));
+        }
+    </script>
+    <script>
+        function adaugaInCos(idIngredient, cantitate, unitate) {
+             console.log("Parametri primiți:", { idIngredient, cantitate, unitate });
+            const data = {
+                idIngredient: idIngredient,
+                cantitate: cantitate,
+                unitate: unitate.toString()
+            };
+
+            fetch('/Vizualizaredetalii?handler=AdaugaInCos', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Eroare de server: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Succes!',
+                        text: 'Ingredient adăugat în coșul de cumpărături!',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Eroare',
+                        text: data.message || 'A apărut o eroare la adăugarea ingredientului în coș.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Eroare la adăugarea ingredientului în coș:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Eroare',
+                    text: 'A apărut o eroare la adăugarea ingredientului. Detalii în consola browserului.',
+                    confirmButtonText: 'OK'
+                });
+            });
+        }
+    </script>
+    <script>
+        function approveRecipe(idReteta) {
+            fetch('/VizualizareDetalii?handler=ApprovePost', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ IdReteta: idReteta }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Succes!',
+                        text: 'Rețeta a fost aprobată cu succes!',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        document.getElementById("approveForm").style.display = "none";
+                        document.getElementById("rejectForm").style.display = "none";
+                        document.getElementById("statusMessage").innerHTML = "Rețeta aprobată";
+                        document.getElementById("statusMessage").classList.add("alert", "alert-success");
+                    });
+                }
+            })
+            .catch(error => console.error("Eroare la aprobare:", error));
+        }
+
+        function rejectRecipe(idReteta) {
+            Swal.fire({
+                title: 'Ești sigur?',
+                text: "Vrei să respingi această rețetă?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Da, respinge!',
+                cancelButtonText: 'Anulează'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/VizualizareDetalii?handler=RejectPost', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+                        },
+                        body: JSON.stringify({ IdReteta: idReteta }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Respins!',
+                                text: 'Rețeta a fost respinsă cu succes!',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                document.getElementById("approveForm").style.display = "none";
+                                document.getElementById("rejectForm").style.display = "none";
+                                document.getElementById("statusMessage").innerHTML = "Rețeta respinsă";
+                                document.getElementById("statusMessage").classList.add("alert", "alert-danger");
+                            });
+                        }
+                    })
+                    .catch(error => console.error("Eroare la respingere:", error));
+                }
+            });
+        }
+    </script>
+    <script>
+        let pasi = [];
+        let pasCurent = 0;
+        let cititor;
+
+        function initializareCitire() {
+            const text = document.getElementById("modPreparareText").innerText;
+            pasi = text.split(/[\.\n]/).map(p => p.trim()).filter(p => p.length > 0);
+            pasCurent = 0;
+
+            if (pasi.length === 0) {
+                alert("Modul de preparare este gol.");
+                return;
+            }
+
+            citestePas(pasCurent);
+            actualizeazaStatus(pasCurent);
+        }
+
+        function citestePas(index) {
+            if ('speechSynthesis' in window && pasi.length > index) {
+                speechSynthesis.cancel(); // oprește orice citire anterioară
+
+                cititor = new SpeechSynthesisUtterance(pasi[index]);
+                cititor.lang = 'ro-RO';
+
+                cititor.onend = () => {
+                    actualizeazaStatus(index);
+                };
+
+                speechSynthesis.speak(cititor);
+            }
+        }
+
+        function actualizeazaStatus(index) {
+            const status = document.getElementById("statusPasCurent");
+            status.innerText = `Pasul ${index + 1}/${pasi.length}`;
+        }
+
+        function ascultaComenziVocale() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("Browserul tău nu suportă recunoaștere vocală.");
+                return;
+            }
+
+            const recognizer = new SpeechRecognition();
+            recognizer.lang = "ro-RO";
+            recognizer.interimResults = false;
+            recognizer.continuous = false;
+
+            recognizer.start();
+            document.getElementById("statusPasCurent").innerText = "🎤 Ascult comanda...";
+
+            recognizer.onresult = function (event) {
+                const comanda = event.results[0][0].transcript.toLowerCase().trim();
+
+                if (comanda.includes("următor")) {
+                    pasCurent = Math.min(pasCurent + 1, pasi.length - 1);
+                    citestePas(pasCurent);
+                } else if (comanda.includes("repetă")) {
+                    citestePas(pasCurent);
+                } else if (comanda.includes("pauză")) {
+                    speechSynthesis.cancel();
+                } else {
+                    const raspuns = new SpeechSynthesisUtterance("Comandă necunoscută.");
+                    raspuns.lang = "ro-RO";
+                    speechSynthesis.speak(raspuns);
                 }
 
-                citestePas(pasCurent);
                 actualizeazaStatus(pasCurent);
-            }
+            };
 
-            function citestePas(index) {
-                if ('speechSynthesis' in window && pasi.length > index) {
-                    speechSynthesis.cancel(); // oprește orice citire anterioară
-
-                    cititor = new SpeechSynthesisUtterance(pasi[index]);
-                    cititor.lang = 'ro-RO';
-
-                    cititor.onend = () => {
-                        actualizeazaStatus(index);
-                    };
-
-                    speechSynthesis.speak(cititor);
-                }
-            }
-
-            function actualizeazaStatus(index) {
-                const status = document.getElementById("statusPasCurent");
-                status.innerText = `Pasul ${index + 1}/${pasi.length}`;
-            }
-
-            function ascultaComenziVocale() {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) {
-                    alert("Browserul tău nu suportă recunoaștere vocală.");
-                    return;
-                }
-
-                const recognizer = new SpeechRecognition();
-                recognizer.lang = "ro-RO";
-                recognizer.interimResults = false;
-                recognizer.continuous = false;
-
-                recognizer.start();
-                document.getElementById("statusPasCurent").innerText = "🎤 Ascult comanda...";
-
-                recognizer.onresult = function (event) {
-                    const comanda = event.results[0][0].transcript.toLowerCase().trim();
-
-                    if (comanda.includes("următor")) {
-                        pasCurent = Math.min(pasCurent + 1, pasi.length - 1);
-                        citestePas(pasCurent);
-                    } else if (comanda.includes("repetă")) {
-                        citestePas(pasCurent);
-                    } else if (comanda.includes("pauză")) {
-                        speechSynthesis.cancel();
-                    } else {
-                        const raspuns = new SpeechSynthesisUtterance("Comandă necunoscută.");
-                        raspuns.lang = "ro-RO";
-                        speechSynthesis.speak(raspuns);
-                    }
-
-                    actualizeazaStatus(pasCurent);
-                };
-
-                recognizer.onerror = function (event) {
-                    console.error("Eroare recunoaștere vocală:", event.error);
-                    document.getElementById("statusPasCurent").innerText = "❌ Eroare: " + event.error;
-                };
-            }
-        </script>
+            recognizer.onerror = function (event) {
+                console.error("Eroare recunoaștere vocală:", event.error);
+                document.getElementById("statusPasCurent").innerText = "❌ Eroare: " + event.error;
+            };
+        }
+    </script>
     <script>
         function toggleEditForm() {
             var editForm = document.getElementById("editForm");
