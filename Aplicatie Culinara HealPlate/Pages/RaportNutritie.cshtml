@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Raport Nutritie";
     var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    var rolUtilizator = HttpContext.Session.GetString("Rol");
+    var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
+    var dataRaport = DateTime.Now.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ro-RO"));
     @Html.AntiForgeryToken()
 }
 <!DOCTYPE html>
@@ -21,31 +24,38 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Custom CSS -->
     <link href="~/css/style.css" rel="stylesheet" />
+    <!-- html2canvas pentru capturare vizuală -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- jsPDF pentru generare PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
 
     <style>
         /* Stilizare buton */
         .btn-custom {
-            background-color: #ffc107;
-            color: #343a40;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 22px;
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
+        background-color: #ffc107;
+        color: #343a40;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 22px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
         }
 
-            .btn-custom:hover {
-                background-color: #e0a800;
-            }
+        .btn-custom:hover {
+        background-color: #e0a800;
+        }
 
         /* Card pentru raport */
         #raportCard {
-            display: none;
-            max-width: 600px;
-            margin: 20px auto;
+        display: none;
+        max-width: 600px;
+        margin: 20px auto;
         }
     </style>
 </head>
@@ -72,31 +82,33 @@
         </div>
     </nav>
 
-    <!-- Container principal -->
-    <div class="container mt-4">
-        <h2 class="text-center">Planurile Alimentare</h2>
-        <table class="table table-bordered text-center">
-            <thead class="table-warning">
-                <tr>
-                    <th>Ziua</th>
-                    <th>Mic Dejun</th>
-                    <th>Prânz</th>
-                    <th>Desert</th>
-                    <th>Gustare</th>
-                    <th>Cina</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.PlanuriAlimentare == null || !Model.PlanuriAlimentare.Any())
-                {
-                    <tr><td colspan="6">Nu există planuri alimentare disponibile.</td></tr>
-                }
-                else
-                {
-                    @foreach (var plan in Model.PlanuriAlimentare)
+    @if (rolUtilizator == "Utilizator")
+    {
+        <!-- Container principal -->
+        <div class="container mt-4">
+            <h2 class="text-center">Planurile Alimentare</h2>
+            <table class="table table-bordered text-center">
+                <thead class="table-warning">
+                    <tr>
+                        <th>Ziua</th>
+                        <th>Mic Dejun</th>
+                        <th>Prânz</th>
+                        <th>Desert</th>
+                        <th>Gustare</th>
+                        <th>Cina</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.PlanuriAlimentare == null || !Model.PlanuriAlimentare.Any())
                     {
-                        <tr>
-                            <td>@plan.Ziua.ToString("dd-MM-yyyy")</td>
+                        <tr><td colspan="6">Nu există planuri alimentare disponibile.</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (var plan in Model.PlanuriAlimentare)
+                        {
+                            <tr>
+                                <td>@plan.Ziua.ToString("dd-MM-yyyy")</td>
                             <td><img src="@plan.IdMicDeJunNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
                             <td><img src="@plan.IdPranzNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
                             <td><img src="@plan.IdDesertNavigation?.Imagine" class="img-fluid rounded" width="100"></td>
@@ -167,7 +179,62 @@
             </form>
         </div>
     </div>
+    }
+    else if (rolUtilizator == "Admin")
+    {
+        <div class="container mt-5">
+            <div id="raportAdminCard" class="card shadow-lg border-0 rounded-4 p-4 my-5" style="max-width: 900px; margin: auto;">
+                <div class="text-center mt-4">
+                    <p class="text-muted fs-5">📅 Raport generat în data de: <strong>@dataRaport</strong></p>
+                </div>
+                <h3 class="text-center mb-4">
+                    📊 Statistici despre planurile alimentare ale utilizatorilor
+                </h3>
 
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fs-5">📅 Număr total planuri:</span>
+                    <span class="badge bg-success fs-6 px-3 py-2">@Model.PlanuriAlimentare.Count()</span>
+                </div>
+
+                <div class="mb-3">
+                    <span class="fs-5">🗓️ Distribuție planuri pe zile:</span>
+                    <ul class="list-group list-group-flush mt-2">
+                        @foreach (var zi in Model.PlanuriAlimentare
+                       .GroupBy(p => p.Ziua)
+                       .OrderBy(g => g.Key))
+                        {
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>@zi.Key.ToString("dd-MM-yyyy")</span>
+                                <span class="badge bg-primary">@zi.Count() planuri</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <span class="fs-5">🍽️ Top 5 rețete frecvent folosite:</span>
+                    <ol class="list-group list-group-numbered mt-2">
+                        @foreach (var grup in Model.PlanuriAlimentare
+                       .SelectMany(p => new[] { p.IdMicDeJunNavigation, p.IdPranzNavigation, p.IdCinaNavigation })
+                       .Where(r => r != null)
+                       .GroupBy(r => r!.Titlu)
+                       .OrderByDescending(g => g.Count())
+                       .Take(5))
+                        {
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>@grup.Key</span>
+                                <span class="badge bg-warning text-dark">@grup.Count() utilizări</span>
+                            </li>
+                        }
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button id="btnExportPDF" class="btn btn-danger mt-3">📄 Descarcă raport PDF</button>
+        </div>
+
+    }
     <!-- Script pentru trimiterea datelor -->
     <script>
                 document.getElementById("formularNutritie").addEventListener("submit", function (event) {
@@ -208,5 +275,25 @@
         });
 
     </script>
+    <script>
+        document.getElementById("btnExportPDF").addEventListener("click", async () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF("p", "mm", "a4");
+            const raportElement = document.getElementById("raportAdminCard");
+
+            await html2canvas(raportElement, { scale: 2 }).then((canvas) => {
+                const imgData = canvas.toDataURL("image/png");
+
+                const imgProps = doc.getImageProperties(imgData);
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                doc.save("Raport_Planuri_Alimentare.pdf");
+            });
+        });
+    </script>
+
+
 </body>
 </html>

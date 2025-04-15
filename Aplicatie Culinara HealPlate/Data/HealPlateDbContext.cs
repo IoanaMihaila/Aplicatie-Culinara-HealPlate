@@ -42,6 +42,8 @@ public partial class HealPlateDbContext : DbContext
 
     public virtual DbSet<Ingrediente> Ingredientes { get; set; }
 
+    public virtual DbSet<IntrebareAlergen> IntrebareAlergens { get; set; }
+
     public virtual DbSet<Notificari> Notificaris { get; set; }
 
     public virtual DbSet<PlanAlimentar> PlanAlimentars { get; set; }
@@ -52,9 +54,13 @@ public partial class HealPlateDbContext : DbContext
 
     public virtual DbSet<Retete> Retetes { get; set; }
 
+    public virtual DbSet<RezultatTestAlergeni> RezultatTestAlergenis { get; set; }
+
     public virtual DbSet<UtilizatorAlergeni> UtilizatorAlergenis { get; set; }
 
     public virtual DbSet<Utilizatori> Utilizatoris { get; set; }
+
+    public virtual DbSet<VariantaIntrebareAlergen> VariantaIntrebareAlergens { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=DefaultConnection");
@@ -257,6 +263,15 @@ public partial class HealPlateDbContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<IntrebareAlergen>(entity =>
+        {
+            entity.HasKey(e => e.IdIntrebare).HasName("PK__Intrebar__F0B2F47648609E2F");
+
+            entity.ToTable("IntrebareAlergen");
+
+            entity.Property(e => e.Text).HasMaxLength(500);
+        });
+
         modelBuilder.Entity<Notificari>(entity =>
         {
             entity.HasKey(e => e.IdNotificare).HasName("PK__Notifica__03EEEB10A3E3AD60");
@@ -370,7 +385,7 @@ public partial class HealPlateDbContext : DbContext
             entity.ToTable("Retete", tb => tb.HasTrigger("trg_SetNullOnDeleteReteta"));
 
             entity.Property(e => e.IdReteta).HasColumnName("ID_Reteta");
-            entity.Property(e => e.Aprobata).HasDefaultValue(null);
+            entity.Property(e => e.Aprobata).HasDefaultValue(false);
             entity.Property(e => e.Categorie)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -382,6 +397,26 @@ public partial class HealPlateDbContext : DbContext
             entity.Property(e => e.Titlu)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<RezultatTestAlergeni>(entity =>
+        {
+            entity.HasKey(e => e.IdRezultat).HasName("PK__Rezultat__45050D58BFF461A6");
+
+            entity.ToTable("RezultatTestAlergeni");
+
+            entity.Property(e => e.DataTest)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Recomandare).HasMaxLength(500);
+
+            entity.HasOne(d => d.IdAlergenNavigation).WithMany(p => p.RezultatTestAlergenis)
+                .HasForeignKey(d => d.IdAlergen)
+                .HasConstraintName("FK__RezultatT__IdAle__5D60DB10");
+
+            entity.HasOne(d => d.IdUtilizatorNavigation).WithMany(p => p.RezultatTestAlergenis)
+                .HasForeignKey(d => d.IdUtilizator)
+                .HasConstraintName("FK__RezultatT__IdUti__5C6CB6D7");
         });
 
         modelBuilder.Entity<UtilizatorAlergeni>(entity =>
@@ -433,6 +468,23 @@ public partial class HealPlateDbContext : DbContext
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VariantaIntrebareAlergen>(entity =>
+        {
+            entity.HasKey(e => e.IdVarianta).HasName("PK__Varianta__4ACF8F0B8F7300BE");
+
+            entity.ToTable("VariantaIntrebareAlergen");
+
+            entity.Property(e => e.Text).HasMaxLength(200);
+
+            entity.HasOne(d => d.IdAlergenVizatNavigation).WithMany(p => p.VariantaIntrebareAlergens)
+                .HasForeignKey(d => d.IdAlergenVizat)
+                .HasConstraintName("FK__VariantaI__IdAle__589C25F3");
+
+            entity.HasOne(d => d.IdIntrebareNavigation).WithMany(p => p.VariantaIntrebareAlergens)
+                .HasForeignKey(d => d.IdIntrebare)
+                .HasConstraintName("FK__VariantaI__IdInt__57A801BA");
         });
 
         OnModelCreatingPartial(modelBuilder);

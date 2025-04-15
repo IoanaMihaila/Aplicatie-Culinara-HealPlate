@@ -1,0 +1,245 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.ChestionarModel
+@{
+    ViewData["Title"] = "Chestionar";
+    var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    var rolUtilizator = HttpContext.Session.GetString("Rol");
+    var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
+    @Html.AntiForgeryToken();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="images/favicon.png" type="">
+
+    <title>Rețete Culinare</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
+    <!-- Font Awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- Responsive CSS -->
+    <link href="css/responsive.css" rel="stylesheet" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .quiz-form .card {
+            border-radius: 15px;
+        }
+
+        .quiz-form .card-header {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .quiz-form .form-check-input:checked {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .quiz-form .btn-success {
+            font-size: 1.1rem;
+            padding: 12px 30px;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <ul class="navbar-nav ml-auto">
+            <!-- Adaugă ml-auto pentru aliniere la dreapta -->
+            @if (!string.IsNullOrEmpty(numeUtilizator))
+            {
+                <!-- Afisare nume utilizator autentificat -->
+                <li class="nav-item">
+                    <span class="navbar-text">
+                        <a href="" class="user_link">
+                            <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
+                        </a>
+                        Bun venit, @numeUtilizator!
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Autentificare">Logout</a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
+<body>
+    <div class="container mt-5 mb-5">
+        <h2 class="text-center mb-4">🩺 Test personalizat de alergeni</h2>
+        @if (rolUtilizator == "Admin")
+        {
+            <div class="alert alert-warning text-center">
+                <strong>Modificare întrebări și răspunsuri</strong>
+            </div>
+
+           <form method="post" id="adminForm">
+                @for (int i = 0; i < Model.Intrebari.Count; i++)
+                {
+                    var intrebare = Model.Intrebari[i];
+                    var listaVariante = intrebare.VariantaIntrebareAlergens.ToList();
+
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-light">
+                            <input type="hidden" name="Intrebari[@i].IdIntrebare" value="@intrebare.IdIntrebare" />
+                            <label>Întrebarea:</label>
+                            <input type="text" name="Intrebari[@i].Text" class="form-control" value="@intrebare.Text" />
+                        </div>
+                        <div class="card-body">
+                            @for (int j = 0; j < listaVariante.Count; j++)
+                            {
+                                var varianta = listaVariante[j];
+                                <input type="hidden" name="Intrebari[@i].VariantaIntrebareAlergens[@j].IdVarianta" value="@varianta.IdVarianta" />
+                                <div class="input-group mb-2">
+                                    <input type="text" name="Intrebari[@i].VariantaIntrebareAlergens[@j].Text" class="form-control" value="@varianta.Text" />
+                                    <input type="number" name="Intrebari[@i].VariantaIntrebareAlergens[@j].Punctaj" class="form-control w-25" value="@varianta.Punctaj" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+    <div class="text-center">
+        <button type="submit" formaction="/Chestionar?handler=SalveazaIntrebari" class="btn btn-success px-4">
+            💾 Salvează toate modificările
+        </button>
+    </div>
+            </form>
+        }
+        else if (Model.PoateRaspunde)
+        {
+            <p class="text-muted text-center mb-5">Răspunde sincer la următoarele întrebări pentru a primi recomandări alimentare personalizate.</p>
+            <div class="progress mb-4">
+                <div id="progressBar" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    0%
+                </div>
+            </div>
+
+            <form method="post" class="quiz-form">
+                @for (int i = 0; i < Model.Intrebari.Count; i++)
+                {
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-light">
+                            <strong>Întrebarea @(i + 1):</strong> @Model.Intrebari[i].Text
+                        </div>
+                        <div class="card-body">
+                            @foreach (var varianta in Model.Intrebari[i].VariantaIntrebareAlergens)
+                            {
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input chestionar-radio" type="radio" name="intrebari[@i]" id="var_@varianta.IdVarianta" value="@varianta.IdVarianta" required />
+                                    <label class="form-check-label" for="var_@varianta.IdVarianta">@varianta.Text</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-lg px-5" id="submitBtn" disabled>
+                        📩 Trimite răspunsurile
+                    </button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                Ai completat deja testul în ultimele 20 de zile. Mai jos sunt rezultatele tale recente.
+            </div>
+            <div class="card p-4">
+                @foreach (var rezultat in Model.RaspunsuriExistente)
+                {
+                    <p><strong>@rezultat.IdAlergenNavigation.NumeAlergen:</strong> Scor @rezultat.Scor – @rezultat.Recomandare</p>
+                }
+            </div>
+        }
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const totalIntrebari = document.querySelectorAll(".card").length;
+            const progressBar = document.getElementById("progressBar");
+            const submitBtn = document.getElementById("submitBtn");
+
+            function updateProgress() {
+                const raspunsuriDate = new Set();
+
+                document.querySelectorAll(".chestionar-radio:checked").forEach(radio => {
+                    const name = radio.getAttribute("name");
+                    raspunsuriDate.add(name);
+                });
+
+                const procent = Math.round((raspunsuriDate.size / totalIntrebari) * 100);
+                progressBar.style.width = procent + "%";
+                progressBar.innerText = procent + "%";
+                progressBar.setAttribute("aria-valuenow", procent);
+
+                // activează butonul doar când toate întrebările sunt completate
+                submitBtn.disabled = raspunsuriDate.size < totalIntrebari;
+            }
+
+            document.querySelectorAll(".chestionar-radio").forEach(radio => {
+                radio.addEventListener("change", updateProgress);
+            });
+
+            updateProgress(); // inițializare
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.querySelector(".quiz-form").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch(window.location.pathname, {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                if (data.succes) {
+                            let continut = "";
+        data.rezultate.forEach(r => {
+            continut += `<b>${r.alergen}</b>: Scor ${r.scor}<br>${r.recomandare}<br><br>`;
+        });
+                Swal.fire({
+            title: "📊 Rezultatele tale",
+            html: continut + "<hr><p style='margin-top:10px'>🔁 Dacă ai sesizat reacții noi, <strong>actualizează-ți lista de alergeni</strong> din profilul tău.</p>",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "📈Profilul meu",
+            cancelButtonText: "Închide",
+            width: 600
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/StatisticaUtilizatori";
+            }
+        });
+                }
+            } else {
+                Swal.fire("Eroare!", "A apărut o problemă la trimiterea chestionarului.", "error");
+            }
+        });
+    </script>
+
+</body>
+</html>

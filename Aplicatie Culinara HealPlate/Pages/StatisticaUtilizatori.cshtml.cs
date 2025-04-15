@@ -1,5 +1,6 @@
 ﻿using Aplicatie_Culinara_HealPlate.Data;
 using Aplicatie_Culinara_HealPlate.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,12 +25,27 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         public int TimpGatireSaptamanal { get; private set; }
         public Dictionary<string, int> EvolutiePreferinte { get; private set; } = new();
 
+        public List<Alergeni> TotiAlergenii { get; set; } = new();
+        public List<Alergeni> AlergeniUtilizator { get; set; } = new();
+
+
         public async Task OnGetAsync()
         {
             var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
 
             if (idUtilizator == null)
                 return;
+
+            TotiAlergenii = await _context.Alergenis.ToListAsync();
+
+            if (idUtilizator != null)
+            {
+                AlergeniUtilizator = await _context.UtilizatorAlergenis
+                    .Where(x => x.IdUtilizator == idUtilizator)
+                    .Select(x => x.IdAlergenNavigation)
+                    .ToListAsync();
+            }
+
 
             // Obține lista utilizatorilor și alergenii lor
             Utilizatori = await _context.Utilizatoris
@@ -143,5 +159,44 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         .ToDictionary(kv => kv.Key, kv => kv.Value);
             }
         }
+
+        public async Task<IActionResult> OnPostStergeAlergenAsync(int idAlergen)
+        {
+            var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
+            if (idUtilizator == null) return Unauthorized();
+
+            var rel = await _context.UtilizatorAlergenis
+                .FirstOrDefaultAsync(x => x.IdAlergen == idAlergen && x.IdUtilizator == idUtilizator);
+            if (rel != null)
+            {
+                _context.UtilizatorAlergenis.Remove(rel);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostAdaugaAlergenAsync(int idAlergenNou)
+        {
+            var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
+            if (idUtilizator == null) return Unauthorized();
+
+            bool exista = await _context.UtilizatorAlergenis
+                .AnyAsync(x => x.IdAlergen == idAlergenNou && x.IdUtilizator == idUtilizator);
+
+            if (!exista)
+            {
+                _context.UtilizatorAlergenis.Add(new UtilizatorAlergeni
+                {
+                    IdUtilizator = idUtilizator.Value,
+                    IdAlergen = idAlergenNou
+                });
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage();
+        }
+
     }
 }

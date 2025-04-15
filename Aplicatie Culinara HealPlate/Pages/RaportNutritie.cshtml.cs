@@ -25,13 +25,22 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
         public async Task OnGet()
         {
-            PlanuriAlimentare = await _context.PlanAlimentars
+            var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
+            var rolUtilizator = HttpContext.Session.GetString("Rol");
+
+            IQueryable<PlanAlimentar> query = _context.PlanAlimentars
                 .Include(p => p.IdMicDeJunNavigation)
                 .Include(p => p.IdPranzNavigation)
                 .Include(p => p.IdDesertNavigation)
                 .Include(p => p.IdGustareNavigation)
-                .Include(p => p.IdCinaNavigation)
-                .ToListAsync();
+                .Include(p => p.IdCinaNavigation);
+
+            if (rolUtilizator == "Utilizator" && idUtilizator != null)
+            {
+                query = query.Where(p => p.IdUtilizator == idUtilizator);
+            }
+
+            PlanuriAlimentare = await query.ToListAsync();
         }
         [HttpPost]
         public async Task<IActionResult> OnPostGenerareRaport([FromBody] JsonElement request)

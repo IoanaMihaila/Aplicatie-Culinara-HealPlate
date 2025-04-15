@@ -29,5 +29,7 @@ public partial class Utilizatori
 
     public virtual ICollection<Recenzii> Recenziis { get; set; } = new List<Recenzii>();
 
+    public virtual ICollection<RezultatTestAlergeni> RezultatTestAlergenis { get; set; } = new List<RezultatTestAlergeni>();
+
     public virtual ICollection<UtilizatorAlergeni> UtilizatorAlergenis { get; set; } = new List<UtilizatorAlergeni>();
 }

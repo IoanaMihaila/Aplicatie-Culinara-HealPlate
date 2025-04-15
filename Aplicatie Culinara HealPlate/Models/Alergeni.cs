@@ -11,5 +11,9 @@ public partial class Alergeni
 
     public virtual ICollection<IngredientAlergeni> IngredientAlergenis { get; set; } = new List<IngredientAlergeni>();
 
+    public virtual ICollection<RezultatTestAlergeni> RezultatTestAlergenis { get; set; } = new List<RezultatTestAlergeni>();
+
     public virtual ICollection<UtilizatorAlergeni> UtilizatorAlergenis { get; set; } = new List<UtilizatorAlergeni>();
+
+    public virtual ICollection<VariantaIntrebareAlergen> VariantaIntrebareAlergens { get; set; } = new List<VariantaIntrebareAlergen>();
 }
