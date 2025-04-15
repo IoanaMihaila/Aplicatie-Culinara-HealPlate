@@ -31,33 +31,85 @@
     <!-- Nice Select CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
     <!-- Font Awesome CSS -->
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet" />
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <style>
+        .review {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .review-content {
+            flex: 1;
+        }
+
+        .review-buttons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px; /* Distanța între butoane */
+        }
+
+            .review-buttons .btn {
+                background-color: #fff;
+                color: #6c757d;
+                border: 1px solid #6c757d;
+            }
+
+                .review-buttons .btn:hover {
+                    background-color: #fff;
+                }
+
+        .btn-plus {
+            padding: 2px 6px; /* Dimensiuni mici pentru buton */
+            font-size: 0.8rem; /* Text mai mic */
+            border-radius: 50%; /* Formă rotundă */
+            display: inline-flex; /* Flexibil pentru centrul iconiței */
+            align-items: center;
+            justify-content: center;
+            height: 24px; /* Dimensiune fixă */
+            width: 24px; /* Dimensiune fixă */
+            background-color: transparent; /* Fundal transparent */
+            border: 1px solid #ccc; /* Border discret */
+            color: #6c757d; /* Culoare neutru închis */
+        }
+
+            .btn-plus:hover {
+                background-color: #f8f9fa; /* Fundal mai deschis la hover */
+                border-color: #aaa; /* Border mai închis la hover */
+                color: #000; /* Text mai vizibil */
+            }
+
+            .btn-plus i {
+                margin: 0; /* Asigură centrare perfectă pentru icon */
+            }
+    </style>
 </head>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <ul class="navbar-nav ml-auto">
-            <!-- Adaugă ml-auto pentru aliniere la dreapta -->
+        <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
             @if (!string.IsNullOrEmpty(numeUtilizator))
             {
-                <!-- Afisare nume utilizator autentificat -->
-                <li class="nav-item">
-                    <span class="navbar-text">
-                        <a href="" class="user_link">
-                            <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
-                        </a>
-                        Bun venit, @numeUtilizator!
-                    </span>
+                <!-- Icon utilizator + nume -->
+                <li class="nav-item d-flex align-items-center me-3">
+                    <i class="fas fa-user text-dark me-1"></i>
+                    <span class="text-dark">Bun venit, <strong>@numeUtilizator!</strong></span>
                 </li>
+
+                <!-- Logout vizibil -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/Autentificare">Logout</a>
+                    <a class="nav-link d-flex align-items-center" href="/Autentificare" title="Deconectare">
+                        <i class="fas fa-sign-out-alt fa-lg text-danger" style="margin-left: 10px;"></i>
+                    </a>
                 </li>
             }
         </ul>
@@ -177,6 +229,101 @@
                 }
             </ul>
         </div>
+
+        <!-- Mesaj de eroare dacă utilizatorul a lăsat deja o recenzie -->
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @Model.ErrorMessage
+            </div>
+        }
+        <div>
+            @if (string.IsNullOrEmpty(Model.ErrorMessage) && rolUtilizator == "Utilizator")
+            {
+                <!-- Formularul POST pentru adăugarea unei recenzii -->
+                <form method="post">
+                    <div class="form-group">
+                        <label for="recenzieText">Scrie o recenzie</label>
+                        <textarea id="recenzieText" name="RecenzieText" class="form-control" rows="3"></textarea>
+                        <div class="mt-2 d-flex align-items-center gap-2">
+                            <button type="button" class="btn btn-outline-primary" onclick="pornesteInregistrarea()" title="Înregistrează">
+                                <i class="fa fa-microphone"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" onclick="opresteInregistrarea()" title="Oprește înregistrarea">
+                                <i class="fa fa-stop"></i>
+                            </button>
+                            <small id="statusVocal" class="form-text text-muted ml-2"></small>
+                        </div>
+                        <small id="statusVocal" class="form-text text-muted ml-2"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="scor">Acordă un scor:</label>
+                        <select id="scor" name="Scor" class="form-control">
+                            <option value="1">⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Adaugă recenzie</button>
+                </form>
+            }
+        </div>
+        <h4>Recenzii</h4>
+        @foreach (var recenzie in Model.Reteta.Recenziis)
+        {
+            <div class="review d-flex justify-content-between">
+                <div class="review-content">
+                    <strong>@recenzie.IdUtilizatorNavigation?.Nume @recenzie.IdUtilizatorNavigation?.Prenume</strong>
+                    <span class="text-muted">@recenzie.DataRecenzie</span>
+                    <p>
+                        @for (int i = 0; i < recenzie.Scor; i++)
+                        {
+                            <span style="color: gold;">⭐</span>
+                        }
+                    </p>
+                    <p>@recenzie.TextRecenzie</p>
+                </div>
+
+                @if (recenzie.IdUtilizator == HttpContext.Session.GetInt32("IdUtilizator") && rolUtilizator == "Utilizator")
+                {
+                    <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5">
+                        <button type="button" class="btn btn-custom mb-2" onclick="toggleEditForm()">Editează</button>
+                        <!-- Secțiunea pentru modificarea recenziei (inițial ascunsă) -->
+                        <div id="editForm" style="display: none;">
+                            <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="EditareRecenzie" class="mb-2">
+                                <input type="hidden" name="id" value="@recenzie.IdRecenzie" />
+                                <textarea name="textNou" rows="2" class="form-control">@recenzie.TextRecenzie</textarea>
+                                <label for="scor">Acordă un scor:</label>
+                                <select id="scor" name="scorNou" class="form-control">
+                                    <option value="1">⭐</option>
+                                    <option value="2">⭐⭐</option>
+                                    <option value="3">⭐⭐⭐</option>
+                                    <option value="4">⭐⭐⭐⭐</option>
+                                    <option value="5">⭐⭐⭐⭐⭐</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary">Salvează modificările</button>
+                            </form>
+                        </div>
+
+                        <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie">
+                            <input type="hidden" name="id" value="@recenzie.IdReteta" />
+                            <button type="submit" class="btn btn-danger mt-2">Șterge</button>
+                        </form>
+                    </div>
+                }
+                else if (rolUtilizator == "Admin")
+                {
+                    <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie">
+                        <input type="hidden" name="id" value="@recenzie.IdReteta" />
+                        <button type="submit" class="btn btn-danger mt-2">Șterge</button>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
@@ -585,162 +732,15 @@
                 };
             }
         </script>
-
-
-        <!-- Mesaj de eroare dacă utilizatorul a lăsat deja o recenzie -->
-        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-        {
-            <div class="alert alert-danger">
-                @Model.ErrorMessage
-            </div>
-        }
-        <div>
-            @if (string.IsNullOrEmpty(Model.ErrorMessage) && rolUtilizator == "Utilizator")
-            {
-                <!-- Formularul POST pentru adăugarea unei recenzii -->
-                <form method="post">
-                    <div class="form-group">
-                        <label for="recenzieText">Scrie o recenzie</label>
-                        <textarea id="recenzieText" name="RecenzieText" class="form-control" rows="3"></textarea>
-                        <div class="mt-2 d-flex align-items-center gap-2">
-                            <button type="button" class="btn btn-outline-primary" onclick="pornesteInregistrarea()" title="Înregistrează">
-                                <i class="fa fa-microphone"></i>
-                            </button>
-                            <button type="button" class="btn btn-outline-danger" onclick="opresteInregistrarea()" title="Oprește înregistrarea">
-                                <i class="fa fa-stop"></i>
-                            </button>
-                            <small id="statusVocal" class="form-text text-muted ml-2"></small>
-                        </div>
-                        <small id="statusVocal" class="form-text text-muted ml-2"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="scor">Acordă un scor:</label>
-                        <select id="scor" name="Scor" class="form-control">
-                            <option value="1">⭐</option>
-                            <option value="2">⭐⭐</option>
-                            <option value="3">⭐⭐⭐</option>
-                            <option value="4">⭐⭐⭐⭐</option>
-                            <option value="5">⭐⭐⭐⭐⭐</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Adaugă recenzie</button>
-                </form>
+    <script>
+        function toggleEditForm() {
+            var editForm = document.getElementById("editForm");
+            if (editForm.style.display === "none") {
+                editForm.style.display = "block";
+            } else {
+                editForm.style.display = "none";
             }
-        </div>
-        <h4>Recenzii</h4>
-        @foreach (var recenzie in Model.Reteta.Recenziis)
-        {
-            <div class="review d-flex justify-content-between">
-                <div class="review-content">
-                    <strong>@recenzie.IdUtilizatorNavigation?.Nume @recenzie.IdUtilizatorNavigation?.Prenume</strong>
-                    <span class="text-muted">@recenzie.DataRecenzie</span>
-                    <p>
-                        @for (int i = 0; i < recenzie.Scor; i++)
-                        {
-                            <span style="color: gold;">⭐</span>
-                        }
-                    </p>
-                    <p>@recenzie.TextRecenzie</p>
-                </div>
-
-                @if (recenzie.IdUtilizator == HttpContext.Session.GetInt32("IdUtilizator") && rolUtilizator == "Utilizator")
-                {
-                    <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5">
-                        <button type="button" class="btn btn-custom mb-2" onclick="toggleEditForm()">Editează</button>
-                        <!-- Secțiunea pentru modificarea recenziei (inițial ascunsă) -->
-                        <div id="editForm" style="display: none;">
-                            <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="EditareRecenzie" class="mb-2">
-                                <input type="hidden" name="id" value="@recenzie.IdRecenzie" />
-                                <textarea name="textNou" rows="2" class="form-control">@recenzie.TextRecenzie</textarea>
-                                <label for="scor">Acordă un scor:</label>
-                                <select id="scor" name="scorNou" class="form-control">
-                                    <option value="1">⭐</option>
-                                    <option value="2">⭐⭐</option>
-                                    <option value="3">⭐⭐⭐</option>
-                                    <option value="4">⭐⭐⭐⭐</option>
-                                    <option value="5">⭐⭐⭐⭐⭐</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary">Salvează modificările</button>
-                            </form>
-                        </div>
-
-                        <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie">
-                            <input type="hidden" name="id" value="@recenzie.IdReteta" />
-                            <button type="submit" class="btn btn-danger mt-2">Șterge</button>
-                        </form>
-                    </div>
-                }
-                else if(rolUtilizator=="Admin"){
-                    <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie">
-                        <input type="hidden" name="id" value="@recenzie.IdReteta" />
-                        <button type="submit" class="btn btn-danger mt-2">Șterge</button>
-                    </form>
-                }
-            </div>
         }
-    </div>
+    </script>
 </body>
-<script>
-    function toggleEditForm() {
-        var editForm = document.getElementById("editForm");
-        if (editForm.style.display === "none") {
-            editForm.style.display = "block";
-        } else {
-            editForm.style.display = "none";
-        }
-    }
-</script>
-<style>
-    .review {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .review-content {
-        flex: 1;
-    }
-
-    .review-buttons {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 10px; /* Distanța între butoane */
-    }
-
-        .review-buttons .btn {
-            background-color: #fff;
-            color: #6c757d;
-            border: 1px solid #6c757d;
-        }
-
-            .review-buttons .btn:hover {
-                background-color: #fff;
-            }
-
-    .btn-plus {
-        padding: 2px 6px; /* Dimensiuni mici pentru buton */
-        font-size: 0.8rem; /* Text mai mic */
-        border-radius: 50%; /* Formă rotundă */
-        display: inline-flex; /* Flexibil pentru centrul iconiței */
-        align-items: center;
-        justify-content: center;
-        height: 24px; /* Dimensiune fixă */
-        width: 24px; /* Dimensiune fixă */
-        background-color: transparent; /* Fundal transparent */
-        border: 1px solid #ccc; /* Border discret */
-        color: #6c757d; /* Culoare neutru închis */
-    }
-
-        .btn-plus:hover {
-            background-color: #f8f9fa; /* Fundal mai deschis la hover */
-            border-color: #aaa; /* Border mai închis la hover */
-            color: #000; /* Text mai vizibil */
-        }
-
-        .btn-plus i {
-            margin: 0; /* Asigură centrare perfectă pentru icon */
-        }
-</style>
 </html>

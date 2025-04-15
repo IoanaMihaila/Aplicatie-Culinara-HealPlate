@@ -32,7 +32,7 @@
     <!-- Nice Select CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
     <!-- Font Awesome CSS -->
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet" />
     <!-- Responsive CSS -->
@@ -42,21 +42,20 @@
     <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <ul class="navbar-nav ml-auto">
-            <!-- Adaugă ml-auto pentru aliniere la dreapta -->
+        <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
             @if (!string.IsNullOrEmpty(numeUtilizator))
             {
-                <!-- Afisare nume utilizator autentificat -->
-                <li class="nav-item">
-                    <span class="navbar-text">
-                        <a href="" class="user_link">
-                            <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
-                        </a>
-                        Bun venit, @numeUtilizator!
-                    </span>
+                <!-- Icon utilizator + nume -->
+                <li class="nav-item d-flex align-items-center me-3">
+                    <i class="fas fa-user text-dark me-1"></i>
+                    <span class="text-dark">Bun venit, <strong>@numeUtilizator!</strong></span>
                 </li>
+
+                <!-- Logout vizibil -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/Autentificare">Logout</a>
+                    <a class="nav-link d-flex align-items-center" href="/Autentificare" title="Deconectare">
+                        <i class="fas fa-sign-out-alt fa-lg text-danger" style="margin-left: 10px;"></i>
+                    </a>
                 </li>
             }
         </ul>
@@ -109,7 +108,7 @@
                                         @if (rolUtilizator == "Utilizator")
                                         {
                                     <button class="btn btn-favorite" onclick="addToFavorites(event, @reteta.IdReteta)">
-                                        <i class="fa @(Model.EsteInColectie.ContainsKey(reteta.IdReteta) && Model.EsteInColectie[reteta.IdReteta] ? "fa-heart" : "fa-heart-o")" aria-hidden="true"></i>
+                                        <i class="@(Model.EsteInColectie.ContainsKey(reteta.IdReteta) && Model.EsteInColectie[reteta.IdReteta] ? "fas fa-heart" : "far fa-heart")"></i>
                                     </button>
                                         }
                                         else if (rolUtilizator == "Admin")
@@ -184,7 +183,7 @@
                                             var icon = button.querySelector("i");
 
                                             // Verifică starea inimii (dacă este adăugată sau nu în colecție)
-                                            var isFavorite = icon.classList.contains("fa-heart");
+                                           var isFavorite = icon.classList.contains("fas");
 
                                             if (!isFavorite) {
                                                 // Adaugă rețeta în colecția utilizatorului
@@ -211,8 +210,8 @@
                                                             text: 'Rețeta a fost cu succes adăugată în colecția ta personală!',
                                                             confirmButtonText: 'OK'
                                                         });
-                                                        icon.classList.remove("fa-heart-o");
-                                                        icon.classList.add("fa-heart");
+                                                        icon.classList.remove("far");
+                                                        icon.classList.add("fas");
                                                     } else {
                                                         Swal.fire({
                                                             icon: 'error',
@@ -255,8 +254,8 @@
                                                             text: 'Rețeta a fost ștearsă din colecția ta!',
                                                             confirmButtonText: 'OK'
                                                         });
-                                                        icon.classList.remove("fa-heart");
-                                                        icon.classList.add("fa-heart-o");
+                                                        icon.classList.remove("fas");
+                                                        icon.classList.add("far");
                                                     } else {
                                                         Swal.fire({
                                                             icon: 'error',

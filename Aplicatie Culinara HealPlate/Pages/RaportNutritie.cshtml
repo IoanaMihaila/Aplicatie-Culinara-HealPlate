@@ -59,29 +59,29 @@
         }
     </style>
 </head>
-<body>
-    <!-- Navigație -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <ul class="navbar-nav ms-auto">
-                @if (!string.IsNullOrEmpty(numeUtilizator))
-                {
-                    <li class="nav-item">
-                        <span class="navbar-text">
-                            <a href="#" class="user_link">
-                                <i class="fa fa-user" style="color: #000000;"></i>
-                            </a>
-                            Bun venit, @numeUtilizator!
-                        </span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Autentificare"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </nav>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
+            @if (!string.IsNullOrEmpty(numeUtilizator))
+            {
+                <!-- Icon utilizator + nume -->
+                <li class="nav-item d-flex align-items-center me-3">
+                    <i class="fas fa-user text-dark me-1"></i>
+                    <span class="text-dark">Bun venit, <strong>@numeUtilizator!</strong></span>
+                </li>
 
+                <!-- Logout vizibil -->
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" href="/Autentificare" title="Deconectare">
+                        <i class="fas fa-sign-out-alt fa-lg text-danger" style="margin-left: 10px;"></i>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
+<body>
     @if (rolUtilizator == "Utilizator")
     {
         <!-- Container principal -->
