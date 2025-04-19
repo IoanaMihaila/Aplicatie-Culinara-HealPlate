@@ -1,1 +1,23 @@
-﻿.vs/
+﻿# Build output
+bin/
+obj/
+
+# Rider, VSCode, VS
+.vscode/
+.idea/
+.vs/
+
+# User-specific files
+*.user
+*.suo
+
+# NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+project.nuget.g.props
+project.nuget.g.targets
+
+# Logs
+*.log
