@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Aplicatie Culinara HealPlate.props" />
-</Project>
