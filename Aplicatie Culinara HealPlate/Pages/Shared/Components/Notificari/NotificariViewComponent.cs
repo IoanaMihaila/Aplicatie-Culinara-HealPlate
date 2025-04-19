@@ -15,16 +15,19 @@ public class NotificariViewComponent : ViewComponent
     {
         var userId = HttpContext.Session.GetInt32("IdUtilizator");
 
-        // Verifică dacă există un ID de utilizator în sesiune
         if (userId != null)
         {
             var notificari = _context.Notificaris
-                .Where(n => n.IdUtilizator == userId && n.Vizualizat == false)
-            .ToList();
-            
+                .Where(n => n.IdUtilizator == userId)
+                .ToList();
+
+            ViewData["NumarNotificariNevizualizate"] = notificari.Count(n => n.Vizualizat == false);
+
             return View(notificari);
         }
 
+        ViewData["NumarNotificariNevizualizate"] = 0;
         return View(new List<Notificari>());
     }
+
 }

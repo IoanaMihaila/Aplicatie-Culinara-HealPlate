@@ -1,30 +1,55 @@
-﻿using Aplicatie_Culinara_HealPlate.Models;
+﻿using Aplicatie_Culinara_HealPlate.Data;
+using Aplicatie_Culinara_HealPlate.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Aplicatie_Culinara_HealPlate.Pages.Shared.Components.Notificari
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class NotificariController : Controller
     {
-        private readonly Data.HealPlateDbContext _context;
+        private readonly HealPlateDbContext _context;
 
-        public NotificariController(Data.HealPlateDbContext context)
+        public NotificariController(HealPlateDbContext context)
         {
             _context = context;
         }
 
-        [HttpPost]
-        public IActionResult MarcareVizualizat(int notificareId)
+        [HttpPost("MarcareVizualizat")]
+        public async Task<IActionResult> MarcareVizualizat([FromBody] NotificareRequest request)
         {
-            var notificare = _context.Notificaris.Find(notificareId);
+            var notificare = await _context.Notificaris.FindAsync(request.NotificareId);
+
             if (notificare == null)
             {
-                return new JsonResult(new { success = false, message = "Notificarea nu a fost găsită." });
+                return Json(new { success = false, message = "Notificarea nu a fost găsită." });
             }
 
             notificare.Vizualizat = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return new JsonResult(new { success = true });
+            return Json(new { success = true });
         }
+
+        [HttpPost("StergeToate")]
+        public async Task<IActionResult> StergeToateNotificarile()
+        {
+            var userId = HttpContext.Session.GetInt32("IdUtilizator");
+            if (userId == null)
+            {
+                return Json(new { success = false, message = "Utilizatorul nu este autentificat." });
+            }
+
+            var notificari = _context.Notificaris.Where(n => n.IdUtilizator == userId);
+            _context.Notificaris.RemoveRange(notificari);
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
+        }
+
+    }
+    public class NotificareRequest
+    {
+        public int NotificareId { get; set; }
     }
 }

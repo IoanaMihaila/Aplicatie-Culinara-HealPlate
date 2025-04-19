@@ -1,14 +1,32 @@
-﻿﻿@using Aplicatie_Culinara_HealPlate.Models
-@model List<Notificari>
+﻿@* ViewComponent - Notificari.cshtml *@
+@using Aplicatie_Culinara_HealPlate.Models
+@model List<Aplicatie_Culinara_HealPlate.Models.Notificari>
+@{
+    var nevizualizate = Model.Count(n => n.Vizualizat != true);
+    @Html.AntiForgeryToken()
+}
+
+<button class="btn btn-light position-relative" id="notificationButton" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fa fa-bell"></i>
+    <span id="notificationCount"
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style="display:@(nevizualizate > 0 ? "inline-block" : "none")">
+        @nevizualizate
+    </span>
+</button>
 
 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationButton" style="min-width: 300px;">
     <li><h6 class="dropdown-header">Notificări</h6></li>
     @if (Model.Any())
     {
-        @foreach (var notificare in Model)
+        foreach (var notificare in Model)
         {
+            var esteVizualizat = notificare.Vizualizat == true;
             <li>
-                <a class="dropdown-item notificare-item @((bool)notificare.Vizualizat ? "vizualizat" : "nevizualizat")" href="/VizualizareDetalii?id=@notificare.IdReteta" data-id="@notificare.IdNotificare">
+                <a class="dropdown-item notificare-item @((bool)notificare.Vizualizat ? "vizualizat" : "nevizualizat")"
+                   href="/VizualizareDetalii?id=@notificare.IdReteta"
+                   data-id="@notificare.IdNotificare"
+                   data-url="/VizualizareDetalii?id=@notificare.IdReteta">
                     @notificare.Mesaj
                 </a>
             </li>
@@ -18,34 +36,102 @@
     {
         <li><span class="dropdown-item">Nu există notificări noi</span></li>
     }
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item text-center" href="#">Vezi toate notificările</a></li>
+    <li><hr class="dropdown-divider" /></li>
+    <li>
+        <button class="dropdown-item text-center text-danger" id="stergeToateNotificarile">
+            Șterge toate notificările
+        </button>
+    </li>
 </ul>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".notificare-item").forEach(item => {
-            item.addEventListener("click", function () {
-                let notificareId = this.getAttribute("data-id");
+            item.addEventListener("click", async function (e) {
+                e.preventDefault();
 
-                fetch('/NotificariController/MarcareVizualizat', {
+                let notificareId = this.getAttribute("data-id");
+                let redirectUrl = this.getAttribute("href");
+
+                try {
+                    const response = await fetch('/api/Notificari/MarcareVizualizat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': document.querySelector('#antiForgeryForm input[name="__RequestVerificationToken"]').value
+                        },
+                        body: JSON.stringify({ NotificareId: parseInt(notificareId) })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.classList.remove("nevizualizat");
+                        this.classList.add("vizualizat");
+
+                        const badge = document.getElementById("notificationCount");
+                        if (badge) {
+                            let count = parseInt(badge.innerText);
+                            count = Math.max(0, count - 1);
+                            if (count === 0) {
+                                badge.style.display = "none";
+                            } else {
+                                badge.innerText = count;
+                            }
+                        }
+
+                        // Așteaptă marcarea înainte de redirect
+                        window.location.href = redirectUrl;
+                    } else {
+                        console.error("Eroare de la server:", data.message);
+                    }
+                } catch (err) {
+                    console.error("Eroare fetch:", err);
+                }
+            });
+        });
+    });
+
+        document.getElementById("stergeToateNotificarile")?.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: "Ești sigur?",
+            text: "Această acțiune va șterge toate notificările!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Da, șterge!",
+            cancelButtonText: "Anulează"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('/api/Notificari/StergeToate', {
                     method: 'POST',
-                    headers: { 
-                        "Content-Type": "application/json",
-                        "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
-                    body: JSON.stringify({ id: notificareId })
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        this.classList.remove("nevizualizat");
-                        this.classList.add("vizualizat");
+                        Swal.fire("Succes!", "Toate notificările au fost șterse.", "success").then(() => {
+                            location.reload(); // 🔄 Reîncarcă dropdown-ul
+                        });
+                    } else {
+                        Swal.fire("Eroare", data.message || "Ceva n-a mers bine.", "error");
                     }
+                })
+                .catch(error => {
+                    console.error("Eroare la ștergere:", error);
+                    Swal.fire("Eroare", "A apărut o eroare la ștergere.", "error");
                 });
-            });
+            }
         });
     });
+
 </script>
+
+
 
 <style>
     .nevizualizat {
