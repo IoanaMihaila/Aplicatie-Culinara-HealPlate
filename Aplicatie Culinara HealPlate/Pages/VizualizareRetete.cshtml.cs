@@ -1,20 +1,24 @@
 ﻿using Aplicatie_Culinara_HealPlate.Data;
 using Aplicatie_Culinara_HealPlate.Models;
+using Aplicatie_Culinara_HealPlate.Services;
 using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Newtonsoft.Json;
+using OneOf.Types;
 
 namespace Aplicatie_Culinara_HealPlate.Pages
 {
     public class VizualizareReteteModel : PageModel
     {
         private readonly HealPlateDbContext _context;
-        public VizualizareReteteModel(HealPlateDbContext context)
+        private readonly IRetetaService _retetaService;
+        public VizualizareReteteModel(HealPlateDbContext context, IRetetaService retetaService)
         {
             _context = context;
+            _retetaService = retetaService;
         }
         public List<Retete> Retete { get; set; } = new List<Retete>();
         public string SearchQuery { get; set; }
@@ -25,193 +29,31 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         // Adăugarea unei rețete în colecția personală
         public async Task<IActionResult> OnPostAddToCollectionAsync([FromBody] int idReteta)
         {
-            //Console.WriteLine($"Request received with IdReteta: {request?.IdReteta}");
-            //var idReteta = request?.IdReteta;  // Preia id-ul rețetei din cererea JSON
-            if (idReteta <= 0)
-            {
-                return new JsonResult(new { success = false, message = "ID-ul rețetei nu este valid." });
-            }
-            // Obținem ID-ul utilizatorului curent
             var userId = HttpContext.Session.GetInt32("IdUtilizator");
-            var utilizator = await _context.Utilizatoris.FirstOrDefaultAsync(u => u.IdUtilizator == userId);
-
-            if (utilizator == null)
-            {
-                return RedirectToPage("/Autentificare");
-            }
-
-            // Verificăm dacă utilizatorul are deja o colecție personală
-            var colectie = await _context.ColectiePersonalas
-                .FirstOrDefaultAsync(c => c.IdUtilizator == utilizator.IdUtilizator);
-
-            if (colectie == null)
-            {
-                // Dacă nu există, creăm o colecție personală pentru utilizator
-                colectie = new ColectiePersonala
-                {
-                    IdUtilizator = utilizator.IdUtilizator,
-                    DataAdaugare = DateOnly.FromDateTime(DateTime.Now)
-                };
-
-                _context.ColectiePersonalas.Add(colectie);
-                await _context.SaveChangesAsync();
-            }
-
-            // Verificăm dacă rețeta nu este deja în colecția utilizatorului
-            var existingFavorite = await _context.ColectiePersonalaRetetes
-                .FirstOrDefaultAsync(cr => cr.IdColectie == colectie.IdColectie && cr.IdReteta == idReteta);
-
-            if (existingFavorite != null)
-            {
-                return new JsonResult(new { success = false, message = "Rețeta este deja în colecție." });
-            }
-
-            // Crează sau adaugă rețeta
-            var colectieReteta = new ColectiePersonalaRetete
-            {
-                IdColectie = colectie.IdColectie,
-                IdReteta = idReteta
-            };
-
-            _context.ColectiePersonalaRetetes.Add(colectieReteta);
-            await _context.SaveChangesAsync();
-
-            return new JsonResult(new { success = true });
+            var (success, message) = await _retetaService.AddToCollectionAsync(userId, idReteta);
+            return new JsonResult(new { success, message });
         }
 
         public void OnGet(string? categorie = null, string? searchQuery = null)
         {
-            CategorieSelectata = categorie ?? "Toate";
-
-            // Obține rețetele din baza de date
-            IQueryable<Retete> query = _context.Retetes.Where(r => r.Aprobata == true);
-
-            if (!string.IsNullOrEmpty(categorie) && categorie != "Toate")
-            {
-                query = query.Where(r => r.Categorie == categorie);
-            }
-            // Filtrare după searchQuery (rețete sau ingrediente)
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                string searchLower = searchQuery.ToLower();
-                query = query.Where(r => r.Titlu.ToLower().Contains(searchLower) ||
-                 _context.RetetaIngredientes
-                     .Where(ri => ri.IdReteta == r.IdReteta)
-                     .Join(_context.Ingredientes,
-                           ri => ri.IdIngredient,
-                           i => i.IdIngredient,
-                           (ri, i) => i.Nume.ToLower()) // Transformă în litere mici
-                     .Any(numeIngredient => numeIngredient.Contains(searchLower))); // Comparare insensibilă la majuscule/minuscule
-            }
-
-            Retete = query.ToList();
-
-            // Obține ID-ul utilizatorului curent din sesiune
             var userId = HttpContext.Session.GetInt32("IdUtilizator");
+            Retete = _retetaService.GetFilteredReteteAsync(userId, categorie, searchQuery).Result;
 
             if (userId != null)
             {
-                // Obține lista ID-urilor alergenilor utilizatorului
-                var alergeniUtilizator = _context.UtilizatorAlergenis
-                    .Where(au => au.IdUtilizator == userId)
-                    .Select(au => au.IdAlergen)
-                    .ToList();
-
-                if (alergeniUtilizator.Any())
-                {
-                    // Obține ID-urile ingredientelor care conțin acei alergeni
-                    var ingredienteCuAlergeni = _context.IngredientAlergenis
-                        .Where(ia => alergeniUtilizator.Contains(ia.IdAlergen))
-                        .Select(ia => ia.IdIngredient)
-                        .ToList();
-
-                    if (ingredienteCuAlergeni.Any())
-                    {
-                        // Excludem rețetele care conțin acele ingrediente
-                        query = query.Where(r => !_context.RetetaIngredientes
-                            .Where(ri => ri.IdReteta == r.IdReteta)
-                            .Select(ri => ri.IdIngredient)
-                            .Any(idIngredient => ingredienteCuAlergeni.Contains(idIngredient)));
-                    }
-                }
-            }
-
-            Retete = query.ToList();
-
-            // Verifică dacă rețetele sunt în colecția personală a utilizatorului
-            if (userId != null)
-            {
-                var idColectie = _context.ColectiePersonalas
-                    .Where(c => c.IdUtilizator == userId)
-                    .Select(c => c.IdColectie)
-                    .FirstOrDefault();
-
-                if (idColectie != 0)
-                {
-                    var reteteInColectie = _context.ColectiePersonalaRetetes
-                        .Where(cr => cr.IdColectie == idColectie)
-                        .Select(cr => cr.IdReteta)
-                        .ToList();
-
-                    EsteInColectie = Retete.ToDictionary(
-                        r => r.IdReteta,
-                        r => reteteInColectie.Contains(r.IdReteta)
-                    );
-                }
+                EsteInColectie = _retetaService.GetEsteInColectieAsync(userId.Value, Retete).Result;
             }
         }
         public async Task<IActionResult> OnPostRemoveFromCollectionAsync([FromBody] int idReteta)
         {
-            if (idReteta <= 0)
-            {
-                return new JsonResult(new { success = false, message = "ID-ul rețetei nu este valid." });
-            }
-
-            try
-            {
-                // Obține utilizatorul curent
-                var userId = HttpContext.Session.GetInt32("IdUtilizator");  // Presupunem că utilizatorul este autentificat și se poate obține numele său
-                ColectiePersonala colectie = await _context.ColectiePersonalas
-                    .FirstOrDefaultAsync(c => c.IdUtilizator == userId);
-                // Verifică dacă utilizatorul are rețeta în colecție
-                var favoriteRecipe = await _context.ColectiePersonalaRetetes
-                .FirstOrDefaultAsync(cr => cr.IdColectie == colectie.IdColectie && cr.IdReteta == idReteta);
-
-                if (favoriteRecipe != null)
-                {
-                    // Șterge rețeta din colecția utilizatorului
-                    _context.ColectiePersonalaRetetes.Remove(favoriteRecipe);
-                    await _context.SaveChangesAsync();
-
-                    // Returnează un succes
-                    return new JsonResult(new { success = true, message = "Rețeta a fost ștearsă din colecția ta." });
-                }
-                else
-                {
-                    // Dacă rețeta nu există în colecție
-                    return new JsonResult(new { success = false, message = "Rețeta nu există în colecția ta." });
-                }
-            }
-            catch (Exception ex)
-            {
-                // Loghează eroarea (de exemplu, folosind un logger)
-                Console.WriteLine(ex.Message);
-
-                // Returnează un mesaj de eroare
-                return new JsonResult(new { success = false, message = "A apărut o eroare la ștergerea rețetei." });
-            }
+            var userId = HttpContext.Session.GetInt32("IdUtilizator");
+            var (success, message) = await _retetaService.RemoveFromCollectionAsync(userId, idReteta);
+            return new JsonResult(new { success, message });
         }
         public async Task<IActionResult> OnPostDeleteRecipeAsync([FromBody] int idReteta)
         {
-            if (idReteta <= 0)
-            {
-                return new JsonResult(new { success = false, message = "ID-ul rețetei nu este valid." });
-            }
-            var reteta = await _context.Retetes.FindAsync(idReteta);
-            _context.Retetes.Remove(reteta);
-            await _context.SaveChangesAsync();
-
-            return new JsonResult(new { success = true, message = "Rețeta a fost ștearsă cu succes." });
+            var (success, message) = await _retetaService.DeleteRecipeAsync(idReteta);
+            return new JsonResult(new { success, message });
         }
     }
 }

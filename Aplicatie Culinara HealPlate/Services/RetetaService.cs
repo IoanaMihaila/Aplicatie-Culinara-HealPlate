@@ -55,6 +55,122 @@ namespace Aplicatie_Culinara_HealPlate.Services
 
             return result > 0; // Dacă modificarea a avut succes
         }
+        public async Task<(bool success, string message)> AddToCollectionAsync(int? userId, int idReteta)
+        {
+            if (idReteta <= 0) return (false, "ID-ul rețetei nu este valid.");
 
+            var utilizator = await _context.Utilizatoris.FirstOrDefaultAsync(u => u.IdUtilizator == userId);
+            if (utilizator == null) return (false, "Utilizatorul nu este autentificat.");
+
+            var colectie = await _context.ColectiePersonalas
+                .FirstOrDefaultAsync(c => c.IdUtilizator == utilizator.IdUtilizator);
+
+            if (colectie == null)
+            {
+                colectie = new ColectiePersonala
+                {
+                    IdUtilizator = utilizator.IdUtilizator,
+                    DataAdaugare = DateOnly.FromDateTime(DateTime.Now)
+                };
+
+                _context.ColectiePersonalas.Add(colectie);
+                await _context.SaveChangesAsync();
+            }
+
+            var exists = await _context.ColectiePersonalaRetetes.FirstOrDefaultAsync(cr => cr.IdColectie == colectie.IdColectie && cr.IdReteta == idReteta);
+            if (exists!=null) return (false, "Rețeta este deja în colecție.");
+
+            var colectieReteta = new ColectiePersonalaRetete
+            {
+                IdColectie = colectie.IdColectie,
+                IdReteta = idReteta
+            };
+
+            _context.ColectiePersonalaRetetes.Add(colectieReteta);
+            await _context.SaveChangesAsync();
+            return (true, "Rețeta a fost adăugată în colecție.");
+        }
+
+        public async Task<(bool success, string message)> RemoveFromCollectionAsync(int? userId, int idReteta)
+        {
+            if (idReteta <= 0) return (false, "ID-ul rețetei nu este valid.");
+
+            var colectie = await _context.ColectiePersonalas.FirstOrDefaultAsync(c => c.IdUtilizator == userId);
+            var favorite = await _context.ColectiePersonalaRetetes.FirstOrDefaultAsync(cr => cr.IdColectie == colectie.IdColectie && cr.IdReteta == idReteta);
+
+            if (favorite == null) return (false, "Rețeta nu există în colecția ta.");
+
+            _context.ColectiePersonalaRetetes.Remove(favorite);
+            await _context.SaveChangesAsync();
+            return (true, "Rețeta a fost ștearsă din colecție.");
+        }
+
+        public async Task<(bool success, string message)> DeleteRecipeAsync(int idReteta)
+        {
+            if (idReteta <= 0) return (false, "ID-ul rețetei nu este valid.");
+
+            var reteta = await _context.Retetes.FindAsync(idReteta);
+            if (reteta == null) return (false, "Rețeta nu a fost găsită.");
+
+            _context.Retetes.Remove(reteta);
+            await _context.SaveChangesAsync();
+            return (true, "Rețeta a fost ștearsă cu succes.");
+        }
+
+        public async Task<List<Retete>> GetFilteredReteteAsync(int? userId, string? categorie, string? searchQuery)
+        {
+            IQueryable<Retete> query = _context.Retetes.Where(r => r.Aprobata == true);
+
+            if (!string.IsNullOrEmpty(categorie) && categorie != "Toate")
+                query = query.Where(r => r.Categorie == categorie);
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var searchLower = searchQuery.ToLower();
+                query = query.Where(r => r.Titlu.ToLower().Contains(searchLower) ||
+                    _context.RetetaIngredientes
+                        .Where(ri => ri.IdReteta == r.IdReteta)
+                        .Join(_context.Ingredientes, ri => ri.IdIngredient, i => i.IdIngredient, (ri, i) => i.Nume.ToLower())
+                        .Any(nume => nume.Contains(searchLower)));
+            }
+
+            if (userId != null)
+            {
+                var alergeniUtilizator = await _context.UtilizatorAlergenis
+                    .Where(au => au.IdUtilizator == userId)
+                    .Select(au => au.IdAlergen)
+                    .ToListAsync();
+
+                var ingredienteCuAlergeni = await _context.IngredientAlergenis
+                    .Where(ia => alergeniUtilizator.Contains(ia.IdAlergen))
+                    .Select(ia => ia.IdIngredient)
+                    .ToListAsync();
+
+                if (ingredienteCuAlergeni.Any())
+                {
+                    query = query.Where(r => !_context.RetetaIngredientes
+                        .Where(ri => ri.IdReteta == r.IdReteta)
+                        .Select(ri => ri.IdIngredient)
+                        .Any(id => ingredienteCuAlergeni.Contains(id)));
+                }
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<Dictionary<int, bool>> GetEsteInColectieAsync(int userId, List<Retete> retete)
+        {
+            var idColectie = await _context.ColectiePersonalas
+                .Where(c => c.IdUtilizator == userId)
+                .Select(c => c.IdColectie)
+                .FirstOrDefaultAsync();
+
+            var reteteInColectie = await _context.ColectiePersonalaRetetes
+                .Where(cr => cr.IdColectie == idColectie)
+                .Select(cr => cr.IdReteta)
+                .ToListAsync();
+
+            return retete.ToDictionary(r => r.IdReteta, r => reteteInColectie.Contains(r.IdReteta));
+        }
     }
 }

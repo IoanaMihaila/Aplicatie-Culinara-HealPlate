@@ -2,6 +2,7 @@
 using Aplicatie_Culinara_HealPlate.Models;
 using Aplicatie_Culinara_HealPlate.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -140,6 +141,97 @@ namespace Aplicatie_Culinara_HealPlate.Tests
 
                 Assert.False(result);
             }
+        }
+        [Fact]
+        public async Task AddToCollectionAsync_HappyPath()
+        {
+            var options = GetInMemoryOptions();
+            using var context = new HealPlateDbContext(options);
+            context.Utilizatoris.Add(new Utilizatori { IdUtilizator = 1, Nume = "Test", Prenume="Test",  Email = "test@gmail.com", Parola = "Test", Rol = "Utilizator", Username = "Test" });
+            await context.SaveChangesAsync();
+
+            var service = new RetetaService(context);
+            var result = await service.AddToCollectionAsync(1, 10);
+
+            Assert.True(result.success);
+            Assert.Equal("Rețeta a fost adăugată în colecție.", result.message);
+        }
+
+        [Fact]
+        public async Task AddToCollectionAsync_Error_InvalidUser()
+        {
+            var options = GetInMemoryOptions();
+            using var context = new HealPlateDbContext(options);
+            var service = new RetetaService(context);
+
+            var result = await service.AddToCollectionAsync(99, 10);
+
+            Assert.False(result.success);
+            Assert.Equal("Utilizatorul nu este autentificat.", result.message);
+        }
+
+        [Fact]
+        public async Task RemoveFromCollectionAsync_HappyPath()
+        {
+            var options = GetInMemoryOptions();
+            using var context = new HealPlateDbContext(options);
+            var utilizator = new Utilizatori { IdUtilizator = 2, Nume="Test", Prenume="Test", Email="test@gmail.com", Parola="Test", Rol="Utilizator", Username="Test" };
+            var colectie = new ColectiePersonala { IdUtilizator = 2, DataAdaugare = DateOnly.FromDateTime(DateTime.Now) };
+            context.Utilizatoris.Add(utilizator);
+            context.ColectiePersonalas.Add(colectie);
+            await context.SaveChangesAsync();
+
+            context.ColectiePersonalaRetetes.Add(new ColectiePersonalaRetete { IdColectie = colectie.IdColectie, IdReteta = 20 });
+            await context.SaveChangesAsync();
+
+            var service = new RetetaService(context);
+            var result = await service.RemoveFromCollectionAsync(2, 20);
+
+            Assert.True(result.success);
+            Assert.Equal("Rețeta a fost ștearsă din colecție.", result.message);
+        }
+
+        [Fact]
+        public async Task RemoveFromCollectionAsync_Error_NotFound()
+        {
+            var options = GetInMemoryOptions();
+            using var context = new HealPlateDbContext(options);
+            context.ColectiePersonalas.Add(new ColectiePersonala { IdUtilizator = 3 });
+            await context.SaveChangesAsync();
+
+            var service = new RetetaService(context);
+            var result = await service.RemoveFromCollectionAsync(3, 99);
+
+            Assert.False(result.success);
+            Assert.Equal("Rețeta nu există în colecția ta.", result.message);
+        }
+
+        [Fact]
+        public async Task DeleteRecipeAsync_HappyPath()
+        {
+            var options = GetInMemoryOptions();
+            using var context = new HealPlateDbContext(options);
+            context.Retetes.Add(new Retete { IdReteta = 100 , Titlu="Test", Categorie="Test", Descriere="Test", ModDePreparare="Test", Imagine="Test"});
+            await context.SaveChangesAsync();
+
+            var service = new RetetaService(context);
+            var result = await service.DeleteRecipeAsync(100);
+
+            Assert.True(result.success);
+            Assert.Equal("Rețeta a fost ștearsă cu succes.", result.message);
+        }
+
+        [Fact]
+        public async Task DeleteRecipeAsync_Error_NotFound()
+        {
+            var options = GetInMemoryOptions();
+            using var context = new HealPlateDbContext(options);
+            var service = new RetetaService(context);
+
+            var result = await service.DeleteRecipeAsync(999);
+
+            Assert.False(result.success);
+            Assert.Equal("Rețeta nu a fost găsită.", result.message);
         }
     }
 }
