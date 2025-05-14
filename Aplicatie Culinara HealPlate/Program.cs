@@ -21,6 +21,8 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddScoped<IRetetaService, RetetaService>();
 builder.Services.AddScoped<IRecenzieService, RecenzieService>();
+builder.Services.AddScoped<ICosService, CosService>();
+builder.Services.AddScoped<IPlanAlimentarService, PlanAlimentarService>();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");

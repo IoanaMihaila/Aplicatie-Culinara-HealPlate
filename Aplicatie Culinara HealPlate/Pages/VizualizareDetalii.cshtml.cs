@@ -14,14 +14,16 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         private readonly HealPlateDbContext _context;
         private readonly IRecenzieService _recenzieService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ICosService _cosService;
 
-        public VizualizareDetaliiModel(IRetetaService retetaService, HealPlateDbContext context, IRecenzieService recenzieService, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment)
+        public VizualizareDetaliiModel(IRetetaService retetaService, HealPlateDbContext context, IRecenzieService recenzieService, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment, ICosService cosService)
         {
             _retetaService = retetaService;
             _context = context;
             _recenzieService = recenzieService;
             _httpContextAccessor = httpContextAccessor;
             _environment = environment;
+            _cosService = cosService;
         }
 
         public Retete Reteta { get; set; }
@@ -116,18 +118,30 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             // Redirecționăm către aceleași detalii ale rețetei
             return RedirectToPage("./VizualizareDetalii", new { id = id });
         }
-        public async Task<IActionResult> OnPostStergereRecenzieAsync(int id)
+        public async Task<IActionResult> OnPostStergereRecenzieAsync(int id, int idReteta)
         {
             Console.WriteLine("Am ajuns in metoda OnPostStergereRecenzie");
-            var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
 
-            if (!idUtilizator.HasValue)
+            var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
+            var rol = HttpContext.Session.GetString("Rol");
+
+            if (!idUtilizator.HasValue || string.IsNullOrEmpty(rol))
             {
                 return RedirectToPage("/Autentificare");
             }
 
-            var recenzie = _context.Recenziis
-                .FirstOrDefault(r => r.IdReteta == id && r.IdUtilizator == idUtilizator.Value);
+            Recenzii? recenzie = null;
+
+            if (rol == "Admin")
+            {
+                recenzie = await _context.Recenziis
+                    .FirstOrDefaultAsync(r => r.IdRecenzie == id);
+            }
+            else if (rol == "Utilizator")
+            {
+                recenzie = await _context.Recenziis
+                    .FirstOrDefaultAsync(r => r.IdRecenzie == id && r.IdUtilizator == idUtilizator.Value);
+            }
 
             if (recenzie == null)
             {
@@ -135,20 +149,21 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             }
 
             _context.Recenziis.Remove(recenzie);
-            // Salvează modificările în baza de date
+
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                // Loghează eroarea dacă există
                 Console.WriteLine($"Eroare la salvarea modificărilor: {ex.Message}");
                 return StatusCode(500, "A apărut o eroare la salvarea modificărilor.");
             }
 
-            return RedirectToPage("./VizualizareDetalii", new { id = id });
+            // Redirect către pagina detaliată a rețetei
+            return RedirectToPage("./VizualizareDetalii", new { id = idReteta });
         }
+
         public async Task<IActionResult> OnPostEditareRecenzieAsync(int id, string textNou, int scorNou)
         {
             var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
@@ -181,56 +196,16 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             }
 
             var userId = HttpContext.Session.GetInt32("IdUtilizator");
-            if (userId == null)
+            if (!userId.HasValue)
             {
                 return BadRequest(new { success = false, message = "Utilizatorul nu este autentificat." });
             }
 
-            var utilizator = await _context.Utilizatoris.FirstOrDefaultAsync(u => u.IdUtilizator == userId);
-            if (utilizator == null)
-            {
-                return BadRequest(new { success = false, message = "Utilizatorul nu a fost găsit." });
-            }
+            var (success, message) = await _cosService.AdaugaIngredientInCosAsync(userId.Value, request);
 
-            var cos = await _context.CosuriDeCumparaturis
-                .FirstOrDefaultAsync(c => c.IdUtilizator == userId);
-
-            // Dacă cosul nu există, îl creăm
-            if (cos == null)
-            {
-                cos = new CosuriDeCumparaturi
-                {
-                    IdUtilizator = utilizator.IdUtilizator,
-                    DataCreare = DateOnly.FromDateTime(DateTime.Now)
-                };
-                _context.CosuriDeCumparaturis.Add(cos);
-                await _context.SaveChangesAsync(); // Salvează pentru a genera ID-ul coșului
-            }
-
-            // Verificăm dacă ingredientul există deja în coș
-            var cosIngredientExistent = await _context.CosIngredientes
-                .FirstOrDefaultAsync(ci => ci.IdCos == cos.IdCos && ci.IdIngredient == request.IdIngredient);
-
-            if (cosIngredientExistent != null)
-            {
-                // Ingredientul există deja în coș, returnăm un mesaj
-                return new JsonResult(new { success = false, message = "Ingredientul există deja în coș!" });
-            }
-
-            // Adăugăm ingredientul în coș
-            var cosIngredient = new CosIngrediente
-            {
-                IdCos = cos.IdCos,
-                IdIngredient = request.IdIngredient,
-                Cantitate = ((decimal)request.Cantitate),
-                Unitate = request.Unitate
-            };
-
-            _context.CosIngredientes.Add(cosIngredient);
-            await _context.SaveChangesAsync();
-
-            return new JsonResult(new { success = true, message = "Ingredient adăugat în coș!" });
+            return new JsonResult(new { success, message });
         }
+
         public async Task<IActionResult> OnPostApprovePostAsync([FromBody] PostApproveRequest request)
         {
             Console.WriteLine("Am intrat în metoda OnPostApprovePostAsync"); // Log inițial

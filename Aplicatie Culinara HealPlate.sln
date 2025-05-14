@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aplicatie Culinara HealPlate", "Aplicatie Culinara HealPlate\Aplicatie Culinara HealPlate.csproj", "{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aplicatie_Culinara_HealPlate.Tests", "Aplicatie_Culinara_HealPlate.Tests\Aplicatie_Culinara_HealPlate.Tests.csproj", "{0B4E7042-76B7-4C5E-904B-CB9B0AE16F58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19F03AE2-FEAA-4292-BB4F-396EA6D890F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B4E7042-76B7-4C5E-904B-CB9B0AE16F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4E7042-76B7-4C5E-904B-CB9B0AE16F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B4E7042-76B7-4C5E-904B-CB9B0AE16F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B4E7042-76B7-4C5E-904B-CB9B0AE16F58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

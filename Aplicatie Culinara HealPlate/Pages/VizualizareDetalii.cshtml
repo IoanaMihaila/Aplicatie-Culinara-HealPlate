@@ -310,16 +310,16 @@
                             </form>
                         </div>
 
-                        <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie">
-                            <input type="hidden" name="id" value="@recenzie.IdReteta" />
+                        <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie" asp-route-id="@recenzie.IdRecenzie">
+                            <input type="hidden" name="idReteta" value="@recenzie.IdReteta" />
                             <button type="submit" class="btn btn-danger mt-2">Șterge</button>
                         </form>
                     </div>
                 }
                 else if (rolUtilizator == "Admin")
                 {
-                    <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie">
-                        <input type="hidden" name="id" value="@recenzie.IdReteta" />
+                    <form method="post" asp-page="./VizualizareDetalii" asp-page-handler="StergereRecenzie" asp-route-id="@recenzie.IdRecenzie">
+                        <input type="hidden" name="idReteta" value="@recenzie.IdReteta" />
                         <button type="submit" class="btn btn-danger mt-2">Șterge</button>
                     </form>
                 }
