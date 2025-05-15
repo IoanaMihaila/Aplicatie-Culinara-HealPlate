@@ -23,6 +23,10 @@ builder.Services.AddScoped<IRetetaService, RetetaService>();
 builder.Services.AddScoped<IRecenzieService, RecenzieService>();
 builder.Services.AddScoped<ICosService, CosService>();
 builder.Services.AddScoped<IPlanAlimentarService, PlanAlimentarService>();
+builder.Services.AddHttpClient<OllamaService>(client =>
+{
+    client.Timeout = TimeSpan.FromMinutes(5);
+});
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="images/favicon.png" type="">
     <title>@ViewData["Title"] - Aplicatie_Culinara_HealPlate</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Aplicatie_Culinara_HealPlate.styles.css" asp-append-version="true" />
@@ -82,6 +83,9 @@
                                     @await Component.InvokeAsync("Notificari")
                                 </div>
                             </div>
+                            <a href="/Chatbot" class="chatbot_link" title="Asistent AI Nutrițional" style="margin-left: 10px;">
+                                <i class="fas fa-robot fa-lg" style="color: #198754;"></i>
+                            </a>
                             <a href="/StatisticaUtilizatori" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
                             </a>

@@ -5,8 +5,7 @@
     var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
     var rolUtilizator = HttpContext.Session.GetString("Rol");
     var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
-    @Html.AntiForgeryToken()
-    ;
+    @Html.AntiForgeryToken();
 }
 <!DOCTYPE html>
 <html>
