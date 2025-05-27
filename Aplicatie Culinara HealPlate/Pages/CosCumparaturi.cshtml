@@ -211,7 +211,7 @@
                         <!-- <label for="imagine" class="form-label h5 text-dark font-weight-bold">Verifică Eticheta!</label> -->
                         <div id="dropzone" class="border rounded d-flex align-items-center justify-content-center p-3" style="width: 400px; height: 400px; cursor: pointer; background-color: #fafaf0; margin: 0 auto;">
                             <p id="dropzone-text" class="text-muted">Inserați eticheta pentru verificare</p>
-                            <input type="file" id="imagine" name="image" class="d-none" accept="image/*" required />
+                            <input type="file" id="imagine" name="image" class="d-none" accept="image/*" capture="environment" required />
                             <img id="image-preview" src="" alt="Imagine Previzualizare" style="max-width: 200%; max-height: 200%; display: none; object-fit: contain;" />
                         </div>
                     </div>
@@ -292,68 +292,69 @@
             });
         }
 
-                function cautaOras() {
-            var oras = document.getElementById('orasInput').value;
+        async function cautaOras() {
+            const oras = document.getElementById('orasInput').value;
             if (!oras) {
                 alert("Te rog introdu un oraș.");
                 return;
             }
 
-            // Adună filtrele bifate
-                    var filtre = [];
-        document.querySelectorAll('.form-check-input:checked').forEach(chk => {
-            filtre.push(chk.value);
-        });
+            const filtre = [];
+            document.querySelectorAll('.form-check-input:checked').forEach(chk => {
+                filtre.push(chk.value);
+            });
 
-            var keyword = document.getElementById('tipLocatie').value;
-            if (filtre.length > 0) {
-                keyword += " " + filtre.join(" ");
+            const keyword = document.getElementById('tipLocatie').value;
+
+            // Obține tokenul CSRF
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            const response = await fetch('?handler=CautaMagazine', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({
+                    oras: oras,
+                    keyword: keyword,
+                    filtre: filtre
+                })
+            });
+
+            if (!response.ok) {
+                alert("Eroare la căutare: " + await response.text());
+                return;
             }
 
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ address: oras + ', Romania' }, function (results, status) {
-                if (status === 'OK') {
-                    var locatie = results[0].geometry.location;
+            const locatii = await response.json();
+            if (locatii.length === 0) {
+                alert("Nu s-au găsit locații.");
+                return;
+            }
 
-                    map.setCenter(locatie);
-                    map.setZoom(13);
+            // Centrare pe hartă + marcatori (rămâne neschimbat)
+            const locatieInitiala = locatii[0].geometry.location;
+            map.setCenter(locatieInitiala);
+            map.setZoom(13);
 
-                    var request = {
-                        location: locatie,
-                        radius: 5000,
-                        keyword: keyword
-                    };
+            locatii.forEach(loc => {
+                const marker = new google.maps.Marker({
+                    position: loc.geometry.location,
+                    map: map,
+                    title: loc.name
+                });
 
-                    var service = new google.maps.places.PlacesService(map);
-                    service.nearbySearch(request, function (results, status) {
-                        if (status === google.maps.places.PlacesServiceStatus.OK) {
-                            for (var i = 0; i < results.length; i++) {
-                                var place = results[i];
-                                var marker = new google.maps.Marker({
-                                    position: place.geometry.location,
-                                    map: map,
-                                    title: place.name
-                                });
+                const infowindow = new google.maps.InfoWindow({
+                    content: `<div><strong>${loc.name}</strong><br>${loc.vicinity}</div>`
+                });
 
-                                var infowindow = new google.maps.InfoWindow({
-                                    content: '<div><strong>' + place.name + '</strong><br>' + place.vicinity + '</div>'
-                                });
-
-                                (function (marker, infowindow) {
-                                    marker.addListener('click', function () {
-                                        infowindow.open(map, marker);
-                                    });
-                                })(marker, infowindow);
-                            }
-                        } else {
-                            alert('Nu s-au găsit magazine în acel oraș.');
-                        }
-                    });
-                } else {
-                    alert('Orașul nu a putut fi găsit: ' + status);
-                }
+                marker.addListener('click', () => {
+                    infowindow.open(map, marker);
+                });
             });
         }
+
 
 
         // Încarcă Google Maps API cu callback către initMap()

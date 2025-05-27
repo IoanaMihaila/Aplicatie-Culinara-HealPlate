@@ -4,7 +4,6 @@
     ViewData["Title"] = "Chatbot AI";
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -12,8 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"]</title>
 
-    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <style>
         body {
             background-color: #f2f7f5;
@@ -22,8 +22,8 @@
 
         .chatbot-container {
             max-width: 850px;
-            margin: 50px auto;
-            padding: 30px;
+            margin: 30px auto;
+            padding: 20px;
             background: white;
             border-radius: 15px;
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
@@ -40,9 +40,9 @@
             }
 
         .chat-bubble {
-            max-width: 75%;
+            max-width: 100%;
             padding: 15px;
-            margin: 10px;
+            margin: 10px 0;
             border-radius: 20px;
             line-height: 1.5;
             word-wrap: break-word;
@@ -51,13 +51,11 @@
         .bubble-user {
             background-color: #e9ecef;
             align-self: flex-start;
-            margin-right: auto;
         }
 
         .bubble-bot {
             background-color: #d1e7dd;
             align-self: flex-end;
-            margin-left: auto;
         }
 
         .chat-box {
@@ -69,24 +67,31 @@
             margin-bottom: 30px;
         }
 
-        textarea {
-            resize: none;
-        }
-
         .btn-submit {
             display: inline-flex;
             align-items: center;
             gap: 5px;
         }
 
-        .btn-back {
-            margin-bottom: 20px;
+        @@media (max-width: 576px) {
+            .chatbot-container {
+                padding: 15px;
+            }
+
+            .btn-submit {
+                width: 100%;
+                justify-content: center;
+            }
+
+            textarea {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container chatbot-container">
-        <div class="btn-back">
+    <div class="container-fluid px-3 px-md-5 chatbot-container">
+        <div class="btn-back mb-3">
             <a href="javascript:history.back()" class="btn btn-outline-secondary">
                 <i class="fas fa-arrow-left"></i> Înapoi
             </a>
@@ -115,10 +120,10 @@
         <form method="post">
             <div class="mb-3">
                 <label asp-for="Prompt" class="form-label">Scrie o nouă întrebare:</label>
-                <textarea asp-for="Prompt" class="form-control" rows="4" placeholder="Ex: Sunt alergic la lactate, ce pot mânca?"></textarea>
+                <textarea asp-for="Prompt" class="form-control w-100" rows="4" placeholder="Ex: Sunt alergic la lactate, ce pot mânca?"></textarea>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-success btn-lg btn-submit">
+                <button type="submit" class="btn btn-success btn-lg btn-submit w-100 w-md-auto">
                     <i class="fas fa-paper-plane"></i> Trimite
                 </button>
             </div>

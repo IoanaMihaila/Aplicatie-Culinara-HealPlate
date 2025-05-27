@@ -33,7 +33,7 @@ public class ReminderService : BackgroundService
                         .Where(u => u.IdUtilizator == plan.IdUtilizator)
                         .FirstOrDefaultAsync();
 
-                    if (utilizator == null) continue; // Evită trimiterea email-ului dacă utilizatorul nu există
+                    if (utilizator == null) continue; 
 
                     var retete = new List<string>();
                     if (plan.IdMicDeJun.HasValue)

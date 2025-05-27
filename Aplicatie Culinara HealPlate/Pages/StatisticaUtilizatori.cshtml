@@ -212,20 +212,32 @@
                     </div>
                 </div>
 
-                <h5 class="mt-4">Top 5 rețete folosite</h5>
-                <div class="card p-4 mb-4">
-                    <canvas id="chartReteteFrecvente"></canvas>
+                <h5 class="mt-4">Statistici personale</h5>
+                <div class="d-flex flex-wrap justify-content-center gap-4">
+
+                    <div class="text-center">
+                        <h6>Top 5 rețete folosite</h6>
+                        <div class="card p-3" style="width: 300px; height: 250px;">
+                            <canvas id="chartReteteFrecvente" style="max-height: 200px;"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <h6>Top 5 ingrediente frecvente</h6>
+                        <div class="card p-3" style="width: 300px; height: 250px;">
+                            <canvas id="chartIngredienteFrecvente" style="max-height: 200px;"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <h6>Timp gătit săptămânal</h6>
+                        <div class="card p-3" style="width: 300px; height: 250px;">
+                            <canvas id="chartTimpGatire" style="max-height: 200px;"></canvas>
+                        </div>
+                    </div>
+
                 </div>
 
-                <h5 class="mt-4">Top 5 ingrediente frecvente</h5>
-                <div class="card p-4 mb-4">
-                    <canvas id="chartIngredienteFrecvente"></canvas>
-                </div>
-
-                <h5 class="mt-4">Timp total de gătit săptămânal</h5>
-                <div class="card p-4 mb-4" style="max-width: 300px;">
-                    <canvas id="chartTimpGatire"></canvas>
-                </div>
 
             }
             else

@@ -14,11 +14,13 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         private readonly HealPlateDbContext _context;
         public CosuriDeCumparaturi CosCumparaturi { get; set; }
         public Utilizatori UtilizatorCurent { get; set; }
+        private readonly string _googleApiKey;
 
 
-        public CosCumparaturiModel(HealPlateDbContext context)
+        public CosCumparaturiModel(HealPlateDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _googleApiKey = configuration["GoogleMaps:ApiKey"];
         }
         public static string NormalizeText(string text)
         {
@@ -125,13 +127,11 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             ViewData["UploadedImagePath"] = $"/uploads/{image.FileName}";
             try
             {
-                // Configurare Tesseract
                 using var ocrEngine = new TesseractEngine("./tessdata", "ron", Tesseract.EngineMode.Default);
                 using var img = Pix.LoadFromFile(filePath);
                 var result = ocrEngine.Process(img);
 
                 var etichetaText = result.GetText();
-               // Console.WriteLine($"Textul din etichetă: {etichetaText}");
 
                 // Normalizează textul etichetei
                 var etichetaTextNormalizat = NormalizeText(etichetaText);
@@ -216,5 +216,79 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 .Select(ua => ua.IdAlergenNavigation.NumeAlergen)
                 .ToList() ?? new List<string>();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> OnPostCautaMagazineAsync([FromBody] CautareLocatieRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Oras))
+                return BadRequest("Orașul este obligatoriu.");
+
+            string adresa = $"{request.Oras}, Romania";
+            var apiKey = _googleApiKey;
+
+            using var httpClient = new HttpClient();
+
+            string geocodeUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={Uri.EscapeDataString(adresa)}&key={apiKey}";
+            var geoResponse = await httpClient.GetFromJsonAsync<GoogleGeocodeResponse>(geocodeUrl);
+
+            if (geoResponse?.Results == null || geoResponse.Results.Length == 0)
+                return NotFound("Orașul nu a fost găsit.");
+
+            var locatie = geoResponse.Results[0].Geometry.Location;
+            double lat = locatie.Lat;
+            double lng = locatie.Lng;
+
+            string keyword = $"{request.Keyword} {string.Join(" ", request.Filtre ?? new List<string>())}";
+            string encodedKeyword = Uri.EscapeDataString(keyword);
+
+            string nearbyUrl = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                               $"?location={lat.ToString(CultureInfo.InvariantCulture)},{lng.ToString(CultureInfo.InvariantCulture)}" +
+                               $"&radius=5000&keyword={encodedKeyword}&key={apiKey}";
+
+            var nearbyResponse = await httpClient.GetFromJsonAsync<GooglePlacesResponse>(nearbyUrl);
+
+            return new JsonResult((nearbyResponse?.Results ?? Array.Empty<PlaceResult>()).ToList());
+        }
+
+        public class CautareLocatieRequest
+        {
+            public string Oras { get; set; }
+            public string Keyword { get; set; }
+            public List<string> Filtre { get; set; }
+        }
+
+        public class GoogleGeocodeResponse
+        {
+            public GeocodeResult[] Results { get; set; }
+        }
+
+        public class GeocodeResult
+        {
+            public Geometry Geometry { get; set; }
+        }
+
+        public class Geometry
+        {
+            public Location Location { get; set; }
+        }
+
+        public class Location
+        {
+            public double Lat { get; set; }
+            public double Lng { get; set; }
+        }
+
+        public class GooglePlacesResponse
+        {
+            public PlaceResult[] Results { get; set; }
+        }
+
+        public class PlaceResult
+        {
+            public Geometry Geometry { get; set; }
+            public string Name { get; set; }
+            public string Vicinity { get; set; }
+        }
+
     }
 }
