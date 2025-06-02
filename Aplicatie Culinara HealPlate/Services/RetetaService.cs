@@ -172,5 +172,32 @@ namespace Aplicatie_Culinara_HealPlate.Services
 
             return retete.ToDictionary(r => r.IdReteta, r => reteteInColectie.Contains(r.IdReteta));
         }
+
+        public List<Retete> CautaRetetePeBazaIngredientelor(List<string> ingrediente)
+        {
+            return _context.Retetes
+                .Include(r => r.RetetaIngredientes)
+                    .ThenInclude(ri => ri.IdIngredientNavigation)
+                .Where(r => r.RetetaIngredientes
+                    .Any(ri => ingrediente.Contains(ri.IdIngredientNavigation.Nume.ToLower())))
+                .GroupBy(r => r.IdReteta)   
+                .Select(g => g.First())        
+                .ToList();
+        }
+
+        public List<string> GetAlergeniPentruIngredient(string numeIngredient)
+        {
+            var ingredient = _context.Ingredientes
+                .Include(i => i.IngredientAlergenis)
+                    .ThenInclude(ia => ia.IdAlergenNavigation)
+                .FirstOrDefault(i => i.Nume.ToLower() == numeIngredient.ToLower());
+
+            if (ingredient == null)
+                return new List<string>();
+
+            return ingredient.IngredientAlergenis
+                .Select(ia => ia.IdAlergenNavigation.NumeAlergen)
+                .ToList();
+        }
     }
 }

@@ -12,5 +12,7 @@ namespace Aplicatie_Culinara_HealPlate.Services
         Task<(bool success, string message)> DeleteRecipeAsync(int idReteta);
         Task<List<Retete>> GetFilteredReteteAsync(int? userId, string? categorie, string? searchQuery);
         Task<Dictionary<int, bool>> GetEsteInColectieAsync(int userId, List<Retete> retete);
+        List<Retete> CautaRetetePeBazaIngredientelor(List<string> ingrediente);
+        List<string> GetAlergeniPentruIngredient(string numeIngredient);
     }
 }

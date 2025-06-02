@@ -1,0 +1,181 @@
+﻿@page
+@model Aplicatie_Culinara_HealPlate.Pages.ScanareIngredientModel
+@{
+    ViewData["Title"] = "Raport Nutritie";
+    var numeUtilizator = HttpContext.Session.GetString("NumeUtilizator");
+    @Html.AntiForgeryToken()
+}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Scanare Ingredient</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="~/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
+                @if (!string.IsNullOrEmpty(numeUtilizator))
+                {
+                    <li class="nav-item d-flex align-items-center me-3">
+                        <i class="fas fa-user text-dark me-1"></i>
+                        <span class="text-dark">Bun venit, <strong>@numeUtilizator!</strong></span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="/Autentificare" title="Deconectare">
+                            <i class="fas fa-sign-out-alt fa-lg text-danger" style="margin-left: 10px;"></i>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5 d-flex justify-content-center">
+        <section class="shadow-lg p-4 rounded" style="max-width: 700px; background-color: #f5f5dc; border: 1px solid #e0e0d1;">
+            <h2 class="text-center mb-4">Sugestie rețete pe baza ingredientelor din bucătăria ta!</h2>
+            <form method="post" enctype="multipart/form-data" id="uploadForm">
+                <div class="form-group mb-3 text-center">
+                    <div id="dropzone" class="border rounded d-flex align-items-center justify-content-center p-3 mb-3"
+                         style="width: 400px; height: 400px; cursor: pointer; background-color: #fafaf0; margin: 0 auto;">
+                        <p id="dropzone-text" class="text-muted">Încarcă sau fă o poză cu ingredientul</p>
+                        <input type="file" id="fileInput" name="imagine" class="d-none" accept="image/*" capture="environment" />
+                        <img id="previewImage" class="img-fluid rounded" style="max-width: 100%; max-height: 100%; display: none; object-fit: contain;" />
+                    </div>
+
+                    <div class="mt-4">
+                        <video id="video" width="300" height="225" autoplay style="border: 1px solid #ccc;"></video><br />
+                        <button type="button" class="btn btn-primary mt-2" onclick="captureImage()">📸 Capturează</button>
+                    </div>
+
+                    <canvas id="canvas" width="300" height="225" style="display:none;"></canvas>
+                </div>
+                <button type="submit" class="btn btn-warning mt-3">🔍 Scanează</button>
+            </form>
+
+            @if (!string.IsNullOrEmpty(Model.Mesaj))
+            {
+                <div class="alert alert-info mt-4">@Model.Mesaj</div>
+            }
+
+            @if (Model.IngredienteRecunoscute != null)
+            {
+                <div class="mt-4">
+                    <h5>Ingrediente detectate:</h5>
+                    <ul class="list-group">
+                        @foreach (var ing in Model.IngredienteRecunoscute)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @ing
+                                @if (Model.AlergeniIngrediente.ContainsKey(ing) && Model.AlergeniIngrediente[ing].Any())
+                                {
+                                    <span class="badge bg-danger">
+                                        Alergeni: @string.Join(", ", Model.AlergeniIngrediente[ing])
+                                    </span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            @if (ViewData["UploadedImagePath"] != null)
+            {
+                <div class="text-center mt-4">
+                    <h5>Imaginea încărcată:</h5>
+                    <img src="@ViewData["UploadedImagePath"]" alt="Imagine scanată" class="img-fluid" style="max-width: 300px; border: 1px solid #ccc; padding: 5px;" />
+                </div>
+            }
+
+            @if (Model.ReteteGasite != null && Model.ReteteGasite.Any())
+            {
+                <div class="mt-4">
+                    <h5>Rețete sugerate:</h5>
+                    <ul class="list-group">
+                        @foreach (var reteta in Model.ReteteGasite)
+                        {
+                            <li class="list-group-item">
+                                <a href="/Retete/VizualizareDetalii?id=@reteta.IdReteta" class="text-decoration-none">@reteta.Titlu</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </section>
+    </div>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const previewImage = document.getElementById('previewImage');
+        const dropzoneText = document.getElementById('dropzone-text');
+
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '#eae6d6';
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.style.backgroundColor = '#fafaf0';
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '#fafaf0';
+            fileInput.files = e.dataTransfer.files;
+            if (fileInput.files.length > 0) {
+                showPreview(fileInput.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                showPreview(fileInput.files[0]);
+            }
+        });
+
+        function showPreview(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+                dropzoneText.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((err) => {
+                console.error("Eroare la accesarea camerei:", err);
+            });
+
+        function captureImage() {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.toBlob(function (blob) {
+                const file = new File([blob], "captura.jpg", { type: "image/jpeg" });
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                fileInput.files = dt.files;
+                showPreview(file);
+            }, "image/jpeg");
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
