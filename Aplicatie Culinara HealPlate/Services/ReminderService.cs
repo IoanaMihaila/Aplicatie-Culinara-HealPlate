@@ -63,6 +63,7 @@ public class ReminderService : BackgroundService
 
                 // Așteaptă 24 de ore înainte de următoarea verificare
                 await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
+
             }
         }
     }

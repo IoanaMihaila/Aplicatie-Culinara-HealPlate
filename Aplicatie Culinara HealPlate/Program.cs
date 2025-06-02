@@ -22,6 +22,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IRetetaService, RetetaService>();
 builder.Services.AddScoped<IRecenzieService, RecenzieService>();
 builder.Services.AddScoped<ICosService, CosService>();
+builder.Services.AddHostedService<ReminderService>();
 builder.Services.AddScoped<IPlanAlimentarService, PlanAlimentarService>();
 builder.Services.AddHttpClient<OllamaService>(client =>
 {
