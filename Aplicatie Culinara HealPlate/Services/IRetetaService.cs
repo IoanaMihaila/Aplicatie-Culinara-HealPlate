@@ -14,5 +14,7 @@ namespace Aplicatie_Culinara_HealPlate.Services
         Task<Dictionary<int, bool>> GetEsteInColectieAsync(int userId, List<Retete> retete);
         List<Retete> CautaRetetePeBazaIngredientelor(List<string> ingrediente);
         List<string> GetAlergeniPentruIngredient(string numeIngredient);
+        List<Retete> CautaReteteCareContinCelPutinUnIngredient(List<string> ingrediente);
+
     }
 }

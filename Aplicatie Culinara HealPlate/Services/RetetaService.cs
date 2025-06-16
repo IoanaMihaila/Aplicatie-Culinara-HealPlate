@@ -199,5 +199,28 @@ namespace Aplicatie_Culinara_HealPlate.Services
                 .Select(ia => ia.IdAlergenNavigation.NumeAlergen)
                 .ToList();
         }
+
+        public List<Retete> CautaReteteCareContinCelPutinUnIngredient(List<string> ingrediente)
+        {
+            // Normalizează caracterele și extrage cuvintele cheie
+            var cuvinteCheie = ingrediente
+                .SelectMany(i => i.ToLower()
+                    .Replace("ș", "s").Replace("ț", "t")
+                    .Split(new[] { ' ', ',', '.', '-', '(', ')' }, StringSplitOptions.RemoveEmptyEntries))
+                .Where(cuv => cuv.Length > 2)
+                .Distinct()
+                .ToList();
+
+            return _context.Retetes
+                .Where(r => r.Aprobata == true && r.RetetaIngredientes.Any(ri =>
+                    cuvinteCheie.Any(cuv =>
+                        ri.IdIngredientNavigation.Nume
+                            .ToLower()
+                            .Replace("ș", "s").Replace("ț", "t")
+                            .Contains(cuv)
+                    )
+                ))
+                .ToList();
+        }
     }
 }

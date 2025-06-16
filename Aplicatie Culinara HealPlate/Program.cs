@@ -11,6 +11,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailService, EmailService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermiteExtensia", policy =>
+    {
+        policy
+            .WithOrigins("chrome-extension://phcbakagcpkfgjgjgkcjmjapmidddifn")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
+});
+
+
+
 // Adaugă serviciul de sesiune
 builder.Services.AddSession(options =>
 {
@@ -71,6 +85,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors("PermiteExtensia");
 
 app.UseAuthorization();
 

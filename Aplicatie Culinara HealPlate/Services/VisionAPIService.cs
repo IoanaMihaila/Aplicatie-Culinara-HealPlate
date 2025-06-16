@@ -8,9 +8,9 @@ namespace Aplicatie_Culinara_HealPlate.Services
         private readonly string _apiKey;
         private readonly HttpClient _httpClient;
 
-        public VisionAPIService(string apiKey)
+        public VisionAPIService(IConfiguration configuration)
         {
-            _apiKey = "AIzaSyAXJovmBYRkNuhFjHWxS6dc2LPv27eWF4s";
+            _apiKey = configuration["GoogleVision:ApiKey"];
             _httpClient = new HttpClient();
         }
 

@@ -8,7 +8,6 @@
         { "milk", "lapte" }, { "carrot", "morcov" }, { "tomato", "roșie" },
         { "broccoli", "broccoli" }, { "chicken", "pui" }, { "wheat", "grâu" },
         { "banana", "banane" }
-        // adaugă după caz
     };
 
         public static List<string> Translate(List<string> ingredients)
