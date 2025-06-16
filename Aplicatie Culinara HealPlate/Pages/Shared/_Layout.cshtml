@@ -15,21 +15,21 @@
 
     <style>
         #notificationButton {
-            background-color: transparent; /* Fără fundal */
-            border: none; /* Elimină bordura */
-            outline: none; /* Elimină conturul la focus */
-            box-shadow: none; /* Elimină umbrele */
+        background-color: transparent; /* Fără fundal */
+        border: none; /* Elimină bordura */
+        outline: none; /* Elimină conturul la focus */
+        box-shadow: none; /* Elimină umbrele */
         }
 
-            #notificationButton:focus, #notificationButton:hover {
-                background-color: transparent; /* Fără schimbări de culoare la hover sau focus */
-                box-shadow: none; /* Fără efect de umbră */
-                outline: none; /* Fără contur */
-            }
+        #notificationButton:focus, #notificationButton:hover {
+        background-color: transparent; /* Fără schimbări de culoare la hover sau focus */
+        box-shadow: none; /* Fără efect de umbră */
+        outline: none; /* Fără contur */
+        }
 
-            #notificationButton i {
-                color: #000000; /* Asigură că pictograma rămâne neagră */
-            }
+        #notificationButton i {
+        color: #000000; /* Asigură că pictograma rămâne neagră */
+        }
     </style>
 </head>
 <body>
@@ -83,9 +83,12 @@
                                     @await Component.InvokeAsync("Notificari")
                                 </div>
                             </div>
-                            <a href="/Chatbot" class="chatbot_link" title="Asistent AI Nutrițional" style="margin-left: 10px;">
-                                <i class="fas fa-robot fa-lg" style="color: #198754;"></i>
-                            </a>
+                            @if (rolUtilizator != "Admin")
+                            {
+                                <a href="/Chatbot" class="chatbot_link" title="Asistent AI Nutrițional" style="margin-left: 10px;">
+                                    <i class="fas fa-robot fa-lg" style="color: #198754;"></i>
+                                </a>
+                            }
                             <a href="/StatisticaUtilizatori" class="user_link">
                                 <i class="fa fa-user" aria-hidden="true" style="color: #000000;"></i>
                             </a>

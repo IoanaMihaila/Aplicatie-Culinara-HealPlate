@@ -330,10 +330,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-               let recognizer;
+        let recognizer;
         let rezultatFinal = "";
 
-        function pornesteInregistrarea() {
+                function pornesteInregistrarea() {
             const status = document.getElementById("statusVocal");
 
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -350,8 +350,6 @@
             rezultatFinal = "";
             status.innerText = "🎙️ Ascult... Vorbește acum.";
 
-            recognizer.start();
-
             recognizer.onresult = function (event) {
                 rezultatFinal = event.results[0][0].transcript;
                 status.innerText = "📝 Transcriere completă.";
@@ -361,25 +359,28 @@
                 status.innerText = "❌ Eroare: " + event.error;
                 console.error("Eroare:", event.error);
             };
+
+            recognizer.onend = function () {
+                const textarea = document.getElementById("recenzieText");
+
+                if (rezultatFinal) {
+                    textarea.value += (textarea.value ? " " : "") + rezultatFinal;
+                    status.innerText = "✅ Textul a fost adăugat în câmpul de recenzie.";
+                } else {
+                    status.innerText = "⚠️ Nu s-a detectat nicio voce.";
+                }
+            };
+
+            recognizer.start();
         }
+
 
         function opresteInregistrarea() {
             if (recognizer) {
                 recognizer.stop();
-
-                recognizer.onend = function () {
-                    const textarea = document.getElementById("recenzieText");
-                    const status = document.getElementById("statusVocal");
-
-                    if (rezultatFinal) {
-                        textarea.value += (textarea.value ? " " : "") + rezultatFinal;
-                        status.innerText = "✅ Textul a fost adăugat în câmpul de recenzie.";
-                    } else {
-                        status.innerText = "⚠️ Nu s-a detectat nicio voce.";
-                    }
-                };
             }
         }
+
 
 
            function citesteReteta() {

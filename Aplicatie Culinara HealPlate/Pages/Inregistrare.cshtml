@@ -260,7 +260,11 @@
                             return response.json();
                         })
                         .then(responseJson => {
+                            if (responseJson.success) {
                             window.location.href = "/Autentificare";
+                        } else {
+                        Swal.showValidationMessage(responseJson.message || "Codul introdus este greșit.");
+                        }
                         })
                         .catch(error => {
                             Swal.showValidationMessage(`Eroare: ${error}`);
