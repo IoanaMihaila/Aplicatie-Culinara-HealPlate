@@ -70,12 +70,6 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 .Where(c => c.IdUtilizator == idUtilizator)
                 .FirstOrDefaultAsync();
 
-            /*if (CosCumparaturi == null || !CosCumparaturi.CosIngredientes.Any())
-            {
-                // Dacă nu există coș sau coșul este gol, redirecționează către o pagină adecvată
-                return RedirectToPage("/CosCumparaturi"); // Pagina cu un mesaj că coșul este gol
-            }*/
-
             // Returnăm pagina cu datele coșului
             return Page();
         }

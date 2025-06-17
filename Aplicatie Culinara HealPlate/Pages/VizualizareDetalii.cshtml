@@ -54,7 +54,7 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            gap: 10px; /* Distanța între butoane */
+            gap: 10px; 
         }
 
             .review-buttons .btn {
@@ -68,27 +68,27 @@
                 }
 
         .btn-plus {
-            padding: 2px 6px; /* Dimensiuni mici pentru buton */
-            font-size: 0.8rem; /* Text mai mic */
-            border-radius: 50%; /* Formă rotundă */
-            display: inline-flex; /* Flexibil pentru centrul iconiței */
+            padding: 2px 6px; 
+            font-size: 0.8rem; 
+            border-radius: 50%; 
+            display: inline-flex; 
             align-items: center;
             justify-content: center;
-            height: 24px; /* Dimensiune fixă */
-            width: 24px; /* Dimensiune fixă */
-            background-color: transparent; /* Fundal transparent */
-            border: 1px solid #ccc; /* Border discret */
-            color: #6c757d; /* Culoare neutru închis */
+            height: 24px; 
+            width: 24px; 
+            background-color: transparent; 
+            border: 1px solid #ccc;
+            color: #6c757d; 
         }
 
             .btn-plus:hover {
-                background-color: #f8f9fa; /* Fundal mai deschis la hover */
-                border-color: #aaa; /* Border mai închis la hover */
-                color: #000; /* Text mai vizibil */
+                background-color: #f8f9fa;
+                border-color: #aaa; 
+                color: #000; 
             }
 
             .btn-plus i {
-                margin: 0; /* Asigură centrare perfectă pentru icon */
+                margin: 0;
             }
     </style>
 </head>
@@ -99,13 +99,11 @@
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
             @if (!string.IsNullOrEmpty(numeUtilizator))
             {
-                <!-- Icon utilizator + nume -->
                 <li class="nav-item d-flex align-items-center me-3">
                     <i class="fas fa-user text-dark me-1"></i>
                     <span class="text-dark">Bun venit, <strong>@numeUtilizator!</strong></span>
                 </li>
 
-                <!-- Logout vizibil -->
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center" href="/Autentificare" title="Deconectare">
                         <i class="fas fa-sign-out-alt fa-lg text-danger" style="margin-left: 10px;"></i>

@@ -66,13 +66,11 @@
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
             @if (!string.IsNullOrEmpty(numeUtilizator))
             {
-                <!-- Icon utilizator + nume -->
                 <li class="nav-item d-flex align-items-center me-3">
                     <i class="fas fa-user text-dark me-1"></i>
                     <span class="text-dark">Bun venit, <strong>@numeUtilizator!</strong></span>
                 </li>
 
-                <!-- Logout vizibil -->
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center" href="/Autentificare" title="Deconectare">
                         <i class="fas fa-sign-out-alt fa-lg text-danger" style="margin-left: 10px;"></i>

@@ -26,14 +26,12 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         public async Task<IActionResult> OnPostAsync()
         {
             ModelState.Clear();
-            // Validare: câmpurile sunt completate
             if (string.IsNullOrWhiteSpace(Credential) || string.IsNullOrWhiteSpace(Parola))
             {
                 ModelState.AddModelError(string.Empty, "Te rog introdu atat email-ul/username-ul, cat si parola.");
                 return Page();
             }
 
-            // Verificare utilizator în baza de date
             var user = await _context.Utilizatoris
                 .FirstOrDefaultAsync(u => u.Email == Credential || u.Username == Credential);
 
@@ -43,7 +41,6 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 return Page();
             }
 
-            // Compară parola hash-uită cu parola introdusă
             var passwordHasher = new PasswordHasher<Utilizatori>();
             var result = passwordHasher.VerifyHashedPassword(user, user.Parola, Parola);
 
@@ -55,7 +52,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
             HttpContext.Session.SetString("NumeUtilizator",user.Nume+" "+user.Prenume);
             HttpContext.Session.SetInt32("IdUtilizator", user.IdUtilizator);
             HttpContext.Session.SetString("Rol", user.Rol);
-            // Redirecționare în caz de succes
+  
             return RedirectToPage("/VizualizareRetete");
         }
         public void OnGet()

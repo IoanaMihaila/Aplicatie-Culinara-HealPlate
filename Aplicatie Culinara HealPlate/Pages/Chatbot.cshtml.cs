@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Aplicatie_Culinara_HealPlate.Extensions; // asigura-te ca ai creat acest namespace
+using Aplicatie_Culinara_HealPlate.Extensions; 
 
 namespace Aplicatie_Culinara_HealPlate.Pages
 {

@@ -350,7 +350,7 @@
             });
         });
                    document.addEventListener("DOMContentLoaded", function () {
-            // =================== TOP 5 RETETE ====================
+            // TOP 5 RETETE 
             var reteteFrecventeLabels = @Html.Raw(Json.Serialize(Model.ReteteFrecventeUtilizator.Keys.Take(5)));
             var reteteFrecventeValues = @Html.Raw(Json.Serialize(Model.ReteteFrecventeUtilizator.Values.Take(5)));
 
@@ -380,7 +380,7 @@
                 }
             });
 
-            // =================== TOP 5 INGREDIENTE ====================
+            // TOP 5 INGREDIENTE 
             var ingredienteLabels = @Html.Raw(Json.Serialize(Model.IngredienteFrecventeUtilizator.Keys.Take(5)));
             var ingredienteValues = @Html.Raw(Json.Serialize(Model.IngredienteFrecventeUtilizator.Values.Take(5)));
 
@@ -402,7 +402,7 @@
                 }
             });
 
-            // =================== TIMP GATIRE SAPTAMANAL ====================
+            // TIMP GATIRE SAPTAMANAL 
             var timpGatire = @Model.TimpGatireSaptamanal;
             var timpMaxim = 7 * 120; // presupunem 120 min/zi ca maxim
             var timpRamas = Math.max(0, timpMaxim - timpGatire);

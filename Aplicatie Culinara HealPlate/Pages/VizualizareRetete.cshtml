@@ -40,8 +40,8 @@
 
     <style>
         .btn-detalii {
-            background-color: #8B4513; /* Maro */
-            color: white; /* Text alb */
+            background-color: #8B4513; 
+            color: white; 
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
@@ -50,24 +50,24 @@
         }
 
             .btn-detalii:hover {
-                background-color: #6A3C27; /* Maro mai închis la hover */
+                background-color: #6A3C27; 
             }
 
         .btn-favorite {
             background-color: transparent;
             border: none;
-            color: #e74c3c; /* Culoare roșie pentru inimioară */
+            color: #e74c3c; 
             font-size: 1.5rem;
             cursor: pointer;
             transition: color 0.3s ease;
         }
 
             .btn-favorite:hover {
-                color: #c0392b; /* Culoare mai închisă la hover */
+                color: #c0392b; 
             }
 
             .btn-favorite .fa-heart {
-                color: #e74c3c; /* Culoare roșie pentru inimioară când este selectată */
+                color: #e74c3c; 
             }
     </style>
 </head>
@@ -78,13 +78,11 @@
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
             @if (!string.IsNullOrEmpty(numeUtilizator))
             {
-                <!-- Icon utilizator + nume -->
                 <li class="nav-item d-flex align-items-center me-3">
                     <i class="fas fa-user text-dark me-1"></i>
                     <span class="text-dark">Bun venit, <strong>@numeUtilizator!</strong></span>
                 </li>
 
-                <!-- Logout vizibil -->
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center" href="/Autentificare" title="Deconectare">
                         <i class="fas fa-sign-out-alt fa-lg text-danger" style="margin-left: 10px;"></i>

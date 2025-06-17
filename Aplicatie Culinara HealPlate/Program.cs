@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adaugă configurarea pentru EmailSettings
+//configurarea pentru EmailSettings
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailService, EmailService>();
 
@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
 
 
 
-// Adaugă serviciul de sesiune
+//serviciul de sesiune
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Durata sesiunii
@@ -76,7 +76,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();

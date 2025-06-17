@@ -26,29 +26,29 @@
     <style>
         /* Stilizare personalizată pentru buton */
         button.btn-custom {
-            background-color: #ffc107; /* Verde aprins */
-            color: #343a40; /* Text alb */
-            border: none; /* Fără bordură */
-            border-radius: 20px; /* Colțuri rotunjite */
-            padding: 10px 22px; /* Spațiu intern mai mare */
-            font-size: 14px; /* Mărimea textului */
-            font-weight: bold; /* Text îngroșat */
-            text-align: center; /* Centrat pe verticală și orizontală */
-            text-transform: uppercase; /* Text în majuscule */
-            cursor: pointer; /* Butonul devine pointer când este pus pe el */
-            transition: background-color 0.3s, transform 0.2s; /* Tranziție pentru efecte */
+            background-color: #ffc107; 
+            color: #343a40; 
+            border: none; 
+            border-radius: 20px; 
+            padding: 10px 22px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            text-align: center; 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            transition: background-color 0.3s, transform 0.2s; 
         }
 
             button.btn-custom:hover {
-                transform: scale(1.05); /* Mică mărire a dimensiunii */
+                transform: scale(1.05); 
             }
 
             button.btn-custom:focus {
-                outline: none; /* Elimină outline-ul implicit */
+                outline: none; 
             }
 
             button.btn-custom:active {
-                transform: scale(1); /* Revenire la dimensiunea inițială */
+                transform: scale(1); 
             }
 
         button {
@@ -75,7 +75,7 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            gap: 10px; /* Distanța între butoane */
+            gap: 10px;
         }
 
             .review-buttons .btn {
@@ -89,27 +89,27 @@
                 }
 
         .btn-plus {
-            padding: 2px 6px; /* Dimensiuni mici pentru buton */
-            font-size: 0.8rem; /* Text mai mic */
-            border-radius: 50%; /* Formă rotundă */
-            display: inline-flex; /* Flexibil pentru centrul iconiței */
+            padding: 2px 6px;
+            font-size: 0.8rem; 
+            border-radius: 50%; 
+            display: inline-flex; 
             align-items: center;
             justify-content: center;
-            height: 24px; /* Dimensiune fixă */
-            width: 24px; /* Dimensiune fixă */
-            background-color: transparent; /* Fundal transparent */
-            border: 1px solid #ccc; /* Border discret */
-            color: #6c757d; /* Culoare neutru închis */
+            height: 24px; 
+            width: 24px; 
+            background-color: transparent; 
+            border: 1px solid #ccc; 
+            color: #6c757d; 
         }
 
             .btn-plus:hover {
-                background-color: #f8f9fa; /* Fundal mai deschis la hover */
-                border-color: #aaa; /* Border mai închis la hover */
-                color: #000; /* Text mai vizibil */
+                background-color: #f8f9fa; 
+                border-color: #aaa; 
+                color: #000; 
             }
 
             .btn-plus i {
-                margin: 0; /* Asigură centrare perfectă pentru icon */
+                margin: 0; 
             }
 
         #dropzone {
@@ -121,14 +121,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Ascunde părțile care depășesc */
+            overflow: hidden; 
         }
 
         #image-preview {
             max-width: 100%;
             max-height: 100%;
             display: none;
-            object-fit: contain; /* Asigură că imaginea se încadrează fără a fi distorsionată */
+            object-fit: contain; 
         }
     </style>
 </head>
@@ -137,13 +137,11 @@
         <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
             @if (!string.IsNullOrEmpty(numeUtilizator))
             {
-                <!-- Icon utilizator + nume -->
                 <li class="nav-item d-flex align-items-center me-3">
                     <i class="fas fa-user text-dark me-1"></i>
                     <span class="text-dark">Bun venit, <strong>@numeUtilizator!</strong></span>
                 </li>
 
-                <!-- Logout vizibil -->
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center" href="/Autentificare" title="Deconectare">
                         <i class="fas fa-sign-out-alt fa-lg text-danger" style="margin-left: 10px;"></i>
@@ -176,7 +174,6 @@
                                 <tr>
                                     <td>@cosIngrediente.IdIngredientNavigation.Nume</td>
                                     <td>
-                                        <!-- <div class="review-buttons d-flex flex-column justify-content-start mr-sm-5"> -->
                                         <!-- Buton pentru eliminarea unui produs din coș -->
                                         <form method="post" asp-page-handler="EliminaDinCos" asp-route-id="@cosIngrediente.IdIngredient">
                                             <button type="submit" class="btn btn-custom mb-3">Elimină</button>
@@ -189,11 +186,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Totalul coșului
-                <div class="d-flex justify-content-between mt-4">
-                <a href="/Checkout" class="btn btn-success btn-lg">Finalizează Comanda <i class="fas fa-check-circle"></i></a>
-                </div>-->
             }
             else
             {
@@ -208,7 +200,6 @@
                 <form method="post" enctype="multipart/form-data" asp-page-handler="UploadImage">
                     <!-- Zona Drag and Drop -->
                     <div class="form-group mb-3">
-                        <!-- <label for="imagine" class="form-label h5 text-dark font-weight-bold">Verifică Eticheta!</label> -->
                         <div id="dropzone" class="border rounded d-flex align-items-center justify-content-center p-3" style="width: 400px; height: 400px; cursor: pointer; background-color: #fafaf0; margin: 0 auto;">
                             <p id="dropzone-text" class="text-muted">Inserați eticheta pentru verificare</p>
                             <input type="file" id="imagine" name="image" class="d-none" accept="image/*" capture="environment" required />
@@ -423,7 +414,6 @@
             // Validare pentru a verifica dacă există un fișier selectat
             if (fileInput.files.length === 0) {
                 e.preventDefault(); // Prevenim trimiterea formularului
-                //alert('Vă rugăm să încărcați o imagine înainte de a continua.');
             }
         });
     </script>

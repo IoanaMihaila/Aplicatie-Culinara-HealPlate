@@ -181,19 +181,17 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                     var notificareAdmin = new Notificari
                     {
                         Mesaj = $"Utilizatorul {utilizator.Nume} a adaugat o reteta noua care asteapta aprobare.",
-                        DataCreare = DateTime.Now, // Setăm data curentă ca fiind data creării notificării
-                        IdUtilizator = admin.IdUtilizator, // Setăm ID-ul adminului
-                        IdReteta = reteta.IdReteta, // Setăm ID-ul rețetei adăugate
-                        Vizualizat = null // Presupunem că notificarea nu a fost vizualizată inițial
+                        DataCreare = DateTime.Now, 
+                        IdUtilizator = admin.IdUtilizator, 
+                        IdReteta = reteta.IdReteta, 
+                        Vizualizat = null 
                     };
 
                     _context.Notificaris.Add(notificareAdmin);
-                    await _context.SaveChangesAsync(); // Salvăm notificarea în baza de date
+                    await _context.SaveChangesAsync(); 
                 }
                 else
                 {
-                    // Dacă nu există admin, logăm un mesaj de eroare sau opțional notificăm utilizatorul
-                    // Logăm eroarea
                     Console.WriteLine("Nu există un administrator în baza de date.");
                 }
 
