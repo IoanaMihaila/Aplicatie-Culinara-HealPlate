@@ -72,32 +72,32 @@ Scaffold-DbContext "Name=DefaultConnection" Microsoft.EntityFrameworkCore.SqlSer
 
 Utilizator:
 
-•	Înregistrare cu verificare email si stabilire alergeni
-•	Autentificare
-•	Vizualizare rețete personalizate pe categorii, care exclud alergenii selectați
-•	Căutare rețete dupa denumire sau ingrediente
-•	Vizualizare detalii rețete cu suport audio
-•	Adăugare(cu suport vocal), editare, ștergere recenzie pentru o rețetă
-•	Adăugare ingredient în coșul de cumpărături
-•	Salvare rețete în colecția personală
-•	Adăugare rețetă nouă cu trimiterea unei notificări către admin pentru aprobarea postării
-•	Scanare etichetă produs pentru verificarea ingredientelor periculoase
-•	Localizare magazine/restaurante bio care comercializează produse care exclud alergenii utilizatorului pe o anumită zonă
-•	Calcularea necesarului zilnic de calorii
-•	Generarea unui plan alimentar, salvarea în calendar și trimiterea unui reminder pe email
-•	Test nutritional pentru detectarea altor posibile intoleranțe
-•	Editare restricții culinare în secțiunea ‘Profil personal’
-•	Conversare cu chatbot asistent nutrițional
-•	Recunoaștere ingrediente din imagini și sugestie rețete pe baza lor
-•	Preluare ingrediente de la o extensie browser și căutare rețete pe baza lor
+- Înregistrare cu verificare email si stabilire alergeni
+- Autentificare
+- Vizualizare rețete personalizate pe categorii, care exclud alergenii selectați
+- Căutare rețete dupa denumire sau ingrediente
+- Vizualizare detalii rețete cu suport audio
+- Adăugare(cu suport vocal), editare, ștergere recenzie pentru o rețetă
+- Adăugare ingredient în coșul de cumpărături
+- Salvare rețete în colecția personală
+- Adăugare rețetă nouă cu trimiterea unei notificări către admin pentru aprobarea postării
+- Scanare etichetă produs pentru verificarea ingredientelor periculoase
+- Localizare magazine/restaurante bio care comercializează produse care exclud alergenii utilizatorului pe o anumită zonă
+- Calcularea necesarului zilnic de calorii
+- Generarea unui plan alimentar, salvarea în calendar și trimiterea unui reminder pe email
+- Test nutritional pentru detectarea altor posibile intoleranțe
+- Editare restricții culinare în secțiunea ‘Profil personal’
+- Conversare cu chatbot asistent nutrițional
+- Recunoaștere ingrediente din imagini și sugestie rețete pe baza lor
+- Preluare ingrediente de la o extensie browser și căutare rețete pe baza lor
 
 Admin:
-•	Editare și ștergere rețete
-•	Editare întrebări chestionar
-•	Statistici despre planurile alimentare salvate, rețete, utilizatori și alergeni frecvent întâlniți
-•	Aprobare sau respingere postare pentru o rețetă adăugată de utilizator și trimitere notificare pentru anunțare
-•	Descărcare raport planuri nutriționale în format PDF
+- Editare și ștergere rețete
+- Editare întrebări chestionar
+- Statistici despre planurile alimentare salvate, rețete, utilizatori și alergeni frecvent întâlniți
+- Aprobare sau respingere postare pentru o rețetă adăugată de utilizator și trimitere notificare pentru anunțare
+- Descărcare raport planuri nutriționale în format PDF
 
 ### 7. Testarea aplicației
 
-    Pentru a asigura fiabilitatea și corectitudinea funcționalităților centrale din aplicația HealPlate, am implementat un set cuprinzător de teste unitare, utilizând xUnit în combinație cu furnizorul InMemory al Entity Framework Core. Această abordare mi-a permis să simulez un mediu de baze de date fără a afecta datele reale stocate.
+Pentru a asigura fiabilitatea și corectitudinea funcționalităților centrale din aplicația HealPlate, am implementat un set cuprinzător de teste unitare, utilizând xUnit în combinație cu furnizorul InMemory al Entity Framework Core. Această abordare mi-a permis să simulez un mediu de baze de date fără a afecta datele reale stocate.
