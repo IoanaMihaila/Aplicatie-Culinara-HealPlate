@@ -59,11 +59,11 @@ https://dotnet.microsoft.com/download
 
 Se va folosi baza de date HealPlateDb din Microsoft SQL Server Management Studio și se va actualiza, după caz, string-ul de conexiune la baza de date în fișierul appsettings.json
 
-### 3. Aplică migrările Entity Framework Core
+### 4. Aplică migrările Entity Framework Core
 
 Scaffold-DbContext "Name=DefaultConnection" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -ContextDir Data -Context HealPlateDbContext -Force
 
-### 4. Rulează aplicația
+### 5. Rulează aplicația
 
 În Visual Studio, selectează profilul https sau IIS Express, apasă F5 sau CTRL+F5
 
