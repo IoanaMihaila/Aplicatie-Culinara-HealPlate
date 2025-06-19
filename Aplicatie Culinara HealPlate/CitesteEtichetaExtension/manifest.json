@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Preluare ingrediente - HealPlate",
+  "version": "1.0",
+  "description": "Extrage ingredientele de pe paginile produselor alimentare și trimite către HealPlate",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["https://www.freshful.ro/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+"content_scripts": [
+  {
+    "matches": ["https://*.freshful.ro/*"],
+    "js": ["content.js"]
+  }
+]
+}
