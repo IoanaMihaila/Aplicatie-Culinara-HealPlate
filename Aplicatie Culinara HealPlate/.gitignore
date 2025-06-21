@@ -21,3 +21,4 @@ project.nuget.g.targets
 
 # Logs
 *.log
+*.user
