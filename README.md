@@ -1,4 +1,4 @@
-# 🍽️ HealPlate
+# HEALPLATE APLICAȚIE WEB CULINARĂ PENTRU PERSOANELE CU INTOLERANȚE ALIMENTARE MEDICALE
 
 **HealPlate** este o aplicație web dezvoltată în ASP.NET Core Razor Pages, creată pentru a sprijini persoanele cu restricții alimentare medicale. Oferă rețete personalizate, planuri nutriționale, chatbot AI, statistici și funcții moderne precum scanarea ingredientelor din imagini.
 
@@ -57,7 +57,7 @@ https://dotnet.microsoft.com/download
 
 ### 3. Configurează baza de date
 
-Se va folosi baza de date HealPlateDb din Microsoft SQL Server Management Studio și se va actualiza, după caz, string-ul de conexiune la baza de date în fișierul appsettings.json
+Se va folosi baza de date HealPlateDb din SQL Server și se va actualiza, după caz, string-ul de conexiune la baza de date în fișierul appsettings.json
 
 ### 4. Aplică migrările Entity Framework Core
 
@@ -65,7 +65,7 @@ Scaffold-DbContext "Name=DefaultConnection" Microsoft.EntityFrameworkCore.SqlSer
 
 ### 5. Rulează aplicația
 
-În Visual Studio, selectează profilul https sau IIS Express, apasă F5 sau CTRL+F5
+În Visual Studio, selectează profilul https sau IIS Express, apasă F5 sau CTRL+F5 sau rulează comanda dotnet run
 
 ### Capturi de ecran
 
