@@ -7,7 +7,7 @@
         { "apple", "măr" }, { "cheese", "brânză" }, { "egg", "ou" },
         { "milk", "lapte" }, { "carrot", "morcov" }, { "tomato", "roșie" },
         { "broccoli", "broccoli" }, { "chicken", "pui" }, { "wheat", "grâu" },
-        { "banana", "banane" }
+        { "banana", "banane" }, { "cucumber", "castravete" }
     };
 
         public static List<string> Translate(List<string> ingredients)

@@ -87,7 +87,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
         }
 
         // Metoda POST care redirecționează către aceeași pagină
-        public IActionResult OnPost(int id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             var idUtilizator = HttpContext.Session.GetInt32("IdUtilizator");
 
@@ -114,7 +114,7 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                 ErrorMessage = "Recenzia trebuie să aibă un text valid și un scor între 1 și 5.";
                 return RedirectToPage("./VizualizareDetalii", new { id });
             }
-            _recenzieService.AddRecenzieAsync(recenzie);
+            await _recenzieService.AddRecenzieAsync(recenzie);
             // Redirecționăm către aceleași detalii ale rețetei
             return RedirectToPage("./VizualizareDetalii", new { id = id });
         }

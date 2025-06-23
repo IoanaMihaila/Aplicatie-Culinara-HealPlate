@@ -38,4 +38,8 @@
     <None Include="wwwroot\images\favicon.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>
