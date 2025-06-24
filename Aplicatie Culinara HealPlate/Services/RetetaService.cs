@@ -187,10 +187,13 @@ namespace Aplicatie_Culinara_HealPlate.Services
 
         public List<string> GetAlergeniPentruIngredient(string numeIngredient)
         {
+            if (numeIngredient.ToLower().Contains("fără"))
+                return new List<string>();
+
             var ingredient = _context.Ingredientes
                 .Include(i => i.IngredientAlergenis)
                     .ThenInclude(ia => ia.IdAlergenNavigation)
-                .FirstOrDefault(i => i.Nume.ToLower() == numeIngredient.ToLower());
+                .FirstOrDefault(i => numeIngredient.ToLower().Contains(i.Nume.ToLower()));
 
             if (ingredient == null)
                 return new List<string>();
