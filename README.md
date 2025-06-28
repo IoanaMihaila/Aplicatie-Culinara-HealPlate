@@ -10,24 +10,6 @@ Codul sursă complet este disponibil în repository-ul GitHub:
 
  [https://github.com/IoanaMihaila/Aplicatie-Culinara-HealPlate](https://github.com/IoanaMihaila/Aplicatie-Culinara-HealPlate)
 
-
-##  Funcționalități principale
-
--  Vizualizarea rețetelor pe categorii și căutarea lor rapidă
--  Instrucțiuni audio pentru modul de preparare
--  Recenzii vocale pentru rețete
--  Adăugare ingrediente în coșul de cumpărături și link către magazine online
--  Colectarea rețetelor preferate într-un spațiu personalizat
--  Adăugare de rețete proprii
--  Scanare etichete de produse cu verificarea automată a alergenilor
--  Generare plan alimentar personalizat fără alergeni
--  Vizualizarea planurilor alimentare zilnice
--  Calcul automat al necesarului caloric zilnic
--  Statistici nutriționale personalizate (retete/ingrediente/timp gătit)
--  Căutare pe hartă a restaurantelor & magazinelor bio care exclud alergenii (în Timișoara)
--  Recunoaștere ingrediente din imagini și sugestie rețete pe baza lor
--  Preluare ingrediente de la o extensie browser și căutare rețete pe baza lor
-
 ---
 
 ##  Tehnologii utilizate
@@ -61,24 +43,14 @@ Se va folosi baza de date HealPlateDb din SQL Server și se va actualiza, după 
 
 ### 4. Aplică migrările Entity Framework Core
 
-Scaffold-DbContext "Name=DefaultConnection" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -ContextDir Data -Context HealPlateDbContext -Force
+Pentru a crea baza de date și toate tabelele necesare pe baza modelelor C#, urmează acești pași:
+4.1. Deschide un terminal în directorul proiectului
+4.2. Creează o migrare rulând comanda:
+     dotnet ef database update
 
 ### 5. Rulează aplicația
 
 În Visual Studio, selectează profilul https sau IIS Express, apasă F5 sau CTRL+F5 sau rulează comanda dotnet run
-
-### Capturi de ecran
-
-![image](https://github.com/user-attachments/assets/e6094100-74db-41d8-81ed-464929e2a02e)
-![image](https://github.com/user-attachments/assets/3c80d764-49c4-468b-bca9-8c66b275bc11)
-![image](https://github.com/user-attachments/assets/31b46e49-f3f1-4a5e-9f25-6cc851085575)
-![image](https://github.com/user-attachments/assets/d1a38f52-2bb7-49b5-a391-53cb547a9d83)
-![image](https://github.com/user-attachments/assets/17e113ac-efb1-4b55-83af-202c2ba9e220)
-![image](https://github.com/user-attachments/assets/8cc9e441-dd2c-438f-947f-c597b7bb23a3)
-![image](https://github.com/user-attachments/assets/fc425077-1f7f-409d-92dd-299003474857)
-![image](https://github.com/user-attachments/assets/1338ffaf-2c9e-4ffd-bc2e-8c554968c84c)
-![image](https://github.com/user-attachments/assets/ad85c22f-9f38-410b-95cb-a081a34a1a91)
-![image](https://github.com/user-attachments/assets/6cd61c2f-d703-4a85-a9fb-66dfb8b0ffc4)
 
 ### Funcționalități cheie
 
