@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Aplicatie_Culinara_HealPlate.Services
 {
-    public class RetetaService : IRetetaService//implementarea serviciului
+    public class RetetaService : IRetetaService
     {
         private readonly HealPlateDbContext _context;
 

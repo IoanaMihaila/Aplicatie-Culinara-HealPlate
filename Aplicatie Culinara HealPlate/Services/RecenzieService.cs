@@ -38,15 +38,13 @@ namespace Aplicatie_Culinara_HealPlate.Services
                 }
                 else
                 {
-                    // Poți adăuga un mesaj de logare pentru debugging
                     Console.WriteLine($"Recenzie cu id {idRecenzie} nu a fost găsită.");
                 }
             }
             catch (Exception ex)
             {
-                // Capturăm orice excepție și o logăm sau o gestionăm corespunzător
                 Console.WriteLine($"A apărut o eroare la ștergerea recenziei: {ex.Message}");
-                throw; // Opțional, dacă vrei să propagi excepția mai departe
+                throw; 
             }
         }
         public async Task UpdateRecenzieAsync(int idRecenzie, string textNou, int scorNou)
