@@ -80,28 +80,24 @@ namespace Aplicatie_Culinara_HealPlate.Pages
     .FirstOrDefaultAsync(u => u.IdUtilizator == idUtilizator);
 
 
-            // Generează statistica alergiilor (numărul de utilizatori afectați de fiecare alergen)
             StatisticaAlergeni = await _context.UtilizatorAlergenis
                 .GroupBy(ua => ua.IdAlergenNavigation.NumeAlergen)
                 .Select(group => new { Alergen = group.Key, Count = group.Count() })
                 .OrderByDescending(g => g.Count)
                 .ToDictionaryAsync(g => g.Alergen, g => g.Count);
-            // Generează statistica rețetelor (numărul de utilizatori care au salvat fiecare rețetă)
+           
             StatisticaRetete = await _context.ColectiePersonalaRetetes
-                .GroupBy(cr => cr.IdRetetaNavigation.Titlu)  // Grupăm după titlul rețetei
+                .GroupBy(cr => cr.IdRetetaNavigation.Titlu)  
                 .Select(group => new { Reteta = group.Key, Count = group.Count() })
                 .OrderByDescending(g => g.Count)
                 .ToDictionaryAsync(g => g.Reteta, g => g.Count);
 
-            // Obține rețeta cea mai apreciată
             CeaMaiApreciataReteta = await _context.Retetes
-                .OrderByDescending(r => r.ColectiePersonalaRetetes.Count)  // Alege rețeta cu cele mai multe apariții
+                .OrderByDescending(r => r.ColectiePersonalaRetetes.Count)  
                 .FirstOrDefaultAsync();
 
-            // Poți adăuga și numărul total de colecții
             NumarColecții = await _context.ColectiePersonalas.CountAsync();
 
-            // 🔍 Statistici nutriționale personale
             var colectieUtilizator = await _context.ColectiePersonalas
                 .Include(c => c.ColectiePersonalaRetetes)
                     .ThenInclude(cpr => cpr.IdRetetaNavigation)
@@ -111,7 +107,6 @@ namespace Aplicatie_Culinara_HealPlate.Pages
 
             if (colectieUtilizator != null)
             {
-                // 2. Ingrediente cele mai frecvente
                 IngredienteFrecventeUtilizator = colectieUtilizator.ColectiePersonalaRetetes
                     .SelectMany(cpr => cpr.IdRetetaNavigation.RetetaIngredientes)
                     .GroupBy(ri => ri.IdIngredientNavigation.Nume)
@@ -119,7 +114,6 @@ namespace Aplicatie_Culinara_HealPlate.Pages
                     .Take(5)
                     .ToDictionary(g => g.Key, g => g.Count());
 
-                // 4. Evoluția preferințelor în timp (opțional)
                 EvolutiePreferinte = colectieUtilizator.ColectiePersonalaRetetes
                     .GroupBy(cpr => cpr.IdColectieNavigation.DataAdaugare)
                     .OrderBy(g => g.Key)
