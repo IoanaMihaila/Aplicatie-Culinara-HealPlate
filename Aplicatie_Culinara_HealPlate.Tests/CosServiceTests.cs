@@ -92,8 +92,8 @@ namespace Aplicatie_Culinara_HealPlate.Tests
                     Nume = "Popescu",
                     Prenume = "Ion",
                     Parola = "1234",
-                    Rol="Utilizator",
-                    Username="ion123"
+                    Rol = "Utilizator",
+                    Username = "ion123"
                 });
 
                 context.SaveChanges();

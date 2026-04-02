@@ -27,7 +27,7 @@ namespace Aplicatie_Culinara_HealPlate.Tests.Services
         {
             var context = GetInMemoryDbContext();
 
-            context.Retetes.Add(new Retete { IdReteta = 1, Titlu = "Omleta", Categorie = "Mic Dejun", Aprobata = true, Descriere="test", Imagine="test.jpg", ModDePreparare="test test" });
+            context.Retetes.Add(new Retete { IdReteta = 1, Titlu = "Omleta", Categorie = "Mic Dejun", Aprobata = true, Descriere = "test", Imagine = "test.jpg", ModDePreparare = "test test" });
             context.SaveChanges();
 
             var mockEmailService = new Mock<IEmailService>();
@@ -78,7 +78,7 @@ namespace Aplicatie_Culinara_HealPlate.Tests.Services
             mockEmailService.Setup(e => e.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                             .Returns(Task.CompletedTask);
 
-            var user = new Utilizatori { IdUtilizator = 1, Email = "test@example.com", Nume="Test", Parola="parola", Prenume="Test", Rol="Utilizator", Username="username" };
+            var user = new Utilizatori { IdUtilizator = 1, Email = "test@example.com", Nume = "Test", Parola = "parola", Prenume = "Test", Rol = "Utilizator", Username = "username" };
             context.Utilizatoris.Add(user);
             context.SaveChanges();
 

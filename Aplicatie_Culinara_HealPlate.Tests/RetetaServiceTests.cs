@@ -74,7 +74,7 @@ namespace Aplicatie_Culinara_HealPlate.Tests
                     Descriere = "Descriere de test",
                     Imagine = "poza.jpg",
                     ModDePreparare = "Se amestecă totul.",
-                    Aprobata=false
+                    Aprobata = false
                 });
 
                 context.SaveChanges();
@@ -116,7 +116,7 @@ namespace Aplicatie_Culinara_HealPlate.Tests
                     Descriere = "Descriere de test",
                     Imagine = "poza.jpg",
                     ModDePreparare = "Se amestecă totul.",
-                    Aprobata=false
+                    Aprobata = false
                 });
 
                 context.SaveChanges();
@@ -147,7 +147,7 @@ namespace Aplicatie_Culinara_HealPlate.Tests
         {
             var options = GetInMemoryOptions();
             using var context = new HealPlateDbContext(options);
-            context.Utilizatoris.Add(new Utilizatori { IdUtilizator = 1, Nume = "Test", Prenume="Test",  Email = "test@gmail.com", Parola = "Test", Rol = "Utilizator", Username = "Test" });
+            context.Utilizatoris.Add(new Utilizatori { IdUtilizator = 1, Nume = "Test", Prenume = "Test", Email = "test@gmail.com", Parola = "Test", Rol = "Utilizator", Username = "Test" });
             await context.SaveChangesAsync();
 
             var service = new RetetaService(context);
@@ -175,7 +175,7 @@ namespace Aplicatie_Culinara_HealPlate.Tests
         {
             var options = GetInMemoryOptions();
             using var context = new HealPlateDbContext(options);
-            var utilizator = new Utilizatori { IdUtilizator = 2, Nume="Test", Prenume="Test", Email="test@gmail.com", Parola="Test", Rol="Utilizator", Username="Test" };
+            var utilizator = new Utilizatori { IdUtilizator = 2, Nume = "Test", Prenume = "Test", Email = "test@gmail.com", Parola = "Test", Rol = "Utilizator", Username = "Test" };
             var colectie = new ColectiePersonala { IdUtilizator = 2, DataAdaugare = DateOnly.FromDateTime(DateTime.Now) };
             context.Utilizatoris.Add(utilizator);
             context.ColectiePersonalas.Add(colectie);
@@ -211,7 +211,7 @@ namespace Aplicatie_Culinara_HealPlate.Tests
         {
             var options = GetInMemoryOptions();
             using var context = new HealPlateDbContext(options);
-            context.Retetes.Add(new Retete { IdReteta = 100 , Titlu="Test", Categorie="Test", Descriere="Test", ModDePreparare="Test", Imagine="Test"});
+            context.Retetes.Add(new Retete { IdReteta = 100, Titlu = "Test", Categorie = "Test", Descriere = "Test", ModDePreparare = "Test", Imagine = "Test" });
             await context.SaveChangesAsync();
 
             var service = new RetetaService(context);
