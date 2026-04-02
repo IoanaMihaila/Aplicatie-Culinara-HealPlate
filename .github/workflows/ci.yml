@@ -23,7 +23,7 @@ jobs:
       run: dotnet restore
 
     - name: Build solution
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release
 
     - name: Run unit tests
-      run: dotnet test Aplicatie_Culinara_HealPlate.Tests/Aplicatie_Culinara_HealPlate.Tests.csproj --no-build --verbosity normal
+      run: dotnet test "Aplicatie Culinara HealPlate.Tests/Aplicatie Culinara HealPlate.Tests.csproj" --configuration Release --verbosity normal
