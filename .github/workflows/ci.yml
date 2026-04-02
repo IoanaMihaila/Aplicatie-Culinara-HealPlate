@@ -34,6 +34,11 @@ jobs:
           /p:CoverletOutputFormat=cobertura \
           /p:CoverletOutput="Aplicatie_Culinara_HealPlate.Tests/TestResults/Coverage/"
 
+    - name: Run code style/lint check
+      run: |
+        dotnet tool install -g dotnet-format
+        dotnet format "Aplicatie Culinara HealPlate.sln" --verify-no-changes --severity error
+
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
